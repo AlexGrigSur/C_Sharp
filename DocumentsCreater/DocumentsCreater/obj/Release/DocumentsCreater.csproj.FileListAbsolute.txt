@@ -1,0 +1,12 @@
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Release\DocumentsCreater.csprojAssemblyReference.cache
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Release\DocumentsCreater.csproj.ResolveComReference.cache
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Release\AndrewWithInterface.Author.resources
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Release\AndrewWithInterface.MainForm.resources
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Release\DocumentsCreater.csproj.GenerateResource.cache
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Release\DocumentsCreater.csproj.CoreCompileInputs.cache
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\bin\Release\DocumentsCreater.exe.config
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\bin\Release\DocumentsCreater.exe
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\bin\Release\DocumentsCreater.pdb
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Release\DocumentsCreater.Properties.Resources.resources
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Release\DocumentsCreater.exe
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Release\DocumentsCreater.pdb

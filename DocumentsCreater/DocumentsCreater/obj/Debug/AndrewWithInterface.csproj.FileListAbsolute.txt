@@ -1,0 +1,24 @@
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\bin\Debug\AndrewWithInterface.exe.config
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\bin\Debug\AndrewWithInterface.exe
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\bin\Debug\AndrewWithInterface.pdb
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.csprojAssemblyReference.cache
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.Properties.Resources.resources
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.csproj.GenerateResource.cache
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.csproj.CoreCompileInputs.cache
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.exe
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.pdb
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.MainForm.resources
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.csproj.ResolveComReference.cache
+C:\Users\Alex\source\repos\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.Author.resources
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\bin\Debug\DocumentsCreater.exe.config
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\bin\Debug\DocumentsCreater.exe
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\bin\Debug\DocumentsCreater.pdb
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.csprojAssemblyReference.cache
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.csproj.ResolveComReference.cache
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.Author.resources
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.MainForm.resources
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Debug\DocumentsCreater.Properties.Resources.resources
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.csproj.GenerateResource.cache
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Debug\AndrewWithInterface.csproj.CoreCompileInputs.cache
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Debug\DocumentsCreater.exe
+C:\Users\Alex\Desktop\New folder\AndrewWithInterface\AndrewWithInterface\obj\Debug\DocumentsCreater.pdb
