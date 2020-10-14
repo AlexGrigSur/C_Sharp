@@ -1,0 +1,25 @@
+﻿<Window x:Class="задачка_на_экзамен.Добавление_билетов"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:задачка_на_экзамен"
+        mc:Ignorable="d"
+        Title="Добавление_билетов" Height="377.419" Width="793.414">
+    <Grid>
+        <ComboBox x:Name="depCityCB" TabIndex="0" HorizontalAlignment="Left" Margin="44,64,0,0" VerticalAlignment="Top" Width="171" Height="37" SelectionChanged="depCityCB_SelectionChanged"/>
+        <ComboBox x:Name="arrCityCB" TabIndex="1" HorizontalAlignment="Left" Margin="44,156,0,0" VerticalAlignment="Top" Width="171" Height="37" SelectionChanged="arrCityCB_SelectionChanged"/>
+        <ComboBox x:Name="depTimeCB" TabIndex="2" HorizontalAlignment="Left" Margin="280,64,0,0" VerticalAlignment="Top" Width="181" Height="37" SelectionChanged="depTimeCB_SelectionChanged"/>
+        <ComboBox x:Name="arrTimeCB" TabIndex="3" HorizontalAlignment="Left" Margin="280,156,0,0" VerticalAlignment="Top" Width="181" Height="37" SelectionChanged="arrTimeCB_SelectionChanged"/>
+        <ComboBox x:Name="CostCB" HorizontalAlignment="Left" TabIndex="4" VerticalAlignment="Top" Width="180" Margin="508,64,0,0" Height="37"/>
+        <ComboBox x:Name="FIOCB" HorizontalAlignment="Left" TabIndex="5" Margin="508,158,0,0" VerticalAlignment="Top" Width="180" Height="37"/>
+        <Button x:Name="Continue" Content="Продолжить" HorizontalAlignment="Left" TabIndex="6" Margin="144,253,0,0" VerticalAlignment="Top" Width="168" Height="57" FontSize="20" Click="Continue_Click"/>
+        <Button Content="Отменить" HorizontalAlignment="Left" Margin="423,253,0,0" TabIndex="7" VerticalAlignment="Top" Width="175" FontSize="20" Height="57" Click="Button_Click"/>
+        <Label Content="Город отправления" HorizontalAlignment="Left" Margin="44,22,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Label Content="Город прибытия" HorizontalAlignment="Left" Margin="44,117,0,0" VerticalAlignment="Top" FontSize="18" Width="151"/>
+        <Label Content="Время отправления" HorizontalAlignment="Left" Margin="288,25,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Label Content="Время прибытия" HorizontalAlignment="Left" Margin="288,116,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Label Content="ФИО Кассира" HorizontalAlignment="Left" Margin="508,116,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Label Content="Цена билета" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="13.632,1.654" Margin="508,30,0,0"/>
+    </Grid>
+</Window>

@@ -1,0 +1,251 @@
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\bin\Debug\задачка на экзамен.exe.config
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\bin\Debug\задачка на экзамен.exe
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\bin\Debug\задачка на экзамен.pdb
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.csprojAssemblyReference.cache
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\MainWindow.g.cs
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\App.g.cs
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен_MarkupCompile.cache
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен_MarkupCompile.lref
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\MainWindow.baml
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.g.resources
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\задачка_на_экзамен.Properties.Resources.resources
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.GenerateResource.cache
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.CoreCompileInputs.cache
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.exe
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.pdb
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\Window1.g.cs
+C:\Users\Всемогущий\Desktop\залдачка на экз\задачка на экзамен\задачка на экзамен\obj\Debug\Window1.baml
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\задачка на экзамен.exe.config
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\задачка на экзамен.exe
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\задачка на экзамен.pdb
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\MySql.Data.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\Xceed.Wpf.Toolkit.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\Google.Protobuf.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\Zstandard.Net.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\K4os.Compression.LZ4.Streams.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\Ubiety.Dns.Core.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\Renci.SshNet.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\System.Buffers.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\K4os.Compression.LZ4.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\K4os.Hash.xxHash.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\System.Memory.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\MySql.Data.xml
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\de\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\es\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\fr\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\hu\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\it\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\ro\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.exe.config
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\MainWindow.g.cs
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\мое окно.g.cs
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\окно сотрудников.g.cs
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\Добавление билетов.g.cs
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\Добавление сотрудников.g.cs
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\Изменение рейсов.g.cs
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\окно рейсов.g.cs
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\App.g.cs
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен_MarkupCompile.cache
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен_MarkupCompile.lref
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\MainWindow.baml
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\мое окно.baml
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\окно сотрудников.baml
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\Добавление билетов.baml
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\Добавление сотрудников.baml
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\Изменение рейсов.baml
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\окно рейсов.baml
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.g.resources
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\задачка_на_экзамен.Properties.Resources.resources
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.GenerateResource.cache
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.CoreCompileInputs.cache
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.CopyComplete
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.exe
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.pdb
+C:\Users\Alex\Desktop\задачка на экзамен\задачка на экзамен\obj\Debug\задачка на экзамен.csprojAssemblyReference.cache
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\задачка на экзамен.exe.config
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\задачка на экзамен.exe
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\задачка на экзамен.pdb
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\MySql.Data.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\Xceed.Wpf.Toolkit.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\Google.Protobuf.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\Zstandard.Net.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\K4os.Compression.LZ4.Streams.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\Ubiety.Dns.Core.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\Renci.SshNet.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\System.Buffers.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\K4os.Compression.LZ4.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\K4os.Hash.xxHash.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\System.Memory.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\MySql.Data.xml
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\de\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\es\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\fr\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\hu\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\it\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\ro\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\задачка на экзамен.csprojAssemblyReference.cache
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\задачка на экзамен.exe.config
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\MainWindow.g.cs
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\мое окно.g.cs
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\окно сотрудников.g.cs
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\Добавление билетов.g.cs
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\Добавление сотрудников.g.cs
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\Изменение рейсов.g.cs
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\окно рейсов.g.cs
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\App.g.cs
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\задачка на экзамен_MarkupCompile.cache
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\задачка на экзамен_MarkupCompile.lref
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\MainWindow.baml
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\мое окно.baml
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\окно сотрудников.baml
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\Добавление билетов.baml
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\Добавление сотрудников.baml
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\Изменение рейсов.baml
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\окно рейсов.baml
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\задачка на экзамен.g.resources
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\задачка_на_экзамен.Properties.Resources.resources
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.GenerateResource.cache
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.CoreCompileInputs.cache
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.CopyComplete
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\задачка на экзамен.exe
+C:\Users\Alex\Desktop\ (1)\задачка на экзамен\obj\Debug\задачка на экзамен.pdb
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\задачка на экзамен.exe.config
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\задачка на экзамен.exe
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\задачка на экзамен.pdb
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\Xceed.Wpf.Toolkit.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\Google.Protobuf.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\Zstandard.Net.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\K4os.Compression.LZ4.Streams.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\Ubiety.Dns.Core.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\Renci.SshNet.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\System.Buffers.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\K4os.Compression.LZ4.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\K4os.Hash.xxHash.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\System.Memory.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\MySql.Data.xml
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\de\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\es\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\fr\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\hu\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\it\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\ro\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\задачка на экзамен.csprojAssemblyReference.cache
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\задачка на экзамен.exe.config
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\MainWindow.g.cs
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\мое окно.g.cs
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\окно сотрудников.g.cs
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\Добавление билетов.g.cs
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\Добавление сотрудников.g.cs
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\Изменение рейсов.g.cs
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\окно рейсов.g.cs
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\App.g.cs
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\задачка на экзамен_MarkupCompile.cache
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\задачка на экзамен_MarkupCompile.lref
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\MainWindow.baml
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\мое окно.baml
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\окно сотрудников.baml
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\Добавление билетов.baml
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\Добавление сотрудников.baml
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\Изменение рейсов.baml
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\окно рейсов.baml
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\задачка на экзамен.g.resources
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\задачка_на_экзамен.Properties.Resources.resources
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.GenerateResource.cache
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.CoreCompileInputs.cache
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.CopyComplete
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\задачка на экзамен.exe
+C:\Users\Alex\Desktop\(1)\задачка на экзамен\obj\Debug\задачка на экзамен.pdb
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\задачка на экзамен.exe.config
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\задачка на экзамен.exe
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\задачка на экзамен.pdb
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\Xceed.Wpf.Toolkit.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\Google.Protobuf.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\Zstandard.Net.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\K4os.Compression.LZ4.Streams.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\Ubiety.Dns.Core.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\Renci.SshNet.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\System.Buffers.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\K4os.Compression.LZ4.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\K4os.Hash.xxHash.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\System.Memory.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\MySql.Data.xml
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\de\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\es\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\fr\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\hu\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\it\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\ro\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\задачка на экзамен.csprojAssemblyReference.cache
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\задачка на экзамен.exe.config
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\MainWindow.g.cs
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\мое окно.g.cs
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\окно сотрудников.g.cs
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\Добавление билетов.g.cs
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\Добавление сотрудников.g.cs
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\Изменение рейсов.g.cs
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\окно рейсов.g.cs
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\App.g.cs
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\задачка на экзамен_MarkupCompile.cache
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\задачка на экзамен_MarkupCompile.lref
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\MainWindow.baml
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\мое окно.baml
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\окно сотрудников.baml
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\Добавление билетов.baml
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\Добавление сотрудников.baml
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\Изменение рейсов.baml
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\окно рейсов.baml
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\задачка на экзамен.g.resources
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\задачка_на_экзамен.Properties.Resources.resources
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.GenerateResource.cache
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.CoreCompileInputs.cache
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\задачка на экзамен.csproj.CopyComplete
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\задачка на экзамен.exe
+C:\Users\Alex\Desktop\ExamProgram\задачка на экзамен\obj\Debug\задачка на экзамен.pdb

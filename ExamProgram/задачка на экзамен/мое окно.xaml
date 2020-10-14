@@ -1,0 +1,36 @@
+﻿<Window x:Class="задачка_на_экзамен.мое_окно"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:задачка_на_экзамен"
+        mc:Ignorable="d"
+        Title="мое_окно" Height="638" Width="654"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <Window.Background>
+        <ImageBrush ImageSource="fire.png"></ImageBrush>
+    </Window.Background>
+
+    <Grid>
+        <Button Content="Ok" HorizontalAlignment="Left" Margin="358,464,0,0" VerticalAlignment="Top" Width="55" Height="46" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Ellipse Fill="BlueViolet"></Ellipse>
+                        <Label Content="OK" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Image Source="Avatar.jpg" Margin="213,261,241,214"></Image>
+        <TextBlock HorizontalAlignment="Left" Margin="213,429,0,0" TextWrapping="Wrap" Text="Григорян Александр 26 группа" VerticalAlignment="Top" Height="30" Width="187" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="235,443,0,0" TextWrapping="Wrap" Text="alex.grig.sur@gmail.com" VerticalAlignment="Top" FontWeight="Bold"/>
+       
+    
+
+
+    </Grid>
+</Window>
