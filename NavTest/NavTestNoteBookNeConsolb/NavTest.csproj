@@ -88,6 +88,7 @@
     <Compile Include="DrawingForms\NodeInfo.Designer.cs">
       <DependentUpon>NodeInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="NavUnite.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChoosePlan.resx">
