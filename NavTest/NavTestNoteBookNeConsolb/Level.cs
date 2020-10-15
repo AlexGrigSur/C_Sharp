@@ -67,33 +67,21 @@ namespace NavTest
             nodeListOnFloor.Add(obj, new List<int> { x, y });
             edges.Add(obj, new List<Node>());
         }
-        public void EditNode(Node obj, int newX, int newY)
+        public void NodeCoordChange(Node obj, int newX, int newY)
         {
             nodeListOnFloor[obj] = new List<int> { newX, newY };
         }
-        public bool RemoveApprove(Node obj)
+        public void RemoveNode(Node obj)
         {
-            foreach (var i in nodeListOnFloor.Keys)
-                if (i.GetHashCode() != obj.GetHashCode() && (i.type == 2 || i.type == 3))
-                    return true;
-            return false;
-        }
-        public bool RemoveNode(Node obj)
-        {
-            if(obj.type>=3)
-                if (!RemoveApprove(obj))
-                {
-                    MessageBox.Show("Запрет на удаление единственного выхода/лестницы");
-                    return false;
-                }
             foreach (var i in edges.Values)
-                if(i.Contains(obj)) i.Remove(obj);
+                if (i.Contains(obj)) i.Remove(obj);
             edges[obj].Clear();
             edges.Remove(obj);
-            return true;
+            nodeListOnFloor.Remove(obj);
         }
         #endregion
         #region // add/Remove edge
+        public bool EdgeExists(List<Node> obj) => edges[obj[0]].Contains(obj[1]);
         public void AddEdge(List<Node> obj)
         {
             edges[obj[0]].Add(obj[1]);
@@ -101,7 +89,6 @@ namespace NavTest
         }
         public void RemoveEdge(List<Node> obj)
         {
-            // remove Edge Check
             edges[obj[0]].Remove(obj[1]);
             edges[obj[1]].Remove(obj[0]);
         }
@@ -116,6 +103,7 @@ namespace NavTest
         public Dictionary<string, Node> NodeList = new Dictionary<string, Node>(); // Хранит список вершин
         public Dictionary<Node, List<Level>> hyperGraphEdge = new Dictionary<Node, List<Level>>(); // Рёберный граф, который хранит связь между этажами и списком лестниц/проходов
 
+        #region // поиск вершин
         public List<Node> SearchNode(string floorName, int x, int y, string Name = "")
         {
             List<Node> result = new List<Node>();
@@ -139,30 +127,68 @@ namespace NavTest
             else
                 return Floor[floorName].SearchNode(x1, y1, x2, y2);
         }
+        #endregion
 
-
+        #region // add/edit/delete floor
         public void AddFloor(string name, int floor) => Floor.Add(name, new Level(name, floor));
         public void EditFloor(string oldName, Level floor)
         {
-            Floor.Add(floor.Name,floor);
+            Floor.Add(floor.Name, floor);
             Floor.Remove(oldName);
         }
         public void DeleteFloor(string name) => Floor.Remove(name);
+        #endregion
 
-        public void AddNodeList(Node obj, Level floor=null)
+        public void AddNode(string floorName, Node obj, int x, int y)//AddNodeList(Node obj, Level floor=null)
         {
-            if(!NodeList.ContainsKey(obj.name)) NodeList.Add(obj.name, obj);
-            if (obj.type >= 3 && floor!=null) AddHyperGraphLadder(obj, floor);
+            if (!NodeList.ContainsKey(obj.name)) NodeList.Add(obj.name, obj);
+            if (obj.type >= 3) AddHyperGraphLadder(obj, Floor[floorName]);
+            Floor[floorName].AddNode(obj, x, y);
         }
-        public void EditNode(string oldName, Node obj)
+        public void EditNode(string floorName, string oldName, Node obj, int x = -1, int y = -1)
         {
-            NodeList.Remove(oldName);
-            NodeList.Add(obj.name, obj);
+            if (NodeList[oldName].GetHashCode() != obj.GetHashCode())
+            {
+                if (NodeList[oldName].type != obj.type)
+                {
+                    if (NodeList[oldName].type < 3 && obj.type >= 3) // add ladder
+                    {
+
+                    }
+                    if (NodeList[oldName].type >= 3 && obj.type < 3) // delete from ladder
+                    {
+
+                    }
+                }
+                NodeList.Remove(oldName);
+                NodeList.Add(obj.name, obj);
+            }
+            if (x != -1) Floor[floorName].NodeCoordChange(obj, x, y);
         }
-        public void RemoveNode(string Name)
+        public void RemoveNode(string floorName, string nodeName)
         {
-            NodeList.Remove(Name);
+            if (NodeList[nodeName].type >= 3)
+            {
+                Floor[floorName].RemoveNode(NodeList[nodeName]);
+                RemoveHyperGraphLadder(NodeList[nodeName], Floor[floorName]);
+            }
+            else
+            {
+                Floor[floorName].RemoveNode(NodeList[nodeName]);
+                NodeList.Remove(nodeName);
+            }
         }
+
+        public bool isEdgeExists(string floorName, List<Node> nodes) => Floor[floorName].EdgeExists(nodes);
+        public void AddEdge(string floorName, List<Node> nodes)
+        {
+
+        }
+        public void RemoveEdge(string floorName,List<Node> nodes)
+        {
+
+        }
+
 
         public void AddHyperGraphLadder(Node obj, Level Floor)
         {
@@ -177,7 +203,11 @@ namespace NavTest
         public void RemoveHyperGraphLadder(Node obj, Level Floor)
         {
             hyperGraphEdge[obj].Remove(Floor);
-            if (hyperGraphEdge[obj].Count == 0) hyperGraphEdge.Remove(obj);
+            if (hyperGraphEdge[obj].Count == 0)
+            {
+                hyperGraphEdge.Remove(obj);
+                NodeList.Remove(obj.name);
+            }
         }
     }
 }

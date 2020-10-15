@@ -175,7 +175,7 @@ namespace NavTestNoteBookNeConsolb
                 #region // вставить вершины из этажей
                 foreach (Node tempNode in i.nodeListOnFloor.Keys)
                 {
-                    int node_ID=-1;
+                    int node_ID = -1;
                     using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `CommonNodes` where `building_ID`='{building_ID}' and `commonNodeName`='{tempNode.name}'"))
                     {
                         if (reader.Read()) node_ID = reader.GetInt32(0);
@@ -346,8 +346,8 @@ namespace NavTestNoteBookNeConsolb
                                 if (tempForm.ContinueFlag)
                                 {
                                     Node tempNode = new Node(tempForm.nodeName, tempForm.nodeType, tempForm.nodeDescription);
-                                    obj.AddNodeList(tempNode, obj.Floor[ChooseLevelComboBox.Text]);
-                                    obj.Floor[ChooseLevelComboBox.Text].AddNode(tempNode, tempForm.nodeCoordX, tempForm.nodeCoordY);
+                                    obj.AddNode(ChooseLevelComboBox.Text, tempNode, e.X, e.Y);
+                                    //obj.Floor[ChooseLevelComboBox.Text].AddNode(tempNode, tempForm.nodeCoordX, tempForm.nodeCoordY);
 
                                     DrawNode(e.X, e.Y);
                                     pictureBox1.Invalidate();
@@ -366,8 +366,8 @@ namespace NavTestNoteBookNeConsolb
                         if (nodeCoord.Count != 0)
                         {
                             Node tempNode = obj.SearchNode(ChooseLevelComboBox.Text, nodeCoord[0], nodeCoord[1])[0];
-                            if (obj.Floor[ChooseLevelComboBox.Text].RemoveNode(tempNode) && tempNode.type >= 3) // if ladder/exit and can be removed
-                                obj.RemoveHyperGraphLadder(tempNode, obj.Floor[ChooseLevelComboBox.Text]);
+                            obj.RemoveNode(ChooseLevelComboBox.Text, tempNode.name);
+                            //obj.RemoveHyperGraphLadder(tempNode, obj.Floor[ChooseLevelComboBox.Text]);
 
                             DrawNode(nodeCoord[0], nodeCoord[1], 1);
                             pictureBox1.Invalidate();
@@ -387,8 +387,8 @@ namespace NavTestNoteBookNeConsolb
                         }
                         else
                         {
-                            obj.Floor[ChooseLevelComboBox.Text].AddEdge(obj.SearchNode(ChooseLevelComboBox.Text, FirstPoint[0], FirstPoint[1], FindNode[0], FindNode[1]));
-
+                            //obj.Floor[ChooseLevelComboBox.Text].AddEdge(obj.SearchNode(ChooseLevelComboBox.Text, FirstPoint[0], FirstPoint[1], FindNode[0], FindNode[1]));
+                            
                             DrawLine(Color.Purple, FirstPoint[0], FirstPoint[1], FindNode[0], FindNode[1]);
                             FirstPoint.Clear();
 
