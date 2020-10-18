@@ -58,7 +58,7 @@ namespace NavTestNoteBookNeConsolb
                     MessageBox.Show("Введите название плана здания");
                     return;
                 }
-                DataBase.ExecuteCommand($"INSERT INTO `Buildings` VALUES (NULL, '{textBox1.Text}','False')");
+                DataBase.ExecuteCommand($"INSERT INTO `Buildings` VALUES (NULL, '{textBox1.Text}','0')");
                 BuildingName = textBox1.Text;
                 CallBuilder();
             }

@@ -180,14 +180,8 @@ namespace NavTest
         }
 
         public bool isEdgeExists(string floorName, List<Node> nodes) => Floor[floorName].EdgeExists(nodes);
-        public void AddEdge(string floorName, List<Node> nodes)
-        {
-
-        }
-        public void RemoveEdge(string floorName,List<Node> nodes)
-        {
-
-        }
+        public void AddEdge(string floorName, List<Node> nodes) => Floor[floorName].AddEdge(nodes);
+        public void RemoveEdge(string floorName, List<Node> nodes) => Floor[floorName].RemoveEdge(nodes);
 
 
         public void AddHyperGraphLadder(Node obj, Level Floor)
