@@ -559,9 +559,10 @@ namespace NavTestNoteBookNeConsolb
         private void DrawToLeftToolStripButton_Click(object sender, EventArgs e) => resizeToLeft = !resizeToLeft;
         private void saveToolStripMenuItem_Click(object sender, EventArgs e) => updateDB();
         #endregion
-        private void DrawingForm_Load(object sender, EventArgs e)
-        {
-            //if (ChooseLevelComboBox.Items.Count == 1) ChooseLevelComboBox.SelectedIndex = 0;
-        }
+
+        //private void DrawingForm_Load(object sender, EventArgs e)
+        //{
+        //  if (ChooseLevelComboBox.Items.Count == 1) ChooseLevelComboBox.SelectedIndex = 0;
+        //}
     }
 }

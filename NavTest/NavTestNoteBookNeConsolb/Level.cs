@@ -22,14 +22,43 @@ namespace NavTest
             description = Description;
         }
     }
+
+
+    class ConnectivityComp
+    {
+        private List<Node> nodes = new List<Node>();
+        public bool isContains(Node obj)
+        {
+            return nodes.Contains(obj);
+        }
+        public List<Node> Ladders()
+        {
+            List<Node> result = new List<Node>();
+            foreach (Node i in nodes)
+                if (i.type >= 3) result.Add(i);
+            return result;
+        }
+        public void add(Node obj)
+        {
+            if (!nodes.Contains(obj))
+                nodes.Add(obj);
+        }
+        public void remove(Node obj)
+        {
+            if (nodes.Contains(obj))
+                nodes.Remove(obj);
+        }
+    }
+
     class Level
     {
         public string Name;
         public int floor { get; set; }
         public int screenResX { get; set; }
         public int screenResY { get; set; }
-        public Dictionary<Node, List<int>> nodeListOnFloor = new Dictionary<Node, List<int>>();
-        public Dictionary<Node, List<Node>> edges = new Dictionary<Node, List<Node>>();
+        private List<ConnectivityComp> connectivityComponents = new List<ConnectivityComp>();
+        private Dictionary<Node, List<int>> nodeListOnFloor = new Dictionary<Node, List<int>>();
+        private Dictionary<Node, List<Node>> edges = new Dictionary<Node, List<Node>>();
         public Level(string _Name, int Floor)
         {
             Name = _Name;
@@ -38,16 +67,16 @@ namespace NavTest
 
         public void NodesOptimizer()
         {
-            int maxX=-1, maxY=-1, minX=Int32.MaxValue, minY= Int32.MaxValue;
-            foreach(List<int> i in nodeListOnFloor.Values)
+            int maxX = -1, maxY = -1, minX = Int32.MaxValue, minY = Int32.MaxValue;
+            foreach (List<int> i in nodeListOnFloor.Values)
             {
                 if (i[0] > maxX) maxX = i[0];
                 if (i[1] > maxY) maxY = i[1];
                 if (i[0] < minX) minX = i[0];
                 if (i[1] < minY) minY = i[1];
             }
-            if(minX!=10 || minY!=10 )
-                foreach(List<int> i in nodeListOnFloor.Values)
+            if (minX != 10 || minY != 10)
+                foreach (List<int> i in nodeListOnFloor.Values)
                 {
                     i[0] -= minX + 10;
                     i[1] -= minY + 10;

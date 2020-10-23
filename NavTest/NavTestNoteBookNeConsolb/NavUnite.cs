@@ -35,7 +35,7 @@ namespace NavTestNoteBookNeConsolb
             }
         }
 
-        private bool isСonnectivity()
+        private bool isСonnectivityAll()
         {
             Dictionary<NavTest.Node, int> nodesToBeVisited = new Dictionary<NavTest.Node, int>(); // 0-notVisited ,1-reachable, 2-visited
             foreach (var i in Graph.Keys)
@@ -45,7 +45,7 @@ namespace NavTestNoteBookNeConsolb
             bool isExitExists = false;
             return Reccur(ref nodesToBeVisited, nodesToBeVisited.First().Key, ref reachableNodesValue, ref visitedNodesValue, ref isExitExists);
         }
-
+        
         private bool Reccur(ref Dictionary<NavTest.Node, int> nodesToBeVisited, NavTest.Node currentNode, ref int reachableNodesValue, ref int visitedNodesValue, ref bool isExitExists) // simple version
         {
             nodesToBeVisited[currentNode] = 2;
