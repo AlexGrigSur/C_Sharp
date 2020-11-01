@@ -22,43 +22,30 @@ namespace NavTest
             description = Description;
         }
     }
-
-
-    class ConnectivityComp
+    class ConnectivityComp // will always reCalculated in case of changings
     {
-        private List<Node> nodes = new List<Node>();
+        private int Floor { get; set; }
+        private List<Node> allNodes = new List<Node>();
+        private List<Node> ladders = new List<Node>();
         public bool isContains(Node obj)
         {
-            return nodes.Contains(obj);
-        }
-        public List<Node> Ladders()
-        {
-            List<Node> result = new List<Node>();
-            foreach (Node i in nodes)
-                if (i.type >= 3) result.Add(i);
-            return result;
+            return allNodes.Contains(obj);
         }
         public void add(Node obj)
         {
-            if (!nodes.Contains(obj))
-                nodes.Add(obj);
-        }
-        public void remove(Node obj)
-        {
-            if (nodes.Contains(obj))
-                nodes.Remove(obj);
+            allNodes.Add(obj);
+            if (obj.type >= 3) ladders.Add(obj);
         }
     }
-
     class Level
     {
         public string Name;
         public int floor { get; set; }
         public int screenResX { get; set; }
         public int screenResY { get; set; }
-        private List<ConnectivityComp> connectivityComponents = new List<ConnectivityComp>();
-        private Dictionary<Node, List<int>> nodeListOnFloor = new Dictionary<Node, List<int>>();
-        private Dictionary<Node, List<Node>> edges = new Dictionary<Node, List<Node>>();
+        public List<ConnectivityComp> connectivityComponents = new List<ConnectivityComp>();
+        public Dictionary<Node, List<int>> nodeListOnFloor = new Dictionary<Node, List<int>>();
+        public Dictionary<Node, List<Node>> edges = new Dictionary<Node, List<Node>>();
         public Level(string _Name, int Floor)
         {
             Name = _Name;
@@ -150,10 +137,10 @@ namespace NavTest
     class Map
     {
         public string name { get; set; }
-        public Dictionary<string, Level> Floor = new Dictionary<string, Level>(); // список этажей
+        public Dictionary<string, Level> Floors = new Dictionary<string, Level>(); // список этажей
         public Dictionary<string, Node> NodeList = new Dictionary<string, Node>(); // Хранит список вершин
-        public Dictionary<Node, List<Level>> hyperGraphEdge = new Dictionary<Node, List<Level>>(); // Рёберный граф, который хранит связь между этажами и списком лестниц/проходов
-
+        public Dictionary<Node, List<ConnectivityComp>> HyperGraphByConnectivity = new Dictionary<Node, List<ConnectivityComp>>();
+        
         #region // поиск вершин
         public List<Node> SearchNode(string floorName, int x, int y, string Name = "")
         {
@@ -164,7 +151,7 @@ namespace NavTest
                 return result;
             }
             else
-                return Floor[floorName].SearchNode(x, y);
+                return Floors[floorName].SearchNode(x, y);
         }
         public List<Node> SearchNode(string floorName, int x1, int y1, int x2, int y2, string Name1 = "", string Name2 = " ")
         {
@@ -176,25 +163,25 @@ namespace NavTest
                 return result;
             }
             else
-                return Floor[floorName].SearchNode(x1, y1, x2, y2);
+                return Floors[floorName].SearchNode(x1, y1, x2, y2);
         }
         #endregion
-
+        
         #region // add/edit/delete floor
-        public void AddFloor(string name, int floor) => Floor.Add(name, new Level(name, floor));
+        public void AddFloor(string name, int floor) => Floors.Add(name, new Level(name, floor));
         public void EditFloor(string oldName, Level floor)
         {
-            Floor.Add(floor.Name, floor);
-            Floor.Remove(oldName);
+            Floors.Add(floor.Name, floor);
+            Floors.Remove(oldName);
         }
-        public void DeleteFloor(string name) => Floor.Remove(name);
+        public void DeleteFloor(string name) => Floors.Remove(name);
         #endregion
 
-        public void AddNode(string floorName, Node obj, int x, int y)//AddNodeList(Node obj, Level floor=null)
+        public void AddNode(string floorName, Node obj, int x, int y) 
         {
             if (!NodeList.ContainsKey(obj.name)) NodeList.Add(obj.name, obj);
-            if (obj.type >= 3) AddHyperGraphLadder(obj, Floor[floorName]);
-            Floor[floorName].AddNode(obj, x, y);
+            if (obj.type >= 3) AddHyperGraphByConn(obj);
+            Floors[floorName].AddNode(obj, x, y);
         }
         public void EditNode(string floorName, string oldName, Node obj, int x = -1, int y = -1)
         {
@@ -214,45 +201,36 @@ namespace NavTest
                 NodeList.Remove(oldName);
                 NodeList.Add(obj.name, obj);
             }
-            if (x != -1) Floor[floorName].NodeCoordChange(obj, x, y);
+            if (x != -1) Floors[floorName].NodeCoordChange(obj, x, y);
         }
         public void RemoveNode(string floorName, string nodeName)
         {
             if (NodeList[nodeName].type >= 3)
             {
-                Floor[floorName].RemoveNode(NodeList[nodeName]);
-                RemoveHyperGraphLadder(NodeList[nodeName], Floor[floorName]);
+                Floors[floorName].RemoveNode(NodeList[nodeName]);
+                RemoveHyperGraphByConn(NodeList[nodeName]);
             }
             else
             {
-                Floor[floorName].RemoveNode(NodeList[nodeName]);
+                Floors[floorName].RemoveNode(NodeList[nodeName]);
                 NodeList.Remove(nodeName);
             }
         }
 
-        public bool isEdgeExists(string floorName, List<Node> nodes) => Floor[floorName].EdgeExists(nodes);
-        public void AddEdge(string floorName, List<Node> nodes) => Floor[floorName].AddEdge(nodes);
-        public void RemoveEdge(string floorName, List<Node> nodes) => Floor[floorName].RemoveEdge(nodes);
+        public bool isEdgeExists(string floorName, List<Node> nodes) => Floors[floorName].EdgeExists(nodes);
+        public void AddEdge(string floorName, List<Node> nodes) => Floors[floorName].AddEdge(nodes);
+        public void RemoveEdge(string floorName, List<Node> nodes) => Floors[floorName].RemoveEdge(nodes);
 
-
-        public void AddHyperGraphLadder(Node obj, Level Floor)
+        public void AddHyperGraphByConn(Node obj)
         {
-            if (!hyperGraphEdge.ContainsKey(obj)) hyperGraphEdge.Add(obj, new List<Level>());
-            hyperGraphEdge[obj].Add(Floor);
+            if (!HyperGraphByConnectivity.ContainsKey(obj)) HyperGraphByConnectivity.Add(obj, new List<ConnectivityComp>());
         }
-        public void EditHyperGraphLadder(Node oldObj, Node newObj)
+        public void RemoveHyperGraphByConn(Node obj)
         {
-            hyperGraphEdge.Add(newObj, hyperGraphEdge[oldObj]);
-            hyperGraphEdge.Remove(oldObj);
-        }
-        public void RemoveHyperGraphLadder(Node obj, Level Floor)
-        {
-            hyperGraphEdge[obj].Remove(Floor);
-            if (hyperGraphEdge[obj].Count == 0)
-            {
-                hyperGraphEdge.Remove(obj);
-                NodeList.Remove(obj.name);
-            }
+            foreach (Level i in Floors.Values)
+                if (i.nodeListOnFloor.ContainsKey(obj))
+                    return;
+            HyperGraphByConnectivity.Remove(obj);
         }
     }
 }

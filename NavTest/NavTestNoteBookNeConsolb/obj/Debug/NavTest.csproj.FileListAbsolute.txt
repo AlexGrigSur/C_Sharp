@@ -24,3 +24,4 @@ C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.csproj.CopyComplete
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.exe
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.pdb
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.DrawingForms.LadderChoose.resources
