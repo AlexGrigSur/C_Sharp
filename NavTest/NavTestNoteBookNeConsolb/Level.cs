@@ -187,19 +187,9 @@ namespace NavTest
         {
             if (NodeList[oldName].GetHashCode() != obj.GetHashCode())
             {
-                if (NodeList[oldName].type != obj.type)
-                {
-                    if (NodeList[oldName].type < 3 && obj.type >= 3) // add ladder
-                    {
-
-                    }
-                    if (NodeList[oldName].type >= 3 && obj.type < 3) // delete from ladder
-                    {
-
-                    }
-                }
                 NodeList.Remove(oldName);
                 NodeList.Add(obj.name, obj);
+                if (obj.type >= 2) EditHyperGraphByConn(oldName, obj);
             }
             if (x != -1) Floors[floorName].NodeCoordChange(obj, x, y);
         }
@@ -216,6 +206,11 @@ namespace NavTest
                 NodeList.Remove(nodeName);
             }
         }
+        
+        public List<int> GetCoordOfNode(string floorName, Node obj)
+        {
+            return Floors[floorName].nodeListOnFloor[obj];
+        }
 
         public bool isEdgeExists(string floorName, List<Node> nodes) => Floors[floorName].EdgeExists(nodes);
         public void AddEdge(string floorName, List<Node> nodes) => Floors[floorName].AddEdge(nodes);
@@ -224,6 +219,21 @@ namespace NavTest
         public void AddHyperGraphByConn(Node obj)
         {
             if (!HyperGraphByConnectivity.ContainsKey(obj)) HyperGraphByConnectivity.Add(obj, new List<ConnectivityComp>());
+        }
+        public void EditHyperGraphByConn(string oldName, Node obj)
+        {
+            Node FoundNode=HyperGraphByConnectivity.Keys.First();
+            foreach(Node i in HyperGraphByConnectivity.Keys)
+            {
+                if (i.name == oldName)
+                {
+                    FoundNode = i;
+                    break;
+                }
+            }
+            HyperGraphByConnectivity.Add(obj, HyperGraphByConnectivity[FoundNode]);
+            HyperGraphByConnectivity.Remove(FoundNode);
+
         }
         public void RemoveHyperGraphByConn(Node obj)
         {

@@ -28,7 +28,7 @@ namespace NavTestNoteBookNeConsolb
         private bool resizeToLeft = false;
         private bool isGreyMode = false;
         private Bitmap SecondLayer = null;
-
+        private Node FoundNode;
         //private TextBox typeTB;
         public DrawingForm(string BuildingName)
         {
@@ -338,6 +338,29 @@ namespace NavTestNoteBookNeConsolb
                 ObservereMode();
         }
         #endregion
+
+        private void SearchNode(MouseEventArgs e)
+        {
+            List<int> observerNode = SearchNodesOnScreen(e, radius);
+            if (observerNode.Count == 2)
+            {
+                Node tempNode = obj.SearchNode(ChooseLevelComboBox.Text, observerNode[0], observerNode[1])[0];
+                textBox1.Text = tempNode.name;
+                typeTB.Text = comboBox1.Items[tempNode.type].ToString();
+                textBox2.Text = tempNode.description;
+                textBox3.Text = Convert.ToString(observerNode[0]);
+                textBox4.Text = Convert.ToString(observerNode[1]);
+                if (Mode == 1) FoundNode = obj.SearchNode(ChooseLevelComboBox.Text, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text))[0];
+            }
+            else
+            {
+                textBox1.Text = "";
+                typeTB.Text = "";
+                textBox2.Text = "";
+                textBox3.Text = "";
+                textBox4.Text = "";
+            }
+        }
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e) // Основная функция
         {
             if (ChooseLevelComboBox.SelectedIndex == -1 || ChooseLevelComboBox.SelectedIndex == ChooseLevelComboBox.Items.Count - 1)
@@ -349,29 +372,12 @@ namespace NavTestNoteBookNeConsolb
             {
                 case -1:
                     {
-                        List<int> observerNode = SearchAnotherNodes(e, radius);
-                        if (observerNode.Count == 2)
-                        {
-                            Node tempNode = obj.SearchNode(ChooseLevelComboBox.Text, observerNode[0], observerNode[1])[0];
-                            textBox1.Text = tempNode.name;
-                            typeTB.Text = comboBox1.Items[tempNode.type].ToString();
-                            textBox2.Text = tempNode.description;
-                            textBox3.Text = Convert.ToString(observerNode[0]);
-                            textBox4.Text = Convert.ToString(observerNode[1]);
-                        }
-                        else
-                        {
-                            textBox1.Text = "";
-                            typeTB.Text = "";
-                            textBox2.Text = "";
-                            textBox3.Text = "";
-                            textBox4.Text = "";
-                        }
+                        SearchNode(e);
                         break;
                     }
                 case 0: // add Node
                     {
-                        if (SearchAnotherNodes(e, radius).Count != 2)
+                        if (SearchNodesOnScreen(e, radius).Count != 2)
                         {
                             if (isGreyMode) pictureBox1.Image = new Bitmap(SecondLayer);
                             pictureBox1.Invalidate();
@@ -386,11 +392,28 @@ namespace NavTestNoteBookNeConsolb
                     }
                 case 1: // edit Node
                     {
+                        if(SearchNodesOnScreen(e,radius).Count==2)
+                        {
+                            if (textBox3.Text == "")
+                            {
+                                SearchNode(e);
+                                return;
+                            }
+                            else
+                            {
+                                if (isGreyMode) pictureBox1.Image = new Bitmap(SecondLayer);
+                                pictureBox1.Invalidate();
+                                isGreyMode = true;
+                                DrawNode(e.X, e.Y, 0, 155);
+                                textBox3.Text = e.X.ToString();
+                                textBox4.Text = e.Y.ToString();
+                            }
+                        }
                         break;
                     }
                 case 2: // delete node
                     {
-                        List<int> nodeCoord = SearchAnotherNodes(e, radius);
+                        List<int> nodeCoord = SearchNodesOnScreen(e, radius);
                         if (nodeCoord.Count != 0)
                         {
                             Node tempNode = obj.SearchNode(ChooseLevelComboBox.Text, nodeCoord[0], nodeCoord[1])[0];
@@ -401,7 +424,7 @@ namespace NavTestNoteBookNeConsolb
                     }
                 case 3: // add edge
                     {
-                        List<int> FindNode = SearchAnotherNodes(e, radius);
+                        List<int> FindNode = SearchNodesOnScreen(e, radius);
                         if (FindNode.Count == 0)
                             return;
                         if (FirstPoint.Count == 0)
@@ -423,7 +446,7 @@ namespace NavTestNoteBookNeConsolb
                     }
                 case 4: // delete edge
                     {
-                        List<int> FindNode = SearchAnotherNodes(e, radius);
+                        List<int> FindNode = SearchNodesOnScreen(e, radius);
                         if (FindNode.Count == 0)
                             return;
                         if (FirstPoint.Count == 0)
@@ -458,10 +481,20 @@ namespace NavTestNoteBookNeConsolb
                 textBox2.Text = "";
                 textBox3.Text = "";
                 textBox4.Text = "";
-                typeTB.Enabled = false;
-                typeTB.Visible = false;
-                comboBox1.Enabled = true;
-                comboBox1.Visible = true;
+                if (Mode != 1)
+                {
+                    typeTB.Enabled = false;
+                    typeTB.Visible = false;
+                    comboBox1.Enabled = true;
+                    comboBox1.Visible = true;
+                }
+                else
+                {
+                    typeTB.Enabled = true;
+                    typeTB.Visible = true;
+                    comboBox1.Enabled = false;
+                    comboBox1.Visible = false;
+                }
             }
             else
             {
@@ -476,7 +509,7 @@ namespace NavTestNoteBookNeConsolb
                 comboBox1.Visible = false;
             }
         }
-        private List<int> SearchAnotherNodes(MouseEventArgs e, int radius)
+        private List<int> SearchNodesOnScreen(MouseEventArgs e, int radius)
         {
             List<int> coord = new List<int>();
             bool returnFlag = false;
@@ -561,7 +594,7 @@ namespace NavTestNoteBookNeConsolb
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (isGreyMode && Mode == 0)
+            if (Mode == 0)
             {
                 if (textBox1.Text.Trim() == "" || comboBox1.SelectedIndex == -1)
                 {
@@ -579,6 +612,44 @@ namespace NavTestNoteBookNeConsolb
                 DrawNode(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text), 0, 255, textBox1.Text);
                 SecondLayer = new Bitmap(pictureBox1.Image);
                 PanelActivate(true);
+                return;
+            }
+            if(Mode==1)
+            {
+                bool changeFlag = false;
+                string name, descr;
+                Node NewNode=FoundNode;
+                if (textBox1.Text != FoundNode.name)
+                {
+                    name = textBox1.Text;
+                    changeFlag = true;
+                }
+                else
+                    name = FoundNode.name;
+                if (textBox2.Text != FoundNode.description)
+                {
+                    descr = textBox2.Text;
+                    changeFlag = true;
+                }
+                else
+                    descr = FoundNode.description;
+
+                if(changeFlag)
+                {
+                    NewNode = new Node(name, FoundNode.type, descr);
+                    obj.EditNode(ChooseLevelComboBox.Text,FoundNode.name,NewNode);
+                }
+
+                if(isGreyMode)
+                {
+                    List<int> tempCoord = obj.GetCoordOfNode(ChooseLevelComboBox.Text, NewNode);
+                    if(tempCoord[0]!=Convert.ToInt32(textBox3.Text) || tempCoord[1]!=Convert.ToInt32(textBox4.Text))
+                        obj.Floors[ChooseLevelComboBox.Text].NodeCoordChange(NewNode, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
+                    changeFlag = true;
+                }
+                if(changeFlag) LoadLevel();
+
+                return;
             }
         }
     }
