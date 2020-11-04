@@ -121,6 +121,7 @@ namespace NavTest
         #endregion
         #region // add/Remove edge
         public bool EdgeExists(List<Node> obj) => edges[obj[0]].Contains(obj[1]);
+        public bool EdgeExists(Node n1, Node n2) => edges[n1].Contains(n2);
         public void AddEdge(List<Node> obj)
         {
             edges[obj[0]].Add(obj[1]);
@@ -183,15 +184,48 @@ namespace NavTest
             if (obj.type >= 3) AddHyperGraphByConn(obj);
             Floors[floorName].AddNode(obj, x, y);
         }
-        public void EditNode(string floorName, string oldName, Node obj, int x = -1, int y = -1)
+        public void EditNode(string floorName, string oldName, Node newNode, int x = -1, int y = -1)
         {
-            if (NodeList[oldName].GetHashCode() != obj.GetHashCode())
+            if (!NodeList[oldName].Equals(newNode))//.GetHashCode() != obj.GetHashCode())
             {
+                if(newNode.type>=2) // если вершина - лестница или выход
+                {
+                    foreach(string i in Floors.Keys) // проход по всем этажам
+                    {
+                        if(Floors[i].nodeListOnFloor.ContainsKey(NodeList[oldName])) // Если вершина размещена на этаже
+                        {
+                            foreach(Node tempNode in Floors[i].edges[NodeList[oldName]]) //Пройтись по всем, связанным со старой вершиной, вершинам
+                            {
+                                Floors[i].edges[tempNode].Remove(NodeList[oldName]);
+                                Floors[i].edges[tempNode].Add(newNode);
+                            }
+                            Floors[i].edges.Add(newNode, Floors[i].edges[NodeList[oldName]]); 
+                            Floors[i].edges.Remove(NodeList[oldName]);
+
+                            Floors[i].nodeListOnFloor.Add(newNode, Floors[i].nodeListOnFloor[NodeList[oldName]]);
+                            Floors[i].nodeListOnFloor.Remove(NodeList[oldName]);
+                        }
+                    }
+                    EditHyperGraphByConn(oldName, newNode);
+                }
+                else
+                {
+                    foreach (Node tempNode in Floors[floorName].edges[NodeList[oldName]]) //Пройтись по всем, связанным со старой вершиной, вершинам
+                    {
+                        Floors[floorName].edges[tempNode].Remove(NodeList[oldName]);
+                        Floors[floorName].edges[tempNode].Add(newNode);
+                    }
+                    Floors[floorName].edges.Add(newNode, Floors[floorName].edges[NodeList[oldName]]);
+                    Floors[floorName].edges.Remove(NodeList[oldName]);
+
+                    Floors[floorName].nodeListOnFloor.Add(newNode, Floors[floorName].nodeListOnFloor[NodeList[oldName]]);
+                    Floors[floorName].nodeListOnFloor.Remove(NodeList[oldName]);
+                    
+                }
                 NodeList.Remove(oldName);
-                NodeList.Add(obj.name, obj);
-                if (obj.type >= 2) EditHyperGraphByConn(oldName, obj);
+                NodeList.Add(newNode.name, newNode);
             }
-            if (x != -1) Floors[floorName].NodeCoordChange(obj, x, y);
+            if (x != -1) Floors[floorName].NodeCoordChange(newNode, x, y);
         }
         public void RemoveNode(string floorName, string nodeName)
         {
@@ -206,12 +240,27 @@ namespace NavTest
                 NodeList.Remove(nodeName);
             }
         }
-        
+        public void RemoveNode(string floorName, Node node)
+        {
+            if (node.type >= 3)
+            {
+                Floors[floorName].RemoveNode(node);
+                RemoveHyperGraphByConn(node);
+            }
+            else
+            {
+                Floors[floorName].RemoveNode(node);
+                NodeList.Remove(node.name);
+            }
+        }
+
+
         public List<int> GetCoordOfNode(string floorName, Node obj)
         {
             return Floors[floorName].nodeListOnFloor[obj];
         }
 
+        public bool isEdgeExists(string floorName, Node n1, Node n2) => Floors[floorName].EdgeExists(n1,n2);
         public bool isEdgeExists(string floorName, List<Node> nodes) => Floors[floorName].EdgeExists(nodes);
         public void AddEdge(string floorName, List<Node> nodes) => Floors[floorName].AddEdge(nodes);
         public void RemoveEdge(string floorName, List<Node> nodes) => Floors[floorName].RemoveEdge(nodes);

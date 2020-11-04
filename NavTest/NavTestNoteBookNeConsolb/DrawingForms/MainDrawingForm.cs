@@ -29,7 +29,6 @@ namespace NavTestNoteBookNeConsolb
         private bool isGreyMode = false;
         private Bitmap SecondLayer = null;
         private Node FoundNode;
-        //private TextBox typeTB;
         public DrawingForm(string BuildingName)
         {
             obj = new Map();
@@ -214,6 +213,27 @@ namespace NavTestNoteBookNeConsolb
             }
 
         }
+
+
+        private void HighlighterNode(int X, int Y)
+        {
+            using (Graphics G = Graphics.FromImage(pictureBox1.Image))
+            {
+                Pen pen = new Pen(Color.Red);
+                G.DrawEllipse(pen, X - radius, Y - radius, 2 * radius, 2 * radius);
+            }
+            pictureBox1.Invalidate();
+        }
+        private void HighlighterNode(List<int> coord)
+        {
+            using (Graphics G = Graphics.FromImage(pictureBox1.Image))
+            {
+                Pen pen = new Pen(Color.Red);
+                G.DrawEllipse(pen, coord[0] - radius, coord[1] - radius, 2 * radius, 2 * radius);
+            }
+            pictureBox1.Invalidate();
+        }
+
         private void DrawNode(int X, int Y, int mode = 0, int transparent = 255, string nodeName = "")
         {
             using (Graphics G = Graphics.FromImage(pictureBox1.Image))
@@ -268,11 +288,17 @@ namespace NavTestNoteBookNeConsolb
         }
         private void GreyMode(bool activated)
         {
-            if (activated) SecondLayer = new Bitmap(pictureBox1.Image);
+            if (activated)
+            {
+                isGreyMode = true;
+                SecondLayer = new Bitmap(pictureBox1.Image);
+            }
             else
             {
                 isGreyMode = false;
-                pictureBox1.Image = new Bitmap(SecondLayer);
+                if (SecondLayer != null) pictureBox1.Image = new Bitmap(SecondLayer);
+                SecondLayer = null;
+                pictureBox1.Invalidate();
             }
         }
         private void CreateNode_Click(object sender, EventArgs e)
@@ -281,8 +307,9 @@ namespace NavTestNoteBookNeConsolb
             {
                 PanelActivate(true);
                 Mode = 0;
-                GreyMode(true);// false);
                 ModeStatusLable.Text = "Mode: CreateNode";
+                GreyMode(false);
+                button1.Text = "Добавить Вершину";
             }
             else
                 ObservereMode();
@@ -291,10 +318,11 @@ namespace NavTestNoteBookNeConsolb
         {
             if (Mode != 1)
             {
-                PanelActivate(true);
                 Mode = 1;
-                GreyMode(true);// false);
+                PanelActivate(true);
                 ModeStatusLable.Text = "Mode: EditNode";
+                GreyMode(false);
+                button1.Text = "Изменить Вершину";
             }
             else
                 ObservereMode();
@@ -307,6 +335,7 @@ namespace NavTestNoteBookNeConsolb
                 Mode = 2;
                 GreyMode(false);
                 ModeStatusLable.Text = "Mode: DeleteNode";
+                button1.Text = "Удалить Вершину";
             }
             else
                 ObservereMode();
@@ -318,8 +347,9 @@ namespace NavTestNoteBookNeConsolb
                 PanelActivate(false);
                 Mode = 3;
                 FirstPoint.Clear();
-                GreyMode(false);
+                if (isGreyMode) GreyMode(false);
                 ModeStatusLable.Text = "Mode: CreateEdge";
+                button1.Text = "Добавить Ребро";
             }
             else
                 ObservereMode();
@@ -333,15 +363,15 @@ namespace NavTestNoteBookNeConsolb
                 FirstPoint.Clear();
                 GreyMode(false);
                 ModeStatusLable.Text = "Mode: DeleteEdge";
+                button1.Text = "Удалить Ребро";
             }
             else
                 ObservereMode();
         }
         #endregion
 
-        private void SearchNode(MouseEventArgs e)
+        private void SearchNodeInBase(List<int> observerNode)
         {
-            List<int> observerNode = SearchNodesOnScreen(e, radius);
             if (observerNode.Count == 2)
             {
                 Node tempNode = obj.SearchNode(ChooseLevelComboBox.Text, observerNode[0], observerNode[1])[0];
@@ -350,7 +380,7 @@ namespace NavTestNoteBookNeConsolb
                 textBox2.Text = tempNode.description;
                 textBox3.Text = Convert.ToString(observerNode[0]);
                 textBox4.Text = Convert.ToString(observerNode[1]);
-                if (Mode == 1) FoundNode = obj.SearchNode(ChooseLevelComboBox.Text, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text))[0];
+                if (Mode >=1) FoundNode = tempNode;
             }
             else
             {
@@ -372,16 +402,18 @@ namespace NavTestNoteBookNeConsolb
             {
                 case -1:
                     {
-                        SearchNode(e);
+                        SearchNodeInBase(SearchNodesOnScreen(e, radius));
                         break;
                     }
-                case 0: // add Node
+                case 0: // add Node // done
                     {
                         if (SearchNodesOnScreen(e, radius).Count != 2)
                         {
-                            if (isGreyMode) pictureBox1.Image = new Bitmap(SecondLayer);
+                            if (!isGreyMode)
+                                GreyMode(true);
+                            else
+                                pictureBox1.Image = new Bitmap(SecondLayer);
                             pictureBox1.Invalidate();
-                            isGreyMode = true;
                             DrawNode(e.X, e.Y, 0, 155);
                             textBox3.Text = e.X.ToString();
                             textBox4.Text = e.Y.ToString();
@@ -392,18 +424,31 @@ namespace NavTestNoteBookNeConsolb
                     }
                 case 1: // edit Node
                     {
-                        if(SearchNodesOnScreen(e,radius).Count==2)
+                        List<int> nodeByCoord = SearchNodesOnScreen(e, radius);
+                        if (nodeByCoord.Count == 2) // chooseNodeToEdit
                         {
-                            if (textBox3.Text == "")
+                            if (!isGreyMode)
                             {
-                                SearchNode(e);
-                                return;
+                                //isGreyMode = true;
+                                SearchNodeInBase(nodeByCoord);
+                                GreyMode(true);
+                                pictureBox1.Invalidate();
                             }
                             else
                             {
-                                if (isGreyMode) pictureBox1.Image = new Bitmap(SecondLayer);
+                                pictureBox1.Image = new Bitmap(SecondLayer);
                                 pictureBox1.Invalidate();
-                                isGreyMode = true;
+                                SearchNodeInBase(nodeByCoord);
+                            }
+                            HighlighterNode(nodeByCoord[0], nodeByCoord[1]);
+                        }
+                        else
+                        {
+                            if (textBox1.Text.Trim() != "") // if node was already choosen
+                            {
+                                pictureBox1.Image = new Bitmap(SecondLayer);
+                                pictureBox1.Invalidate();
+                                HighlighterNode(obj.GetCoordOfNode(ChooseLevelComboBox.Text, FoundNode));
                                 DrawNode(e.X, e.Y, 0, 155);
                                 textBox3.Text = e.X.ToString();
                                 textBox4.Text = e.Y.ToString();
@@ -416,9 +461,17 @@ namespace NavTestNoteBookNeConsolb
                         List<int> nodeCoord = SearchNodesOnScreen(e, radius);
                         if (nodeCoord.Count != 0)
                         {
-                            Node tempNode = obj.SearchNode(ChooseLevelComboBox.Text, nodeCoord[0], nodeCoord[1])[0];
-                            obj.RemoveNode(ChooseLevelComboBox.Text, tempNode.name);
-                            LoadLevel();
+                            if(isGreyMode)
+                            {
+                                pictureBox1.Image = new Bitmap(SecondLayer);                                
+                                HighlighterNode(nodeCoord);
+                            }
+                            else
+                            {
+                                GreyMode(true);
+                                HighlighterNode(nodeCoord);
+                            }
+                            SearchNodeInBase(nodeCoord);
                         }
                         break;
                     }
@@ -430,17 +483,31 @@ namespace NavTestNoteBookNeConsolb
                         if (FirstPoint.Count == 0)
                         {
                             FirstPoint = FindNode;
+
+                            if (isGreyMode) 
+                                pictureBox1.Image = new Bitmap(SecondLayer);
+                            else 
+                                GreyMode(true);
+                            
+                            SearchNodeInBase(FindNode);
+                            
+                            HighlighterNode(FirstPoint);
+                            
                             return;
                         }
                         else
                         {
-                            List<Node> nodes = obj.SearchNode(ChooseLevelComboBox.Text, FirstPoint[0], FirstPoint[1], FindNode[0], FindNode[1]);
-                            if (!obj.isEdgeExists(ChooseLevelComboBox.Text, nodes))
+                            if (FindNode[0] == FirstPoint[0] && FindNode[1] == FirstPoint[1])
                             {
-                                obj.AddEdge(ChooseLevelComboBox.Text, nodes);
-                                DrawLine(FirstPoint[0], FirstPoint[1], FindNode[0], FindNode[1]);
+                                FirstPoint.Clear();
+                                GreyMode(false);
+                                return;
                             }
-                            FirstPoint.Clear();
+                            else
+                            {
+                                SearchNodeInBase(FindNode);
+                                HighlighterNode(FindNode);
+                            }
                         }
                         break;
                     }
@@ -594,62 +661,112 @@ namespace NavTestNoteBookNeConsolb
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (Mode == 0)
+            switch (Mode)
             {
-                if (textBox1.Text.Trim() == "" || comboBox1.SelectedIndex == -1)
-                {
-                    MessageBox.Show("Заполните поля названия и/или типа");
-                    return;
-                }
-                if (obj.NodeList.ContainsKey(textBox1.Text))
-                {
-                    MessageBox.Show("Вершина с данным именем уже существует. Измените его для продолжения работы");
-                    return;
-                }
-                Node newNode = new Node(textBox1.Text, comboBox1.SelectedIndex, textBox2.Text);
-                obj.AddNode(ChooseLevelComboBox.Text, newNode, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
-                pictureBox1.Image = new Bitmap(SecondLayer);
-                DrawNode(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text), 0, 255, textBox1.Text);
-                SecondLayer = new Bitmap(pictureBox1.Image);
-                PanelActivate(true);
-                return;
-            }
-            if(Mode==1)
-            {
-                bool changeFlag = false;
-                string name, descr;
-                Node NewNode=FoundNode;
-                if (textBox1.Text != FoundNode.name)
-                {
-                    name = textBox1.Text;
-                    changeFlag = true;
-                }
-                else
-                    name = FoundNode.name;
-                if (textBox2.Text != FoundNode.description)
-                {
-                    descr = textBox2.Text;
-                    changeFlag = true;
-                }
-                else
-                    descr = FoundNode.description;
+                case 0:
+                    {
+                        if (textBox1.Text.Trim() == "" || comboBox1.SelectedIndex == -1)
+                        {
+                            MessageBox.Show("Заполните поля названия и/или типа");
+                            return;
+                        }
+                        if (obj.NodeList.ContainsKey(textBox1.Text))
+                        {
+                            MessageBox.Show("Вершина с данным именем уже существует. Измените его для продолжения работы");
+                            return;
+                        }
+                        if (textBox3.Text.Trim() == "")
+                        {
+                            MessageBox.Show("Для вершины не заданы координаты. Отмена операции");
+                            return;
+                        }
+                        Node newNode = new Node(textBox1.Text, comboBox1.SelectedIndex, textBox2.Text);
+                        obj.AddNode(ChooseLevelComboBox.Text, newNode, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
+                        pictureBox1.Image = new Bitmap(SecondLayer);
+                        DrawNode(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text), 0, 255, textBox1.Text);
+                        SecondLayer = new Bitmap(pictureBox1.Image);
+                        PanelActivate(true);
+                        break;
+                    }
+                case 1:
+                    {
+                        bool changeFlag = false;
+                        string name, descr;
+                        Node NewNode = FoundNode;
+                        if (textBox1.Text != FoundNode.name)
+                        {
+                            if (obj.NodeList.ContainsKey(textBox1.Text.Trim()))
+                            {
+                                MessageBox.Show("Данный план уже содержит вершину с таким именем");
+                                return;
+                            }
+                            name = textBox1.Text;
+                            changeFlag = true;
+                        }
+                        else
+                            name = FoundNode.name;
+                        if (textBox2.Text != FoundNode.description)
+                        {
+                            descr = textBox2.Text;
+                            changeFlag = true;
+                        }
+                        else
+                            descr = FoundNode.description;
 
-                if(changeFlag)
-                {
-                    NewNode = new Node(name, FoundNode.type, descr);
-                    obj.EditNode(ChooseLevelComboBox.Text,FoundNode.name,NewNode);
-                }
+                        if (changeFlag)
+                        {
+                            NewNode = new Node(name, FoundNode.type, descr);
+                            obj.EditNode(ChooseLevelComboBox.Text, FoundNode.name, NewNode);
+                        }
 
-                if(isGreyMode)
-                {
-                    List<int> tempCoord = obj.GetCoordOfNode(ChooseLevelComboBox.Text, NewNode);
-                    if(tempCoord[0]!=Convert.ToInt32(textBox3.Text) || tempCoord[1]!=Convert.ToInt32(textBox4.Text))
-                        obj.Floors[ChooseLevelComboBox.Text].NodeCoordChange(NewNode, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
-                    changeFlag = true;
-                }
-                if(changeFlag) LoadLevel();
-
-                return;
+                        if (isGreyMode)
+                        {
+                            List<int> tempCoord = obj.GetCoordOfNode(ChooseLevelComboBox.Text, NewNode);
+                            if (tempCoord[0] != Convert.ToInt32(textBox3.Text) || tempCoord[1] != Convert.ToInt32(textBox4.Text))
+                                obj.Floors[ChooseLevelComboBox.Text].NodeCoordChange(NewNode, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
+                            changeFlag = true;
+                        }
+                        if (changeFlag)
+                        {
+                            LoadLevel();
+                            SecondLayer = new Bitmap(pictureBox1.Image);
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        if(isGreyMode)
+                        {
+                            //Node tempNode = obj.SearchNode(ChooseLevelComboBox.Text, FoundNode[0], nodeCoord[1])[0];
+                            GreyMode(false);
+                            obj.RemoveNode(ChooseLevelComboBox.Text, FoundNode);//tempNode.name);
+                            LoadLevel(); 
+                            textBox1.Text = "";
+                            typeTB.Text = "";
+                            textBox2.Text = "";
+                            textBox3.Text = "";
+                            textBox4.Text = "";
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        if(FirstPoint.Count!=0)
+                        {
+                            List<int> foundNodeCoord = obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[FoundNode]; // second Node
+                            if (foundNodeCoord[0]!=FirstPoint[0] && foundNodeCoord[1] != FirstPoint[1])
+                            {
+                                Node FirstNode = obj.SearchNode(ChooseLevelComboBox.Text,FirstPoint[0],FirstPoint[1])[0];
+                                if (!obj.isEdgeExists(ChooseLevelComboBox.Text, FirstNode,FoundNode))
+                                {
+                                    GreyMode(false);
+                                    obj.AddEdge(ChooseLevelComboBox.Text, new List<Node> { FirstNode, FoundNode});
+                                    DrawLine(FirstPoint[0], FirstPoint[1], foundNodeCoord[0], foundNodeCoord[1]);
+                                }
+                            }
+                        }
+                        break;
+                    }
             }
         }
     }

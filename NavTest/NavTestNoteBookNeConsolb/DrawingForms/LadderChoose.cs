@@ -17,10 +17,12 @@ namespace NavTestNoteBookNeConsolb.DrawingForms
         public string SelectedLadder { get; set; }
         public LadderChoose(List<Node> ladderList)
         {
-            foreach (Node i in ladderList)
-                dataGridView1.Rows.Add(i.name);
-            dataGridView1.Rows.Add("Новая лестница");
             InitializeComponent();
+            if (ladderList!=null)
+                foreach (Node i in ladderList)
+                    dataGridView1.Rows.Add(i.name);
+            dataGridView1.Columns.Add("ColumnName", "Название Лестницы");
+            dataGridView1.Rows.Add("Новая Лестница");
             ContinueFlag = false;
         }
 
@@ -28,7 +30,7 @@ namespace NavTestNoteBookNeConsolb.DrawingForms
         {
             if(dataGridView1.SelectedRows.Count!=0)
             {
-                SelectedLadder = dataGridView1.SelectedRows[0].ToString();
+                SelectedLadder = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
                 ContinueFlag = true;
                 this.Close();
             }
