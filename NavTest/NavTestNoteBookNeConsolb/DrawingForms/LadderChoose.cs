@@ -18,9 +18,9 @@ namespace NavTestNoteBookNeConsolb.DrawingForms
         public LadderChoose(List<Node> ladderList)
         {
             InitializeComponent();
+            dataGridView1.Columns.Add("ColumnName", "Название Лестницы");
             foreach (Node i in ladderList)
                 dataGridView1.Rows.Add(i.name);
-            dataGridView1.Columns.Add("ColumnName", "Название Лестницы");
             dataGridView1.Rows.Add("Новая Лестница");
             ContinueFlag = false;
         }

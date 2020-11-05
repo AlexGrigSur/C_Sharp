@@ -93,6 +93,8 @@ namespace NavTestNoteBookNeConsolb
                 foreach (Node SecondNodeLine in obj.Floors[ChooseLevelComboBox.Text].edges[FirstNodeLine])
                     DrawLine(floor.nodeListOnFloor[FirstNodeLine][0], floor.nodeListOnFloor[FirstNodeLine][1], floor.nodeListOnFloor[SecondNodeLine][0], floor.nodeListOnFloor[SecondNodeLine][1]);
             pictureBox1.Invalidate();
+            ObservereMode();
+            GreyMode(false);
         }
         private void updateFromDB()
         {
@@ -213,8 +215,6 @@ namespace NavTestNoteBookNeConsolb
             }
 
         }
-
-
         private void HighlighterNode(int X, int Y)
         {
             using (Graphics G = Graphics.FromImage(pictureBox1.Image))
@@ -636,12 +636,14 @@ namespace NavTestNoteBookNeConsolb
         {
             if (comboBox1.SelectedIndex == 2)
             {
-                List<Node> ladderList = new List<Node>(obj.HyperGraphByConnectivity.Keys);
-                foreach (Node i in ladderList)
-                    if (obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor.ContainsKey(i))
-                        ladderList.Remove(i);
-
-                LadderChoose form = new LadderChoose(ladderList);
+                List<Node> localLadderList = new List<Node>(obj.HyperGraphByConnectivity.Keys);
+                for (int i = 0; i < localLadderList.Count; ++i)
+                    if (obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor.ContainsKey(localLadderList[i]))
+                    {
+                        localLadderList.Remove(localLadderList[i]);
+                        --i;
+                    }
+                LadderChoose form = new LadderChoose(localLadderList);
                 form.ShowDialog();
                 if (form.ContinueFlag = true)
                 {
@@ -673,7 +675,7 @@ namespace NavTestNoteBookNeConsolb
                             MessageBox.Show("Заполните поля названия и/или типа");
                             return;
                         }
-                        if (obj.NodeList.ContainsKey(textBox1.Text))
+                        if (obj.NodeList.ContainsKey(textBox1.Text) && (comboBox1.SelectedIndex!=2 || isNewLadder))
                         {
                             MessageBox.Show("Вершина с данным именем уже существует. Измените его для продолжения работы");
                             return;
@@ -686,11 +688,13 @@ namespace NavTestNoteBookNeConsolb
                         if (comboBox1.SelectedIndex == 2 && !isNewLadder)
                         {
                             obj.AddNode(ChooseLevelComboBox.Text, FoundNode, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
+                            comboBox1.SelectedIndex = -1;
                         }
                         else
                         {
                             Node newNode = new Node(textBox1.Text, comboBox1.SelectedIndex, textBox2.Text);
                             obj.AddNode(ChooseLevelComboBox.Text, newNode, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
+                            comboBox1.SelectedIndex = -1;
                         }
                         pictureBox1.Image = new Bitmap(SecondLayer);
                         DrawNode(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text), 0, 255, textBox1.Text);
@@ -739,7 +743,8 @@ namespace NavTestNoteBookNeConsolb
                         if (changeFlag)
                         {
                             LoadLevel();
-                            SecondLayer = new Bitmap(pictureBox1.Image);
+                            //SecondLayer = new Bitmap(pictureBox1.Image);
+                            ///*///////////////////////////////////////////////////*/pictureBox1.Invalidate(); /////////////////////////////////////////////////////////////////////
                         }
                         break;
                     }
@@ -789,6 +794,37 @@ namespace NavTestNoteBookNeConsolb
                         }
                         break;
                     }
+            }
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            if(ChooseLevelComboBox.SelectedIndex!=-1)
+            {
+                DialogResult result = MessageBox.Show("Вы уверены?","Warning",MessageBoxButtons.YesNo);
+                if(result==DialogResult.Yes)
+                {
+                    obj.Floors.Remove(ChooseLevelComboBox.Text);
+                    ChooseLevelComboBox.Items.Remove(ChooseLevelComboBox.Text);
+                    if (ChooseLevelComboBox.Items.Count > 0)
+                        ChooseLevelComboBox.SelectedIndex = 0;
+                    else
+                    {
+                        ObservereMode();
+                        GreyMode(false);
+                        //updateFromDB();
+
+                        updateLevelList();
+
+                        panelX = panel1.Width;
+                        panelY = panel1.Height;
+
+                        pictureBox1.Parent = panel1;
+                        pictureBox1.Location = Point.Empty;
+                        pictureBox1.Image = new Bitmap(panelX, panelY);
+                        pictureBox1.ClientSize = pictureBox1.Image.Size;
+                    }
+                }
             }
         }
     }

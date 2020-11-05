@@ -47,7 +47,7 @@ namespace NavTestNoteBookNeConsolb
         private void Reccur(ref Level level,ref Dictionary<NavTest.Node, int> nodesToBeVisited, NavTest.Node currentNode, ref int reachableNodesValue, ref int visitedNodesValue, ref bool isExitExists) // simple version
         {
             nodesToBeVisited[currentNode] = 2;
-            if (reachableNodesValue == nodesToBeVisited.Count || (reachableNodesValue == visitedNodesValue))
+            if (reachableNodesValue == nodesToBeVisited.Count )
                 return; // all visited
 
             foreach (var i in level.edges[currentNode]) // reach all nodes
@@ -68,6 +68,9 @@ namespace NavTestNoteBookNeConsolb
                     Reccur(ref level, ref nodesToBeVisited, currentNode, ref reachableNodesValue, ref visitedNodesValue, ref isExitExists);
                 }
             }
+
+            if (reachableNodesValue == visitedNodesValue)
+                return;
         }
 
     }
