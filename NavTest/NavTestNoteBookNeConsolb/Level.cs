@@ -181,7 +181,7 @@ namespace NavTest
         public void AddNode(string floorName, Node obj, int x, int y) 
         {
             if (!NodeList.ContainsKey(obj.name)) NodeList.Add(obj.name, obj);
-            if (obj.type >= 3) AddHyperGraphByConn(obj);
+            if (obj.type >= 2 /*&& !HyperGraphByConnectivity.ContainsKey(obj)*/) AddHyperGraphByConn(obj);
             Floors[floorName].AddNode(obj, x, y);
         }
         public void EditNode(string floorName, string oldName, Node newNode, int x = -1, int y = -1)

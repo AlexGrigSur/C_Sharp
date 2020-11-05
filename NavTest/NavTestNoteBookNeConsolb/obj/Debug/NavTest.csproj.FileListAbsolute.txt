@@ -45,7 +45,6 @@ C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.DrawingForms.LadderChoose.resources
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.DrawingForm.resources
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.NewLevelAdd.resources
-C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.NodeInfo.resources
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.Properties.Resources.resources
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.csproj.GenerateResource.cache
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.csproj.CoreCompileInputs.cache

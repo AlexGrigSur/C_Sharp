@@ -18,9 +18,8 @@ namespace NavTestNoteBookNeConsolb.DrawingForms
         public LadderChoose(List<Node> ladderList)
         {
             InitializeComponent();
-            if (ladderList!=null)
-                foreach (Node i in ladderList)
-                    dataGridView1.Rows.Add(i.name);
+            foreach (Node i in ladderList)
+                dataGridView1.Rows.Add(i.name);
             dataGridView1.Columns.Add("ColumnName", "Название Лестницы");
             dataGridView1.Rows.Add("Новая Лестница");
             ContinueFlag = false;
@@ -28,7 +27,7 @@ namespace NavTestNoteBookNeConsolb.DrawingForms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(dataGridView1.SelectedRows.Count!=0)
+            if (dataGridView1.SelectedRows.Count != 0)
             {
                 SelectedLadder = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
                 ContinueFlag = true;
