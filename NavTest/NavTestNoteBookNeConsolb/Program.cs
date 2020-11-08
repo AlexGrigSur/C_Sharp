@@ -17,7 +17,7 @@ namespace NavTestNoteBookNeConsolb
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new DrawingForm("1"));
-            Application.Run(new ChoosePlan());
+            Application.Run(new ChoosePlanAndDBCreate());
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace NavTestNoteBookNeConsolb
 {
-    partial class ChoosePlan
+    partial class ChoosePlanAndDBCreate
     {
         /// <summary>
         /// Required designer variable.

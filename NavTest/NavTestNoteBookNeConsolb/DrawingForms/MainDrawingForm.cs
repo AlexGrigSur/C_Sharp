@@ -25,12 +25,20 @@ namespace NavTestNoteBookNeConsolb
         private int panelX = 0;
         private int panelY = 0;
 
+        private bool isChanges = false;
+        private void Changes(bool flag)
+        {
+            if (!isChanges && flag) this.Text = this.Text.Substring(1);
+            if (isChanges && !flag) this.Text = "*" + this.Text;
+            isChanges = flag;
+        }
         private bool resizeToLeft = false;
         private bool isGreyMode = false;
         private Bitmap SecondLayer = null;
         private Node FoundNode;
         public DrawingForm(string BuildingName)
         {
+            this.Text = BuildingName + " drawing";
             obj = new Map();
             InitializeComponent();
             buildingName = BuildingName;
@@ -47,6 +55,7 @@ namespace NavTestNoteBookNeConsolb
             pictureBox1.Image = new Bitmap(panelX, panelY);
             pictureBox1.ClientSize = pictureBox1.Image.Size;
 
+            isChanges = false;
         }
 
         private void updateLevelList()
@@ -73,6 +82,7 @@ namespace NavTestNoteBookNeConsolb
                         obj.Floors[form.levelName].screenResY = panelY;
                         updateLevelList();
                         ChooseLevelComboBox.SelectedIndex = ChooseLevelComboBox.Items.Count - 2;
+                        isChanges = true;
                     }
                 }
             }
@@ -112,8 +122,8 @@ namespace NavTestNoteBookNeConsolb
                 }
             }
             #endregion
-            #region // CommonNodes
-            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `commonNodeName`,`commonNodeType`,`commonNodeDescription` from `CommonNodes` where `building_ID`=(select `id` from `Buildings` where `buildingName`='{buildingName}')"))
+            #region // Nodes
+            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `NodeName`,`NodeType`,`NodeDescription` from `Nodes` where `building_ID`=(select `id` from `Buildings` where `buildingName`='{buildingName}')"))
             {
                 while (reader.Read())
                 {
@@ -125,16 +135,25 @@ namespace NavTestNoteBookNeConsolb
             #region // LevelNodes/Edges
             foreach (Level i in obj.Floors.Values)
             {
-                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `CN`.`commonNodeName`,`levelNodeCoordX`,`levelNodeCoordY` from `LevelNodes` `LN` inner join `CommonNodes` `CN` on `CN`.`id`=`LN`.`commonNode_ID` where `level_ID`=(select `id` from `Levels` where `levelName`='{i.Name}')"))
+                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `Nds`.`NodeName`,`levelNodeCoordX`,`levelNodeCoordY` from `LevelNodes` `LN` inner join `Nodes` `Nds` on `Nds`.`id`=`LN`.`Node_ID` where `level_ID`=(select `id` from `Levels` where `levelName`='{i.Name}')"))
                 {
                     while (reader.Read())
                     {
                         i.AddNode(obj.NodeList[reader.GetString(0)], reader.GetInt32(1), reader.GetInt32(2));
-                        if (obj.NodeList[reader.GetString(0)].type >= 3)
+                        if (obj.NodeList[reader.GetString(0)].type >= 2)
                             obj.AddHyperGraphByConn(obj.NodeList[reader.GetString(0)]);
                     }
                 }
-                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `First`.`commonNodeName`,`Second`.`commonNodeName` from `Edges` `EDG` inner join `CommonNodes` `First` on `First`.`id`=`EDG`.`startCommonNode_ID` inner join `CommonNodes` `Second` on `Second`.`id`=`EDG`.`endCommonNode_ID` where `level_ID`=(select `id` from `Levels` where `levelName`='{i.Name}')"))
+                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `Nds`.`NodeName`,`levelNodeCoordX`,`levelNodeCoordY` from `LevelNodes` `LN` inner join `Nodes` `Nds` on `Nds`.`id`=`LN`.`Node_ID` where `level_ID`=(select `id` from `Levels` where `levelName`='{i.Name}')"))
+                {
+                    while (reader.Read())
+                    {
+                        i.AddNode(obj.NodeList[reader.GetString(0)], reader.GetInt32(1), reader.GetInt32(2));
+                        if (obj.NodeList[reader.GetString(0)].type >= 2)
+                            obj.AddHyperGraphByConn(obj.NodeList[reader.GetString(0)]);
+                    }
+                }
+                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `First`.`NodeName`,`Second`.`NodeName` from `Edges` `EDG` inner join `Nodes` `First` on `First`.`id`=`EDG`.`startNode_ID` inner join `Nodes` `Second` on `Second`.`id`=`EDG`.`endNode_ID` where `level_ID`=(select `id` from `Levels` where `levelName`='{i.Name}')"))
                 {
                     while (reader.Read())
                     {
@@ -152,66 +171,105 @@ namespace NavTestNoteBookNeConsolb
         }
         private void updateDB()
         {
-            NavSavePrepear prepear = new NavSavePrepear();
-            prepear.SplitByConnectivity(ref obj);
-            #region // Удаление старых данных 
-            DataBase.ExecuteCommand($"delete from `Buildings` where `buildingName`='{buildingName}'");
-            #endregion
-            #region // вставить здание
-            DataBase.ExecuteCommand($"insert into `Buildings` values(null,'{buildingName}','0')"); // Вставить здание
-            int building_ID = -1;
-            int level_ID = -1;
-            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Buildings` where `buildingName`='{buildingName}'")) // Вытащить id этого здания
+            if (isChanges)
             {
-                if (reader.Read()) building_ID = reader.GetInt32(0);
-            }
-            #endregion
-            #region // вставить commonNodes
-            foreach (Node tempNode in obj.NodeList.Values)
-                DataBase.ExecuteCommand($"insert into `commonNodes` values(null,'{building_ID}','{tempNode.name}','{tempNode.type}','{tempNode.description}')"); // вставить CommonNodes
-            #endregion
-
-            foreach (Level i in obj.Floors.Values) // Floors
-            {
-                #region // вставить этажи
-                DataBase.ExecuteCommand($"insert into `Levels` values(null,'{building_ID}','{i.Name}','{i.floor}','{i.screenResX}','{i.screenResY}')"); // добавить этаж
-                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Levels` where `building_ID`='{buildingName}' and `levelName`='{i.Name}'")) // Вытащить этот id
+                obj.NodesOptimizer();
+                NavSavePrepear prepear = new NavSavePrepear(ref obj);
+                #region // Удаление старых данных 
+                DataBase.ExecuteCommand($"delete from `Buildings` where `buildingName`='{buildingName}'");
+                #endregion
+                #region // вставить здание
+                DataBase.ExecuteCommand($"insert into `Buildings` values(null,'{buildingName}','{((prepear.isNavAble == 0) ? 1 : 0)}')"); // Вставить здание
+                int building_ID = -1;
+                int level_ID = -1;
+                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Buildings` where `buildingName`='{buildingName}'")) // Вытащить id этого здания
                 {
-                    if (reader.Read()) level_ID = reader.GetInt32(0);
+                    if (reader.Read()) building_ID = reader.GetInt32(0);
                 }
                 #endregion
-                #region // вставить вершины из этажей
-                foreach (Node tempNode in i.nodeListOnFloor.Keys)
-                {
-                    int node_ID = -1;
-                    using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `CommonNodes` where `building_ID`='{building_ID}' and `commonNodeName`='{tempNode.name}'"))
-                    {
-                        if (reader.Read()) node_ID = reader.GetInt32(0);
-                    }
-                    DataBase.ExecuteCommand($"insert into `LevelNodes` values (null,'{level_ID}','{node_ID}','{obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[tempNode][0]}','{obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[tempNode][1]}')");
-                }
+                #region // вставить Nodes
+                foreach (Node tempNode in obj.NodeList.Values)
+                    DataBase.ExecuteCommand($"insert into `Nodes` values(null,'{building_ID}','{tempNode.name}','{tempNode.type}','{tempNode.description}')"); // вставить CommonNodes
                 #endregion
-                #region // вставить рёбра
-                Dictionary<Node, List<Node>> tempDictionary = new Dictionary<Node, List<Node>>(i.edges);
-                foreach (Node nodeKey in tempDictionary.Keys)
+                List<int> coords;
+                Dictionary<Node, List<Node>> tempDictionary;
+                foreach (Level i in obj.Floors.Values) // Floors
                 {
-                    int startNode_ID = -1;
-                    int endNode_ID = -1;
-                    using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `CommonNodes` where `building_ID`='{building_ID}' and `commonNodeName`='{nodeKey}'"))
+                    //Dictionary<ConnectivityComp, int> ConnectivityComponentsList = new Dictionary<ConnectivityComp, int>();
+                    #region // вставить этажи
+                    DataBase.ExecuteCommand($"insert into `Levels` values(null,'{building_ID}','{i.Name}','{i.floor}','{i.screenResX}','{i.screenResY}')"); // добавить этаж
+                    using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Levels` where `building_ID`='{buildingName}' and `levelName`='{i.Name}'")) // Вытащить этот id
                     {
-                        if (reader.Read()) startNode_ID = reader.GetInt32(0);
+                        if (reader.Read()) level_ID = reader.GetInt32(0);
                     }
-                    foreach (Node connectedNode in tempDictionary[nodeKey])
+                    #endregion
+                    #region // вставить вершины из этажей
+                    foreach (Node tempNode in i.nodeListOnFloor.Keys)
                     {
-                        using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `CommonNodes` where `building_ID`='{building_ID}' and `commonNodeName`='{connectedNode}'"))
+                        int node_ID = -1;
+                        using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Nodes` where `building_ID`='{building_ID}' and `NodeName`='{tempNode.name}'"))
                         {
-                            if (reader.Read()) endNode_ID = reader.GetInt32(0);
+                            if (reader.Read()) node_ID = reader.GetInt32(0);
                         }
-                        DataBase.ExecuteCommand($"insert into `Edges` values ('{level_ID}','{startNode_ID}','{endNode_ID}')");
-                        tempDictionary[connectedNode].Remove(nodeKey);
+                        coords = obj.GetCoordOfNode(i.Name, tempNode);
+                        DataBase.ExecuteCommand($"insert into `LevelNodes` values (null,'{level_ID}','{node_ID}','{coords[0]}','{coords[1]}')");
+                        int iterator = 0;
+                        foreach (ConnectivityComp tempConnComp in i.connectivityComponents)
+                        {
+                            if (tempConnComp.isContains(tempNode))
+                                break;
+                            ++iterator;
+                        }
+                        DataBase.ExecuteCommand($"insert into `ConnectivityComponents` values ('{level_ID}','{iterator}','{node_ID}')");
+                        // Отсортировать ConnectivityComponents
                     }
+                    #endregion
+                    #region // вставить рёбра
+                    tempDictionary = new Dictionary<Node, List<Node>>(i.edges);
+                    foreach (Node nodeKey in tempDictionary.Keys)
+                    {
+                        int startNode_ID = -1;
+                        int endNode_ID = -1;
+                        using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Nodes` where `building_ID`='{building_ID}' and `NodeName`='{nodeKey}'"))
+                        {
+                            if (reader.Read()) startNode_ID = reader.GetInt32(0);
+                        }
+                        foreach (Node connectedNode in tempDictionary[nodeKey])
+                        {
+                            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Nodes` where `building_ID`='{building_ID}' and `NodeName`='{connectedNode}'"))
+                            {
+                                if (reader.Read()) endNode_ID = reader.GetInt32(0);
+                            }
+                            DataBase.ExecuteCommand($"insert into `Edges` values ('{level_ID}','{startNode_ID}','{endNode_ID}')");
+                            tempDictionary[connectedNode].Remove(nodeKey);
+                        }
+                    }
+                    tempDictionary.Clear();
+                    #endregion
                 }
-                #endregion
+                LoadLevel();
+                Changes(false);
+
+                switch (prepear.isNavAble)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        {
+                            MessageBox.Show("Введенный план не является связным. Навигация пока невозможна");
+                            break;
+                        }
+                    case 2:
+                        {
+                            MessageBox.Show("Введённый план не имеет входов. Навигация пока невозможна");
+                            break;
+                        }
+                    case 3:
+                        {
+                            MessageBox.Show("Введенный план не является связным и не имеет выходов. Навигация пока невозможна");
+                            break;
+                        }
+                }
             }
 
         }
@@ -645,7 +703,7 @@ namespace NavTestNoteBookNeConsolb
                     }
                 LadderChoose form = new LadderChoose(localLadderList);
                 form.ShowDialog();
-                if (form.ContinueFlag = true)
+                if (form.ContinueFlag)
                 {
                     if (form.SelectedLadder == "Новая Лестница")
                         isNewLadder = true;
@@ -668,14 +726,14 @@ namespace NavTestNoteBookNeConsolb
         {
             switch (Mode)
             {
-                case 0:
+                case 0: // addNode
                     {
                         if (textBox1.Text.Trim() == "" || comboBox1.SelectedIndex == -1)
                         {
                             MessageBox.Show("Заполните поля названия и/или типа");
                             return;
                         }
-                        if (obj.NodeList.ContainsKey(textBox1.Text) && (comboBox1.SelectedIndex!=2 || isNewLadder))
+                        if (obj.NodeList.ContainsKey(textBox1.Text) && (comboBox1.SelectedIndex != 2 || isNewLadder))
                         {
                             MessageBox.Show("Вершина с данным именем уже существует. Измените его для продолжения работы");
                             return;
@@ -699,10 +757,11 @@ namespace NavTestNoteBookNeConsolb
                         pictureBox1.Image = new Bitmap(SecondLayer);
                         DrawNode(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text), 0, 255, textBox1.Text);
                         SecondLayer = new Bitmap(pictureBox1.Image);
+                        Changes(true);
                         PanelActivate(true);
                         break;
                     }
-                case 1:
+                case 1: // EditNode
                     {
                         bool changeFlag = false;
                         string name, descr;
@@ -742,16 +801,18 @@ namespace NavTestNoteBookNeConsolb
                         }
                         if (changeFlag)
                         {
+                            Changes(true);
                             LoadLevel();
                             //SecondLayer = new Bitmap(pictureBox1.Image);
                             ///*///////////////////////////////////////////////////*/pictureBox1.Invalidate(); /////////////////////////////////////////////////////////////////////
                         }
                         break;
                     }
-                case 2:
+                case 2: // deleteNode
                     {
                         if (isGreyMode)
                         {
+                            Changes(true);
                             //Node tempNode = obj.SearchNode(ChooseLevelComboBox.Text, FoundNode[0], nodeCoord[1])[0];
                             GreyMode(false);
                             obj.RemoveNode(ChooseLevelComboBox.Text, FoundNode);//tempNode.name);
@@ -764,8 +825,8 @@ namespace NavTestNoteBookNeConsolb
                         }
                         break;
                     }
-                case 3:
-                case 4:
+                case 3: // AddEdge
+                case 4: // DeleteEdge
                     {
                         if (FirstPoint.Count != 0)
                         {
@@ -779,6 +840,7 @@ namespace NavTestNoteBookNeConsolb
                                     obj.AddEdge(ChooseLevelComboBox.Text, new List<Node> { FirstNode, FoundNode });
                                     DrawLine(FirstPoint[0], FirstPoint[1], foundNodeCoord[0], foundNodeCoord[1]);
                                     FirstPoint.Clear();
+                                    Changes(true);
                                 }
                                 else
                                 {
@@ -788,6 +850,7 @@ namespace NavTestNoteBookNeConsolb
                                         obj.RemoveEdge(ChooseLevelComboBox.Text, new List<Node> { FirstNode, FoundNode });
                                         LoadLevel();//DrawLine(FirstPoint[0], FirstPoint[1], foundNodeCoord[0], foundNodeCoord[1]);
                                         FirstPoint.Clear();
+                                        Changes(true);
                                     }
                                 }
                             }
@@ -797,13 +860,14 @@ namespace NavTestNoteBookNeConsolb
             }
         }
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
+        private void toolStripButton2_Click(object sender, EventArgs e) // Удаление уровня
         {
-            if(ChooseLevelComboBox.SelectedIndex!=-1)
+            if (ChooseLevelComboBox.SelectedIndex != -1)
             {
-                DialogResult result = MessageBox.Show("Вы уверены?","Warning",MessageBoxButtons.YesNo);
-                if(result==DialogResult.Yes)
+                DialogResult result = MessageBox.Show("Вы уверены?", "Warning", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
                 {
+                    isChanges = true;
                     obj.Floors.Remove(ChooseLevelComboBox.Text);
                     ChooseLevelComboBox.Items.Remove(ChooseLevelComboBox.Text);
                     if (ChooseLevelComboBox.Items.Count > 0)
@@ -825,6 +889,21 @@ namespace NavTestNoteBookNeConsolb
                         pictureBox1.ClientSize = pictureBox1.Image.Size;
                     }
                 }
+            }
+        }
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e) // Clear
+        {
+            DialogResult result = MessageBox.Show("Вы уверены?", "Warning", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                foreach (Node i in obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor.Keys)
+                {
+                    if (i.type >= 2)
+                        obj.RemoveNode(ChooseLevelComboBox.Text, i);
+                }
+                obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor.Clear();
+                obj.Floors[ChooseLevelComboBox.Text].edges.Clear();
+                isChanges = true;
             }
         }
     }

@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace NavTestNoteBookNeConsolb
 {
-    public partial class ChoosePlan : Form
+    public partial class ChoosePlanAndDBCreate : Form
     {
         DB DataBase = new DB();
         string BuildingName = "";
-        public ChoosePlan()
+        public ChoosePlanAndDBCreate()
         {
             InitializeComponent();
         }
@@ -38,10 +38,11 @@ namespace NavTestNoteBookNeConsolb
             DataBase = new DB("Plans");
             DataBase.ExecuteCommand("create table if not exists `Buildings` (`id` int(11) not null primary key auto_increment, `buildingName` varchar(150) not null unique, `buildingIsNavAble` boolean not null)");
             DataBase.ExecuteCommand("create table if not exists `Levels`(`id` int(11) primary key not null auto_increment, `building_ID` int(11) not null references `Buildings`(`id`) on delete cascade,`levelName` varchar(150) not null, `levelFloor` int(11) not null, `levelScreenResX` int(11) not null, `levelScreenResY` int(11) not null, constraint `NoSameLevels` UNIQUE(`building_ID`,`levelName`))");
-            DataBase.ExecuteCommand("create table if not exists `CommonNodes` (`id` int(11) primary key not null auto_increment, `building_ID` int(11) not null references `Buildings`(`id`) on delete cascade,`commonNodeName` varchar(150) not null unique,`commonNodeType` int(11) not null, `commonNodeDescription` varchar(150))");
-            DataBase.ExecuteCommand("create table if not exists `HyperGraph` (`id` int(11) primary key not null auto_increment, `building_ID` int(11) not null references `Buildings`(`id`) on delete cascade, `commonNode_ID` int(11) not null references `CommonNodes`(`id`) on delete cascade, `level_ID` int(11) not null references `Levels`(`id`) on delete cascade)");
-            DataBase.ExecuteCommand("create table if not exists `LevelNodes` (`id` int(11) primary key not null auto_increment, `level_ID` int(11) not null references `Levels`(`id`) on delete cascade, `commonNode_ID` int(11) not null references `CommonNodes`(`id`) on delete cascade, `levelNodeCoordX` int(11) not null, `levelNodeCoordY` int(11) not null)");
-            DataBase.ExecuteCommand("create table if not exists `Edges` (`level_ID` int(11) not null references `Levels`(`id`) on delete cascade, `startCommonNode_ID` int(11) not null references `LevelNodes`(`id`) on delete cascade, `endCommonNode_ID` int(11) not null references `LevelNodes`(`id`) on delete cascade, constraint `NoMultiGraphs` primary key(`startCommonNode_ID`,`endCommonNode_ID`))");
+            DataBase.ExecuteCommand("create table if not exists `Nodes` (`id` int(11) primary key not null auto_increment, `building_ID` int(11) not null references `Buildings`(`id`) on delete cascade,`NodeName` varchar(150) not null unique,`NodeType` int(11) not null, `NodeDescription` varchar(150))");
+            DataBase.ExecuteCommand("create table if not exists `ConnectivityComponents` (`level_ID` int(11) not null references `Levels`(`id`) on delete cascade, `connectivityComponentIndex` int(11) not null, `node_ID` int(11) not null references `Nodes`(`id`) on delete cascade, constraint `UniqueInConnComp` primary key(`level_ID`,`node_ID`))");
+            //DataBase.ExecuteCommand("create table if not exists `HyperGraph` (`id` int(11) primary key not null auto_increment, `building_ID` int(11) not null references `Buildings`(`id`) on delete cascade, `commonnode_ID` int(11) not null references `CommonNodes`(`id`) on delete cascade, `level_ID` int(11) not null references `Levels`(`id`) on delete cascade)");
+            DataBase.ExecuteCommand("create table if not exists `LevelNodes` (`id` int(11) primary key not null auto_increment, `level_ID` int(11) not null references `Levels`(`id`) on delete cascade, `node_ID` int(11) not null references `Nodes`(`id`) on delete cascade, `levelNodeCoordX` int(11) not null, `levelNodeCoordY` int(11) not null)");
+            DataBase.ExecuteCommand("create table if not exists `Edges` (`level_ID` int(11) not null references `Levels`(`id`) on delete cascade, `startNode_ID` int(11) not null references `LevelNodes`(`id`) on delete cascade, `endNode_ID` int(11) not null references `LevelNodes`(`id`) on delete cascade, constraint `NoMultiGraphs` primary key(`startNode_ID`,`endNode_ID`))");
         }
 
         private void Continue_Click(object sender, EventArgs e)

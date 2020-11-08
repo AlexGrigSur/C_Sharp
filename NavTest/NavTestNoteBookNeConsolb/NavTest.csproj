@@ -62,11 +62,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChoosePlan.cs">
+    <Compile Include="ChoosePlanAndDBCreate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChoosePlan.Designer.cs">
-      <DependentUpon>ChoosePlan.cs</DependentUpon>
+    <Compile Include="ChoosePlanAndDBCreate.Designer.cs">
+      <DependentUpon>ChoosePlanAndDBCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="DB.cs" />
     <Compile Include="DrawingForms\LadderChoose.cs">
@@ -91,8 +91,8 @@
     <Compile Include="NavUnite.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ChoosePlan.resx">
-      <DependentUpon>ChoosePlan.cs</DependentUpon>
+    <EmbeddedResource Include="ChoosePlanAndDBCreate.resx">
+      <DependentUpon>ChoosePlanAndDBCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DrawingForms\LadderChoose.resx">
       <DependentUpon>LadderChoose.cs</DependentUpon>

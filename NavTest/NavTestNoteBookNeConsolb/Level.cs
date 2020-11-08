@@ -24,9 +24,18 @@ namespace NavTest
     }
     class ConnectivityComp // will always reCalculated in case of changings
     {
-        private int Floor { get; set; }
+        public string FloorName { get; set; }
         private List<Node> allNodes = new List<Node>();
         private List<Node> ladders = new List<Node>();
+
+        public List<Node> GetAllNodesList()
+        {
+            return allNodes;
+        }
+        public List<Node> GetLadderList()
+        {
+            return ladders;
+        }
         public bool isContains(Node obj)
         {
             return allNodes.Contains(obj);
@@ -34,7 +43,7 @@ namespace NavTest
         public void add(Node obj)
         {
             allNodes.Add(obj);
-            if (obj.type >= 3) ladders.Add(obj);
+            if (obj.type >= 2) ladders.Add(obj);
         }
     }
     class Level
@@ -229,7 +238,7 @@ namespace NavTest
         }
         public void RemoveNode(string floorName, string nodeName)
         {
-            if (NodeList[nodeName].type >= 3)
+            if (NodeList[nodeName].type >= 2)
             {
                 Floors[floorName].RemoveNode(NodeList[nodeName]);
                 RemoveHyperGraphByConn(NodeList[nodeName]);
@@ -242,7 +251,7 @@ namespace NavTest
         }
         public void RemoveNode(string floorName, Node node)
         {
-            if (node.type >= 3)
+            if (node.type >= 2)
             {
                 Floors[floorName].RemoveNode(node);
                 RemoveHyperGraphByConn(node);
@@ -253,7 +262,6 @@ namespace NavTest
                 NodeList.Remove(node.name);
             }
         }
-
 
         public List<int> GetCoordOfNode(string floorName, Node obj)
         {
@@ -290,6 +298,12 @@ namespace NavTest
                 if (i.nodeListOnFloor.ContainsKey(obj))
                     return;
             HyperGraphByConnectivity.Remove(obj);
+        }
+    
+        public void NodesOptimizer()
+        {
+            foreach (string floorName in Floors.Keys)
+                Floors[floorName].NodesOptimizer();
         }
     }
 }

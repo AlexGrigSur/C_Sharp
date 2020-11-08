@@ -14,10 +14,8 @@ C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\bin\Debug\
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.csprojAssemblyReference.cache
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.ChoosePlan.resources
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.DrawingForm.resources
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.NewLevelAdd.resources
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.NodeInfo.resources
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.Properties.Resources.resources
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.csproj.GenerateResource.cache
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.csproj.CoreCompileInputs.cache
@@ -51,3 +49,4 @@ C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.csproj.CopyComplete
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.exe
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.pdb
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.ChoosePlanAndDBCreate.resources
