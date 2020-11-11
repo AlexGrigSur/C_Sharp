@@ -34,7 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.Continue = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxNameInOutput = new System.Windows.Forms.TextBox();
             this.DeleteBuilding = new System.Windows.Forms.Button();
             this.DropDBButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -108,15 +108,15 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Введите название";
             // 
-            // textBox1
+            // textBoxNameInOutput
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxNameInOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(154, 194);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(638, 22);
-            this.textBox1.TabIndex = 1;
+            this.textBoxNameInOutput.Location = new System.Drawing.Point(154, 194);
+            this.textBoxNameInOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxNameInOutput.Name = "textBoxNameInOutput";
+            this.textBoxNameInOutput.Size = new System.Drawing.Size(638, 22);
+            this.textBoxNameInOutput.TabIndex = 1;
             // 
             // DeleteBuilding
             // 
@@ -145,7 +145,7 @@
             this.ClientSize = new System.Drawing.Size(808, 384);
             this.Controls.Add(this.DropDBButton);
             this.Controls.Add(this.DeleteBuilding);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxNameInOutput);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Continue);
             this.Controls.Add(this.label1);
@@ -169,7 +169,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button Continue;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxNameInOutput;
         private System.Windows.Forms.Button DeleteBuilding;
         private System.Windows.Forms.Button DropDBButton;
     }

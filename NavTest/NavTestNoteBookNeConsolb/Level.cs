@@ -43,7 +43,7 @@ namespace NavTest
         public void add(Node obj)
         {
             allNodes.Add(obj);
-            if (obj.type >= 2) ladders.Add(obj);
+            if (obj.type == 2) ladders.Add(obj);
         }
     }
     class Level
@@ -74,14 +74,16 @@ namespace NavTest
             if (minX != 10 || minY != 10)
                 foreach (List<int> i in nodeListOnFloor.Values)
                 {
-                    i[0] -= minX + 10;
-                    i[1] -= minY + 10;
+                    i[0] -= minX - 15;
+                    i[1] -= minY - 15;
                 }
             if ((maxX + 10 != screenResX) || (maxY + 10 != screenResY))
             {
-                screenResX = maxX - minX + 10;
-                screenResY = maxY - minY + 10;
+                screenResX = maxX - minX - 15;
+                screenResY = maxY - minY - 15;
             }
+            if (screenResX < 800) screenResX = 800;
+            if (screenResY < 600) screenResY = 600;
         }
 
         #region // поиск вершин
@@ -190,14 +192,14 @@ namespace NavTest
         public void AddNode(string floorName, Node obj, int x, int y) 
         {
             if (!NodeList.ContainsKey(obj.name)) NodeList.Add(obj.name, obj);
-            if (obj.type >= 2 /*&& !HyperGraphByConnectivity.ContainsKey(obj)*/) AddHyperGraphByConn(obj);
+            if (obj.type == 2 /*&& !HyperGraphByConnectivity.ContainsKey(obj)*/) AddHyperGraphByConn(obj);
             Floors[floorName].AddNode(obj, x, y);
         }
         public void EditNode(string floorName, string oldName, Node newNode, int x = -1, int y = -1)
         {
             if (!NodeList[oldName].Equals(newNode))//.GetHashCode() != obj.GetHashCode())
             {
-                if(newNode.type>=2) // если вершина - лестница или выход
+                if(newNode.type==2) // если вершина - лестница
                 {
                     foreach(string i in Floors.Keys) // проход по всем этажам
                     {
@@ -238,7 +240,7 @@ namespace NavTest
         }
         public void RemoveNode(string floorName, string nodeName)
         {
-            if (NodeList[nodeName].type >= 2)
+            if (NodeList[nodeName].type == 2)
             {
                 Floors[floorName].RemoveNode(NodeList[nodeName]);
                 RemoveHyperGraphByConn(NodeList[nodeName]);
@@ -251,7 +253,7 @@ namespace NavTest
         }
         public void RemoveNode(string floorName, Node node)
         {
-            if (node.type >= 2)
+            if (node.type == 2)
             {
                 Floors[floorName].RemoveNode(node);
                 RemoveHyperGraphByConn(node);

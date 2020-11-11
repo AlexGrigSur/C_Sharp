@@ -28,17 +28,17 @@ namespace NavTestNoteBookNeConsolb
         private bool isChanges = false;
         private void Changes(bool flag)
         {
-            if (!isChanges && flag) this.Text = this.Text.Substring(1);
-            if (isChanges && !flag) this.Text = "*" + this.Text;
+            if (flag && this.Text[0] == '*') this.Text = this.Text.Substring(1);
+            if (!flag && this.Text[0] != '*') this.Text = '*' + this.Text;
             isChanges = flag;
         }
+        private int corridorCounter = 0;
         private bool resizeToLeft = false;
         private bool isGreyMode = false;
         private Bitmap SecondLayer = null;
         private Node FoundNode;
         public DrawingForm(string BuildingName)
         {
-            this.Text = BuildingName + " drawing";
             obj = new Map();
             InitializeComponent();
             buildingName = BuildingName;
@@ -55,7 +55,10 @@ namespace NavTestNoteBookNeConsolb
             pictureBox1.Image = new Bitmap(panelX, panelY);
             pictureBox1.ClientSize = pictureBox1.Image.Size;
 
-            isChanges = false;
+            this.Text = BuildingName + " drawing";
+
+            if (ChooseLevelComboBox.Items.Count > 1)
+                ChooseLevelComboBox.SelectedIndex = 0;
         }
 
         private void updateLevelList()
@@ -63,9 +66,8 @@ namespace NavTestNoteBookNeConsolb
             ChooseLevelComboBox.Items.Clear();
             ChooseLevelComboBox.SelectedIndex = -1;
             foreach (Level i in obj.Floors.Values)
-            {
                 ChooseLevelComboBox.Items.Add(i.Name);
-            }
+
             ChooseLevelComboBox.Items.Add("Новый этаж");
         }
         private void ChooseLevelComboBox_SelectedIndexChanged(object sender, EventArgs e) // addFloor
@@ -82,7 +84,7 @@ namespace NavTestNoteBookNeConsolb
                         obj.Floors[form.levelName].screenResY = panelY;
                         updateLevelList();
                         ChooseLevelComboBox.SelectedIndex = ChooseLevelComboBox.Items.Count - 2;
-                        isChanges = true;
+                        Changes(true);
                     }
                 }
             }
@@ -98,62 +100,69 @@ namespace NavTestNoteBookNeConsolb
             panelY = floor.screenResY;
 
             foreach (Node nodeIter in floor.nodeListOnFloor.Keys) // draw all Nodes
-                DrawNode(floor.nodeListOnFloor[nodeIter][0], floor.nodeListOnFloor[nodeIter][1], 0, 255, nodeIter.name);
-            foreach (Node FirstNodeLine in obj.Floors[ChooseLevelComboBox.Text].edges.Keys) // draw All 
-                foreach (Node SecondNodeLine in obj.Floors[ChooseLevelComboBox.Text].edges[FirstNodeLine])
+                DrawNode(floor.nodeListOnFloor[nodeIter][0], floor.nodeListOnFloor[nodeIter][1], 255, ((nodeIter.type == 0) ? "" : nodeIter.name)); // ternary operator to not draw text on corridor nodes
+            Dictionary<Node, List<Node>> edgesCopy = new Dictionary<Node, List<Node>>(obj.Floors[ChooseLevelComboBox.Text].edges);
+            foreach (Node FirstNodeLine in edgesCopy.Keys) // draw All 
+                foreach (Node SecondNodeLine in edgesCopy[FirstNodeLine])
+                {
                     DrawLine(floor.nodeListOnFloor[FirstNodeLine][0], floor.nodeListOnFloor[FirstNodeLine][1], floor.nodeListOnFloor[SecondNodeLine][0], floor.nodeListOnFloor[SecondNodeLine][1]);
+                    edgesCopy[SecondNodeLine].Remove(FirstNodeLine);
+                }
+            edgesCopy.Clear();
             pictureBox1.Invalidate();
             ObservereMode();
             GreyMode(false);
         }
         private void updateFromDB()
         {
-            obj = new Map();
+            string maxCorrName = "";
             obj.name = buildingName;
             //// BETA
             #region // Levels
-            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `levelName`,`levelFloor`,`levelScreenResX`,`levelScreenResY` from `Levels` where `building_ID`=(select `id` from `Buildings` where `buildingName`='{buildingName}')"))
+            int building_ID = -1;
+            int level_ID = -1;
+            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Buildings` where `buildingName`='{buildingName}'"))
+            {
+                if (reader.Read())
+                    building_ID = reader.GetInt32(0);
+            }
+            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id`,`levelName`,`levelFloor`,`levelScreenResX`,`levelScreenResY` from `Levels` where `building_ID`='{building_ID}'"))
             {
                 while (reader.Read())
                 {
-                    obj.Floors.Add(reader.GetString(0), new Level(reader.GetString(0), reader.GetInt32(1)));
-                    obj.Floors[reader.GetString(0)].screenResX = reader.GetInt32(2);
-                    obj.Floors[reader.GetString(0)].screenResY = reader.GetInt32(3);
+                    level_ID = reader.GetInt32(0);
+                    obj.Floors.Add(reader.GetString(1), new Level(reader.GetString(1), reader.GetInt32(2)));
+                    obj.Floors[reader.GetString(1)].screenResX = reader.GetInt32(3);
+                    obj.Floors[reader.GetString(1)].screenResY = reader.GetInt32(4);
                 }
             }
             #endregion
             #region // Nodes
-            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `NodeName`,`NodeType`,`NodeDescription` from `Nodes` where `building_ID`=(select `id` from `Buildings` where `buildingName`='{buildingName}')"))
+            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `NodeName`,`NodeType`,`NodeDescription` from `Nodes` where `building_ID`='{building_ID}'"))
             {
                 while (reader.Read())
                 {
                     Node tempNode = new Node(reader.GetString(0), reader.GetInt32(1), reader.GetString(2));
                     obj.NodeList.Add(tempNode.name, tempNode);
+                    if (tempNode.type == 0) maxCorrName = tempNode.name;
                 }
             }
+
             #endregion
             #region // LevelNodes/Edges
             foreach (Level i in obj.Floors.Values)
             {
-                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `Nds`.`NodeName`,`levelNodeCoordX`,`levelNodeCoordY` from `LevelNodes` `LN` inner join `Nodes` `Nds` on `Nds`.`id`=`LN`.`Node_ID` where `level_ID`=(select `id` from `Levels` where `levelName`='{i.Name}')"))
+                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `Nds`.`NodeName`,`levelNodeCoordX`,`levelNodeCoordY` from `LevelNodes` `LN` inner join `Nodes` `Nds` on `Nds`.`id`=`LN`.`Node_ID` where `level_ID`='{level_ID}'"))
                 {
                     while (reader.Read())
                     {
                         i.AddNode(obj.NodeList[reader.GetString(0)], reader.GetInt32(1), reader.GetInt32(2));
-                        if (obj.NodeList[reader.GetString(0)].type >= 2)
+                        if (obj.NodeList[reader.GetString(0)].type == 2)
                             obj.AddHyperGraphByConn(obj.NodeList[reader.GetString(0)]);
                     }
                 }
-                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `Nds`.`NodeName`,`levelNodeCoordX`,`levelNodeCoordY` from `LevelNodes` `LN` inner join `Nodes` `Nds` on `Nds`.`id`=`LN`.`Node_ID` where `level_ID`=(select `id` from `Levels` where `levelName`='{i.Name}')"))
-                {
-                    while (reader.Read())
-                    {
-                        i.AddNode(obj.NodeList[reader.GetString(0)], reader.GetInt32(1), reader.GetInt32(2));
-                        if (obj.NodeList[reader.GetString(0)].type >= 2)
-                            obj.AddHyperGraphByConn(obj.NodeList[reader.GetString(0)]);
-                    }
-                }
-                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `First`.`NodeName`,`Second`.`NodeName` from `Edges` `EDG` inner join `Nodes` `First` on `First`.`id`=`EDG`.`startNode_ID` inner join `Nodes` `Second` on `Second`.`id`=`EDG`.`endNode_ID` where `level_ID`=(select `id` from `Levels` where `levelName`='{i.Name}')"))
+
+                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `First`.`NodeName`,`Second`.`NodeName` from `Edges` `EDG` inner join `Nodes` `First` on `First`.`id`=`EDG`.`startNode_ID` inner join `Nodes` `Second` on `Second`.`id`=`EDG`.`endNode_ID` where `level_ID`='{level_ID}'"))
                 {
                     while (reader.Read())
                     {
@@ -167,6 +176,7 @@ namespace NavTestNoteBookNeConsolb
                     }
                 }
             }
+            if(maxCorrName!="") corridorCounter = Convert.ToInt32(maxCorrName.Split('_')[1]) + 1;
             #endregion
         }
         private void updateDB()
@@ -179,7 +189,7 @@ namespace NavTestNoteBookNeConsolb
                 DataBase.ExecuteCommand($"delete from `Buildings` where `buildingName`='{buildingName}'");
                 #endregion
                 #region // вставить здание
-                DataBase.ExecuteCommand($"insert into `Buildings` values(null,'{buildingName}','{((prepear.isNavAble == 0) ? 1 : 0)}')"); // Вставить здание
+                DataBase.ExecuteCommand($"insert into `Buildings` values(null,'{buildingName}','{((prepear.isNavAble) ? 1 : 0)}')"); // Вставить здание
                 int building_ID = -1;
                 int level_ID = -1;
                 using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Buildings` where `buildingName`='{buildingName}'")) // Вытащить id этого здания
@@ -195,10 +205,9 @@ namespace NavTestNoteBookNeConsolb
                 Dictionary<Node, List<Node>> tempDictionary;
                 foreach (Level i in obj.Floors.Values) // Floors
                 {
-                    //Dictionary<ConnectivityComp, int> ConnectivityComponentsList = new Dictionary<ConnectivityComp, int>();
                     #region // вставить этажи
                     DataBase.ExecuteCommand($"insert into `Levels` values(null,'{building_ID}','{i.Name}','{i.floor}','{i.screenResX}','{i.screenResY}')"); // добавить этаж
-                    using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Levels` where `building_ID`='{buildingName}' and `levelName`='{i.Name}'")) // Вытащить этот id
+                    using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Levels` where `building_ID`='{building_ID}' and `levelName`='{i.Name}'")) // Вытащить этот id
                     {
                         if (reader.Read()) level_ID = reader.GetInt32(0);
                     }
@@ -230,13 +239,13 @@ namespace NavTestNoteBookNeConsolb
                     {
                         int startNode_ID = -1;
                         int endNode_ID = -1;
-                        using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Nodes` where `building_ID`='{building_ID}' and `NodeName`='{nodeKey}'"))
+                        using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Nodes` where `building_ID`='{building_ID}' and `NodeName`='{nodeKey.name}'"))
                         {
                             if (reader.Read()) startNode_ID = reader.GetInt32(0);
                         }
                         foreach (Node connectedNode in tempDictionary[nodeKey])
                         {
-                            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Nodes` where `building_ID`='{building_ID}' and `NodeName`='{connectedNode}'"))
+                            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Nodes` where `building_ID`='{building_ID}' and `NodeName`='{connectedNode.name}'"))
                             {
                                 if (reader.Read()) endNode_ID = reader.GetInt32(0);
                             }
@@ -247,31 +256,13 @@ namespace NavTestNoteBookNeConsolb
                     tempDictionary.Clear();
                     #endregion
                 }
+
                 LoadLevel();
-                Changes(false);
+                
 
-                switch (prepear.isNavAble)
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        {
-                            MessageBox.Show("Введенный план не является связным. Навигация пока невозможна");
-                            break;
-                        }
-                    case 2:
-                        {
-                            MessageBox.Show("Введённый план не имеет входов. Навигация пока невозможна");
-                            break;
-                        }
-                    case 3:
-                        {
-                            MessageBox.Show("Введенный план не является связным и не имеет выходов. Навигация пока невозможна");
-                            break;
-                        }
-                }
+                if (!prepear.isNavAble) MessageBox.Show("Введенный план не является связным. Навигация пока невозможна");
             }
-
+            Changes(false);
         }
         private void HighlighterNode(int X, int Y)
         {
@@ -292,45 +283,37 @@ namespace NavTestNoteBookNeConsolb
             pictureBox1.Invalidate();
         }
 
-        private void DrawNode(int X, int Y, int mode = 0, int transparent = 255, string nodeName = "")
+        private void DrawNode(int X, int Y, int transparent = 255, string nodeName = "")
         {
             using (Graphics G = Graphics.FromImage(pictureBox1.Image))
             {
                 Color colorFirst, colorSecond;
-                if (mode == 0)
-                {
-                    colorFirst = Color.FromArgb(transparent, Color.Black);
-                    colorSecond = Color.FromArgb(transparent, Color.Orange);
-                }
-                else
-                {
-                    colorFirst = Color.FromArgb(255, 255, 225); //Color.White;
-                    colorSecond = colorFirst;
-                }
+                colorFirst = Color.FromArgb(transparent, Color.Black);
+                colorSecond = Color.FromArgb(transparent, Color.Orange);
+
                 Pen pen = new Pen(colorFirst);
                 Brush brush = new SolidBrush(colorFirst);
                 G.DrawEllipse(pen, X - radius, Y - radius, 2 * radius, 2 * radius);
                 G.FillEllipse(brush, X - radius, Y - radius, 2 * radius, 2 * radius);
                 brush = new SolidBrush(colorSecond);
                 G.FillRectangle(brush, X, Y, 1, 1);
-                if (transparent == 255) G.DrawString(nodeName.Substring(0, ((nodeName.Length < 4) ? nodeName.Length : 4)), new Font("Microsoft Sans Serif", 15f), new SolidBrush(colorFirst), X + radius + 2, Y - radius);
+                if (/*transparent == 255 &&*/ nodeName != "") G.DrawString(nodeName.Substring(0, ((nodeName.Length < 4) ? nodeName.Length : 4)), new Font("Microsoft Sans Serif", 15f), new SolidBrush(colorFirst), X + radius + 2, Y - radius);
             }
             pictureBox1.Invalidate();
         }
-        private void DrawLine(int X1, int Y1, int X2, int Y2, int mode = 0)
+        private void DrawLine(int X1, int Y1, int X2, int Y2)
         {
             using (Graphics G = Graphics.FromImage(pictureBox1.Image))
             {
                 Color lineColor;
-                if (mode == 0)
-                    lineColor = Color.Purple;
-                else
-                    lineColor = Color.FromArgb(255, 255, 225);
+                lineColor = Color.Purple;
                 G.DrawLine(new Pen(lineColor), X1, Y1, X2, Y2);
             }
             List<Node> nodeList = obj.SearchNode(ChooseLevelComboBox.Text, X1, Y1, X2, Y2);
-            DrawNode(obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[nodeList[0]][0], obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[nodeList[0]][1], 0, 255, nodeList[0].name);
-            DrawNode(obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[nodeList[1]][0], obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[nodeList[1]][1], 0, 255, nodeList[1].name);
+            string nodeName = (nodeList[0].type == 0) ? "" : nodeList[0].name;
+            DrawNode(obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[nodeList[0]][0], obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[nodeList[0]][1], 255, nodeName);
+            nodeName = (nodeList[1].type == 0) ? "" : nodeList[1].name;
+            DrawNode(obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[nodeList[1]][0], obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[nodeList[1]][1], 255, nodeName);
         }
         #region // Mode selection
         private void ObservereMode()
@@ -433,20 +416,20 @@ namespace NavTestNoteBookNeConsolb
             if (observerNode.Count == 2)
             {
                 Node tempNode = obj.SearchNode(ChooseLevelComboBox.Text, observerNode[0], observerNode[1])[0];
-                textBox1.Text = tempNode.name;
-                typeTB.Text = comboBox1.Items[tempNode.type].ToString();
-                textBox2.Text = tempNode.description;
-                textBox3.Text = Convert.ToString(observerNode[0]);
-                textBox4.Text = Convert.ToString(observerNode[1]);
+                textBoxNameInOutput.Text = tempNode.name;
+                textBoxTypeInOutput.Text = comboBoxTypeInOutput.Items[tempNode.type].ToString();
+                textBoxDescriptionInOutput.Text = tempNode.description;
+                textBoxXInOutput.Text = Convert.ToString(observerNode[0]);
+                textBoxYInOutput.Text = Convert.ToString(observerNode[1]);
                 if (Mode >= 1) FoundNode = tempNode;
             }
             else
             {
-                textBox1.Text = "";
-                typeTB.Text = "";
-                textBox2.Text = "";
-                textBox3.Text = "";
-                textBox4.Text = "";
+                textBoxNameInOutput.Text = "";
+                textBoxTypeInOutput.Text = "";
+                textBoxDescriptionInOutput.Text = "";
+                textBoxXInOutput.Text = "";
+                textBoxYInOutput.Text = "";
             }
         }
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e) // Основная функция
@@ -472,9 +455,9 @@ namespace NavTestNoteBookNeConsolb
                             else
                                 pictureBox1.Image = new Bitmap(SecondLayer);
                             pictureBox1.Invalidate();
-                            DrawNode(e.X, e.Y, 0, 155);
-                            textBox3.Text = e.X.ToString();
-                            textBox4.Text = e.Y.ToString();
+                            DrawNode(e.X, e.Y, 155);
+                            textBoxXInOutput.Text = e.X.ToString();
+                            textBoxYInOutput.Text = e.Y.ToString();
                         }
                         else
                             MessageBox.Show("На выбранном месте уже существует вершина");
@@ -502,14 +485,14 @@ namespace NavTestNoteBookNeConsolb
                         }
                         else
                         {
-                            if (textBox1.Text.Trim() != "") // if node was already choosen
+                            if (textBoxNameInOutput.Text.Trim() != "") // if node was already choosen
                             {
                                 pictureBox1.Image = new Bitmap(SecondLayer);
                                 pictureBox1.Invalidate();
                                 HighlighterNode(obj.GetCoordOfNode(ChooseLevelComboBox.Text, FoundNode));
-                                DrawNode(e.X, e.Y, 0, 155);
-                                textBox3.Text = e.X.ToString();
-                                textBox4.Text = e.Y.ToString();
+                                DrawNode(e.X, e.Y, 155);
+                                textBoxXInOutput.Text = e.X.ToString();
+                                textBoxYInOutput.Text = e.Y.ToString();
                             }
                         }
                         break;
@@ -578,42 +561,52 @@ namespace NavTestNoteBookNeConsolb
 
         private void PanelActivate(bool isPanelActivated)
         {
+            labelNameInOutput.Enabled = true;
+            labelNameInOutput.Visible = true;
+            textBoxNameInOutput.Enabled = true;
+            textBoxNameInOutput.Visible = true;
+
+            labelDescriptionInOutput.Enabled = true;
+            labelDescriptionInOutput.Visible = true;
+            textBoxDescriptionInOutput.Enabled = true;
+            textBoxDescriptionInOutput.Visible = true;
+
             if (isPanelActivated)
             {
-                textBox1.ReadOnly = false;
-                textBox2.ReadOnly = false;
-                textBox3.ReadOnly = false;
-                textBox4.ReadOnly = false;
-                textBox1.Text = "";
-                textBox2.Text = "";
-                textBox3.Text = "";
-                textBox4.Text = "";
+                textBoxNameInOutput.ReadOnly = false;
+                textBoxDescriptionInOutput.ReadOnly = false;
+                textBoxXInOutput.ReadOnly = false;
+                textBoxYInOutput.ReadOnly = false;
+                textBoxNameInOutput.Text = "";
+                textBoxDescriptionInOutput.Text = "";
+                textBoxXInOutput.Text = "";
+                textBoxYInOutput.Text = "";
                 if (Mode != 1)
                 {
-                    typeTB.Enabled = false;
-                    typeTB.Visible = false;
-                    comboBox1.Enabled = true;
-                    comboBox1.Visible = true;
+                    textBoxTypeInOutput.Enabled = false;
+                    textBoxTypeInOutput.Visible = false;
+                    comboBoxTypeInOutput.Enabled = true;
+                    comboBoxTypeInOutput.Visible = true;
                 }
                 else
                 {
-                    typeTB.Enabled = true;
-                    typeTB.Visible = true;
-                    comboBox1.Enabled = false;
-                    comboBox1.Visible = false;
+                    textBoxTypeInOutput.Enabled = true;
+                    textBoxTypeInOutput.Visible = true;
+                    comboBoxTypeInOutput.Enabled = false;
+                    comboBoxTypeInOutput.Visible = false;
                 }
             }
             else
             {
-                textBox1.ReadOnly = true;
-                textBox2.ReadOnly = true;
-                textBox3.ReadOnly = true;
-                textBox4.ReadOnly = true;
-                typeTB.Enabled = true;
-                typeTB.Visible = true;
-                typeTB.Text = "";
-                comboBox1.Enabled = false;
-                comboBox1.Visible = false;
+                textBoxNameInOutput.ReadOnly = true;
+                textBoxDescriptionInOutput.ReadOnly = true;
+                textBoxXInOutput.ReadOnly = true;
+                textBoxYInOutput.ReadOnly = true;
+                textBoxTypeInOutput.Enabled = true;
+                textBoxTypeInOutput.Visible = true;
+                textBoxTypeInOutput.Text = "";
+                comboBoxTypeInOutput.Enabled = false;
+                comboBoxTypeInOutput.Visible = false;
             }
         }
         private List<int> SearchNodesOnScreen(MouseEventArgs e, int radius)
@@ -690,36 +683,61 @@ namespace NavTestNoteBookNeConsolb
         #endregion
 
         private bool isNewLadder = true;
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxTypeInOutput_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex == 2)
+            if (comboBoxTypeInOutput.SelectedIndex == 0)
             {
-                List<Node> localLadderList = new List<Node>(obj.HyperGraphByConnectivity.Keys);
-                for (int i = 0; i < localLadderList.Count; ++i)
-                    if (obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor.ContainsKey(localLadderList[i]))
-                    {
-                        localLadderList.Remove(localLadderList[i]);
-                        --i;
-                    }
-                LadderChoose form = new LadderChoose(localLadderList);
-                form.ShowDialog();
-                if (form.ContinueFlag)
-                {
-                    if (form.SelectedLadder == "Новая Лестница")
-                        isNewLadder = true;
-                    else
-                    {
-                        FoundNode = obj.NodeList[form.SelectedLadder];
-                        textBox1.Text = FoundNode.name;
-                        textBox1.ReadOnly = true;
-                        comboBox1.SelectedIndex = FoundNode.type;
-                        textBox2.Text = FoundNode.description;
-                        textBox2.ReadOnly = true;
-                    }
-                }
+                labelNameInOutput.Enabled = false;
+                labelNameInOutput.Visible = false;
+                textBoxNameInOutput.Enabled = false;
+                textBoxNameInOutput.Visible = false;
+
+                labelDescriptionInOutput.Enabled = false;
+                labelDescriptionInOutput.Visible = false;
+                textBoxDescriptionInOutput.Enabled = false;
+                textBoxDescriptionInOutput.Visible = false;
             }
             else
-                isNewLadder = false;
+            {
+                labelNameInOutput.Enabled = true;
+                labelNameInOutput.Visible = true;
+                textBoxNameInOutput.Enabled = true;
+                textBoxNameInOutput.Visible = true;
+                labelDescriptionInOutput.Enabled = true;
+                labelDescriptionInOutput.Visible = true;
+                textBoxDescriptionInOutput.Enabled = true;
+                textBoxDescriptionInOutput.Visible = true;
+
+
+                if (comboBoxTypeInOutput.SelectedIndex == 2)
+                {
+                    List<Node> localLadderList = new List<Node>(obj.HyperGraphByConnectivity.Keys);
+                    for (int i = 0; i < localLadderList.Count; ++i)
+                        if (obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor.ContainsKey(localLadderList[i]))
+                        {
+                            localLadderList.Remove(localLadderList[i]);
+                            --i;
+                        }
+                    LadderChoose form = new LadderChoose(localLadderList);
+                    form.ShowDialog();
+                    if (form.ContinueFlag)
+                    {
+                        if (form.SelectedLadder == "Новая Лестница")
+                            isNewLadder = true;
+                        else
+                        {
+                            FoundNode = obj.NodeList[form.SelectedLadder];
+                            textBoxNameInOutput.Text = FoundNode.name;
+                            textBoxNameInOutput.ReadOnly = true;
+                            comboBoxTypeInOutput.SelectedIndex = FoundNode.type;
+                            textBoxDescriptionInOutput.Text = FoundNode.description;
+                            textBoxDescriptionInOutput.ReadOnly = true;
+                        }
+                    }
+                }
+                else
+                    isNewLadder = false;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -728,34 +746,53 @@ namespace NavTestNoteBookNeConsolb
             {
                 case 0: // addNode
                     {
-                        if (textBox1.Text.Trim() == "" || comboBox1.SelectedIndex == -1)
+                        if (comboBoxTypeInOutput.SelectedIndex != 0)
                         {
-                            MessageBox.Show("Заполните поля названия и/или типа");
-                            return;
+                            if (textBoxNameInOutput.Text.Trim() == "" || comboBoxTypeInOutput.SelectedIndex == -1)
+                            {
+                                MessageBox.Show("Заполните поля названия и/или типа");
+                                return;
+                            }
+                            if (obj.NodeList.ContainsKey(textBoxNameInOutput.Text) && (comboBoxTypeInOutput.SelectedIndex != 2 || isNewLadder))
+                            {
+                                MessageBox.Show("Вершина с данным именем уже существует. Измените его для продолжения работы");
+                                return;
+                            }
+                            if (textBoxXInOutput.Text.Trim() == "")
+                            {
+                                MessageBox.Show("Для вершины не заданы координаты. Отмена операции");
+                                return;
+                            }
                         }
-                        if (obj.NodeList.ContainsKey(textBox1.Text) && (comboBox1.SelectedIndex != 2 || isNewLadder))
+                        if (comboBoxTypeInOutput.SelectedIndex == 2 && !isNewLadder)
                         {
-                            MessageBox.Show("Вершина с данным именем уже существует. Измените его для продолжения работы");
-                            return;
-                        }
-                        if (textBox3.Text.Trim() == "")
-                        {
-                            MessageBox.Show("Для вершины не заданы координаты. Отмена операции");
-                            return;
-                        }
-                        if (comboBox1.SelectedIndex == 2 && !isNewLadder)
-                        {
-                            obj.AddNode(ChooseLevelComboBox.Text, FoundNode, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
-                            comboBox1.SelectedIndex = -1;
+                            obj.AddNode(ChooseLevelComboBox.Text, FoundNode, Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text));
+                            comboBoxTypeInOutput.SelectedIndex = -1;
                         }
                         else
                         {
-                            Node newNode = new Node(textBox1.Text, comboBox1.SelectedIndex, textBox2.Text);
-                            obj.AddNode(ChooseLevelComboBox.Text, newNode, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
-                            comboBox1.SelectedIndex = -1;
+                            string NodeName = "";
+                            string description = "";
+                            if (comboBoxTypeInOutput.SelectedIndex == 0)
+                            {
+                                NodeName = "CorridorStandartName#_" + corridorCounter;
+                                ++corridorCounter;
+                            }
+                            else
+                            {
+                                NodeName = textBoxNameInOutput.Text;
+                                description = textBoxDescriptionInOutput.Text;
+                            }
+                            Node newNode = new Node(NodeName, comboBoxTypeInOutput.SelectedIndex, description);
+                            obj.AddNode(ChooseLevelComboBox.Text, newNode, Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text));
+                            comboBoxTypeInOutput.SelectedIndex = -1;
                         }
                         pictureBox1.Image = new Bitmap(SecondLayer);
-                        DrawNode(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text), 0, 255, textBox1.Text);
+
+                        if (comboBoxTypeInOutput.SelectedIndex == 0)
+                            DrawNode(Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text), 255);
+                        else
+                            DrawNode(Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text), 255, textBoxNameInOutput.Text);
                         SecondLayer = new Bitmap(pictureBox1.Image);
                         Changes(true);
                         PanelActivate(true);
@@ -766,21 +803,21 @@ namespace NavTestNoteBookNeConsolb
                         bool changeFlag = false;
                         string name, descr;
                         Node NewNode = FoundNode;
-                        if (textBox1.Text != FoundNode.name)
+                        if (textBoxNameInOutput.Text != FoundNode.name)
                         {
-                            if (obj.NodeList.ContainsKey(textBox1.Text.Trim()))
+                            if (obj.NodeList.ContainsKey(textBoxNameInOutput.Text.Trim()))
                             {
                                 MessageBox.Show("Данный план уже содержит вершину с таким именем");
                                 return;
                             }
-                            name = textBox1.Text;
+                            name = textBoxNameInOutput.Text;
                             changeFlag = true;
                         }
                         else
                             name = FoundNode.name;
-                        if (textBox2.Text != FoundNode.description)
+                        if (textBoxDescriptionInOutput.Text != FoundNode.description)
                         {
-                            descr = textBox2.Text;
+                            descr = textBoxDescriptionInOutput.Text;
                             changeFlag = true;
                         }
                         else
@@ -795,8 +832,8 @@ namespace NavTestNoteBookNeConsolb
                         if (isGreyMode)
                         {
                             List<int> tempCoord = obj.GetCoordOfNode(ChooseLevelComboBox.Text, NewNode);
-                            if (tempCoord[0] != Convert.ToInt32(textBox3.Text) || tempCoord[1] != Convert.ToInt32(textBox4.Text))
-                                obj.Floors[ChooseLevelComboBox.Text].NodeCoordChange(NewNode, Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text));
+                            if (tempCoord[0] != Convert.ToInt32(textBoxXInOutput.Text) || tempCoord[1] != Convert.ToInt32(textBoxYInOutput.Text))
+                                obj.Floors[ChooseLevelComboBox.Text].NodeCoordChange(NewNode, Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text));
                             changeFlag = true;
                         }
                         if (changeFlag)
@@ -817,11 +854,11 @@ namespace NavTestNoteBookNeConsolb
                             GreyMode(false);
                             obj.RemoveNode(ChooseLevelComboBox.Text, FoundNode);//tempNode.name);
                             LoadLevel();
-                            textBox1.Text = "";
-                            typeTB.Text = "";
-                            textBox2.Text = "";
-                            textBox3.Text = "";
-                            textBox4.Text = "";
+                            textBoxNameInOutput.Text = "";
+                            textBoxTypeInOutput.Text = "";
+                            textBoxDescriptionInOutput.Text = "";
+                            textBoxXInOutput.Text = "";
+                            textBoxYInOutput.Text = "";
                         }
                         break;
                     }
@@ -867,7 +904,7 @@ namespace NavTestNoteBookNeConsolb
                 DialogResult result = MessageBox.Show("Вы уверены?", "Warning", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
-                    isChanges = true;
+                    Changes(true);
                     obj.Floors.Remove(ChooseLevelComboBox.Text);
                     ChooseLevelComboBox.Items.Remove(ChooseLevelComboBox.Text);
                     if (ChooseLevelComboBox.Items.Count > 0)
@@ -897,13 +934,11 @@ namespace NavTestNoteBookNeConsolb
             if (result == DialogResult.Yes)
             {
                 foreach (Node i in obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor.Keys)
-                {
-                    if (i.type >= 2)
-                        obj.RemoveNode(ChooseLevelComboBox.Text, i);
-                }
+                    if (i.type == 2) obj.RemoveNode(ChooseLevelComboBox.Text, i);
+
                 obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor.Clear();
                 obj.Floors[ChooseLevelComboBox.Text].edges.Clear();
-                isChanges = true;
+                Changes(true);
             }
         }
     }

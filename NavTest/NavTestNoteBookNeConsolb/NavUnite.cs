@@ -11,12 +11,10 @@ namespace NavTestNoteBookNeConsolb
 {
     class NavSavePrepear
     {
-        public bool isExitExists { get; set; }
-        public int isNavAble { get; set; }
+        public bool isNavAble { get; set; }
         public NavSavePrepear(ref Map map)
         {
-            isExitExists = false;
-            isNavAble = 0;
+            isNavAble = true;
             SplitByConnectivity(ref map);
             IsMapConnectivity(ref map);
         }
@@ -30,7 +28,6 @@ namespace NavTestNoteBookNeConsolb
                 Dictionary<NavTest.Node, int> nodesToBeVisited = new Dictionary<NavTest.Node, int>(); // 0-notVisited ,1-reachable, 2-visited
                 foreach (Node j in currentLevel.nodeListOnFloor.Keys)
                     nodesToBeVisited.Add(j, 0);
-                //List<Node> removeList = new List<Node>();
                 while (nodesToBeVisited.Count > 0)
                 {
                     bool exit = false;
@@ -45,10 +42,9 @@ namespace NavTestNoteBookNeConsolb
 
                     foreach (Node j in currentLevel.connectivityComponents.Last().GetAllNodesList())
                     {
-                        if (j.type >= 2) map.HyperGraphByConnectivity[j].Add(currentLevel.connectivityComponents.Last());
+                        if (j.type == 2) map.HyperGraphByConnectivity[j].Add(currentLevel.connectivityComponents.Last());
                         nodesToBeVisited.Remove(j);
                     }
-                    //removeList.Clear();
                 }
             }
         }
@@ -68,7 +64,6 @@ namespace NavTestNoteBookNeConsolb
                     nodesToBeVisited[i] = 1;
                     reachableNodesValue += 1;
                 }
-                if (i.type == 4) isExitExists = true;
             }
             foreach (Node i in level.edges[currentNode]) // move 
             {
@@ -78,7 +73,6 @@ namespace NavTestNoteBookNeConsolb
                     if (exit) return;
                 }
             }
-
             if (reachableNodesValue == visitedNodesValue)
             {
                 exit = true;
@@ -98,8 +92,7 @@ namespace NavTestNoteBookNeConsolb
             int visitedNodesValue = 0;
             int reachableNodesValue = 1;
             ReccurMapConnectivity(ref map.HyperGraphByConnectivity, ref ConnectivityComponentsList, map.Floors.First().Value.connectivityComponents.First(), ref reachableNodesValue, ref visitedNodesValue, ref exit);
-            if (reachableNodesValue != ConnectivityComponentsList.Count) isNavAble += 1;
-            if (!isExitExists) isNavAble += 2;
+            if (reachableNodesValue != ConnectivityComponentsList.Count) isNavAble = false;
         }
         private void ReccurMapConnectivity(ref Dictionary<Node, List<ConnectivityComp>> hyperGraphByConnectivity, ref Dictionary<ConnectivityComp, int> nodesToBeVisited, ConnectivityComp currentNode, ref int reachableNodesValue, ref int visitedNodesValue, ref bool exit) // simple version
         {

@@ -48,17 +48,17 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.DrawToLeftToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.typeTB = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.labelNameInOutput = new System.Windows.Forms.Label();
+            this.textBoxNameInOutput = new System.Windows.Forms.TextBox();
+            this.labelTypeInOutput = new System.Windows.Forms.Label();
+            this.textBoxTypeInOutput = new System.Windows.Forms.TextBox();
+            this.comboBoxTypeInOutput = new System.Windows.Forms.ComboBox();
+            this.labelDescriptionInOutput = new System.Windows.Forms.Label();
+            this.textBoxDescriptionInOutput = new System.Windows.Forms.TextBox();
+            this.labelXInOutput = new System.Windows.Forms.Label();
+            this.textBoxXInOutput = new System.Windows.Forms.TextBox();
+            this.labelYInOutput = new System.Windows.Forms.Label();
+            this.textBoxYInOutput = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.ModeStatusLable = new System.Windows.Forms.ToolStripStatusLabel();
@@ -79,7 +79,7 @@
             this.panel1.BackColor = System.Drawing.SystemColors.Info;
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(96, 22);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(677, 455);
             this.panel1.TabIndex = 0;
@@ -101,7 +101,7 @@
             this.ChooseLevelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ChooseLevelComboBox.FormattingEnabled = true;
             this.ChooseLevelComboBox.Location = new System.Drawing.Point(2, 15);
-            this.ChooseLevelComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ChooseLevelComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.ChooseLevelComboBox.Name = "ChooseLevelComboBox";
             this.ChooseLevelComboBox.Size = new System.Drawing.Size(85, 21);
             this.ChooseLevelComboBox.TabIndex = 1;
@@ -117,7 +117,7 @@
             this.flowLayoutPanel1.Controls.Add(this.CreateEdge);
             this.flowLayoutPanel1.Controls.Add(this.DeleteEdge);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 29);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(91, 257);
             this.flowLayoutPanel1.TabIndex = 0;
@@ -135,7 +135,7 @@
             // 
             this.CreateNode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CreateNode.Location = new System.Drawing.Point(2, 40);
-            this.CreateNode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CreateNode.Margin = new System.Windows.Forms.Padding(2);
             this.CreateNode.Name = "CreateNode";
             this.CreateNode.Size = new System.Drawing.Size(84, 37);
             this.CreateNode.TabIndex = 0;
@@ -147,7 +147,7 @@
             // 
             this.EditNode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.EditNode.Location = new System.Drawing.Point(2, 81);
-            this.EditNode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.EditNode.Margin = new System.Windows.Forms.Padding(2);
             this.EditNode.Name = "EditNode";
             this.EditNode.Size = new System.Drawing.Size(84, 37);
             this.EditNode.TabIndex = 3;
@@ -159,7 +159,7 @@
             // 
             this.DeleteNode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.DeleteNode.Location = new System.Drawing.Point(2, 122);
-            this.DeleteNode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DeleteNode.Margin = new System.Windows.Forms.Padding(2);
             this.DeleteNode.Name = "DeleteNode";
             this.DeleteNode.Size = new System.Drawing.Size(84, 37);
             this.DeleteNode.TabIndex = 2;
@@ -171,7 +171,7 @@
             // 
             this.CreateEdge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CreateEdge.Location = new System.Drawing.Point(2, 163);
-            this.CreateEdge.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CreateEdge.Margin = new System.Windows.Forms.Padding(2);
             this.CreateEdge.Name = "CreateEdge";
             this.CreateEdge.Size = new System.Drawing.Size(84, 37);
             this.CreateEdge.TabIndex = 1;
@@ -183,7 +183,7 @@
             // 
             this.DeleteEdge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.DeleteEdge.Location = new System.Drawing.Point(2, 204);
-            this.DeleteEdge.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DeleteEdge.Margin = new System.Windows.Forms.Padding(2);
             this.DeleteEdge.Name = "DeleteEdge";
             this.DeleteEdge.Size = new System.Drawing.Size(84, 37);
             this.DeleteEdge.TabIndex = 4;
@@ -221,14 +221,14 @@
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -265,129 +265,128 @@
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel2.Controls.Add(this.label2);
-            this.flowLayoutPanel2.Controls.Add(this.textBox1);
-            this.flowLayoutPanel2.Controls.Add(this.label3);
-            this.flowLayoutPanel2.Controls.Add(this.typeTB);
-            this.flowLayoutPanel2.Controls.Add(this.comboBox1);
-            this.flowLayoutPanel2.Controls.Add(this.label4);
-            this.flowLayoutPanel2.Controls.Add(this.textBox2);
-            this.flowLayoutPanel2.Controls.Add(this.label5);
-            this.flowLayoutPanel2.Controls.Add(this.textBox3);
-            this.flowLayoutPanel2.Controls.Add(this.label6);
-            this.flowLayoutPanel2.Controls.Add(this.textBox4);
+            this.flowLayoutPanel2.Controls.Add(this.labelTypeInOutput);
+            this.flowLayoutPanel2.Controls.Add(this.comboBoxTypeInOutput);
+            this.flowLayoutPanel2.Controls.Add(this.textBoxTypeInOutput);
+            this.flowLayoutPanel2.Controls.Add(this.labelNameInOutput);
+            this.flowLayoutPanel2.Controls.Add(this.textBoxNameInOutput);
+            this.flowLayoutPanel2.Controls.Add(this.labelDescriptionInOutput);
+            this.flowLayoutPanel2.Controls.Add(this.textBoxDescriptionInOutput);
+            this.flowLayoutPanel2.Controls.Add(this.labelXInOutput);
+            this.flowLayoutPanel2.Controls.Add(this.textBoxXInOutput);
+            this.flowLayoutPanel2.Controls.Add(this.labelYInOutput);
+            this.flowLayoutPanel2.Controls.Add(this.textBoxYInOutput);
             this.flowLayoutPanel2.Controls.Add(this.button1);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(777, 29);
-            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(109, 273);
             this.flowLayoutPanel2.TabIndex = 3;
             // 
-            // label2
+            // labelNameInOutput
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Название";
+            this.labelNameInOutput.AutoSize = true;
+            this.labelNameInOutput.Location = new System.Drawing.Point(3, 66);
+            this.labelNameInOutput.Name = "labelNameInOutput";
+            this.labelNameInOutput.Size = new System.Drawing.Size(57, 13);
+            this.labelNameInOutput.TabIndex = 0;
+            this.labelNameInOutput.Text = "Название";
             // 
-            // textBox1
+            // textBoxNameInOutput
             // 
-            this.textBox1.Location = new System.Drawing.Point(3, 16);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(96, 20);
-            this.textBox1.TabIndex = 1;
+            this.textBoxNameInOutput.Location = new System.Drawing.Point(3, 82);
+            this.textBoxNameInOutput.Name = "textBoxNameInOutput";
+            this.textBoxNameInOutput.Size = new System.Drawing.Size(96, 20);
+            this.textBoxNameInOutput.TabIndex = 1;
             // 
-            // label3
+            // labelTypeInOutput
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 39);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(26, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Тип";
+            this.labelTypeInOutput.AutoSize = true;
+            this.labelTypeInOutput.Location = new System.Drawing.Point(3, 0);
+            this.labelTypeInOutput.Name = "labelTypeInOutput";
+            this.labelTypeInOutput.Size = new System.Drawing.Size(26, 13);
+            this.labelTypeInOutput.TabIndex = 5;
+            this.labelTypeInOutput.Text = "Тип";
             // 
-            // typeTB
+            // textBoxTypeInOutput
             // 
-            this.typeTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxTypeInOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.typeTB.Location = new System.Drawing.Point(3, 55);
-            this.typeTB.Name = "typeTB";
-            this.typeTB.ReadOnly = true;
-            this.typeTB.Size = new System.Drawing.Size(96, 20);
-            this.typeTB.TabIndex = 13;
+            this.textBoxTypeInOutput.Location = new System.Drawing.Point(3, 43);
+            this.textBoxTypeInOutput.Name = "textBoxTypeInOutput";
+            this.textBoxTypeInOutput.ReadOnly = true;
+            this.textBoxTypeInOutput.Size = new System.Drawing.Size(96, 20);
+            this.textBoxTypeInOutput.TabIndex = 13;
             // 
-            // comboBox1
+            // comboBoxTypeInOutput
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.comboBoxTypeInOutput.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxTypeInOutput.FormattingEnabled = true;
+            this.comboBoxTypeInOutput.Items.AddRange(new object[] {
             "Коридор",
             "Кабинет",
-            "Лестница",
-            "Выход"});
-            this.comboBox1.Location = new System.Drawing.Point(3, 81);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(96, 21);
-            this.comboBox1.TabIndex = 2;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            "Лестница"});
+            this.comboBoxTypeInOutput.Location = new System.Drawing.Point(3, 16);
+            this.comboBoxTypeInOutput.Name = "comboBoxTypeInOutput";
+            this.comboBoxTypeInOutput.Size = new System.Drawing.Size(96, 21);
+            this.comboBoxTypeInOutput.TabIndex = 2;
+            this.comboBoxTypeInOutput.SelectedIndexChanged += new System.EventHandler(this.comboBoxTypeInOutput_SelectedIndexChanged);
             // 
-            // label4
+            // labelDescriptionInOutput
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 105);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Описание";
+            this.labelDescriptionInOutput.AutoSize = true;
+            this.labelDescriptionInOutput.Location = new System.Drawing.Point(3, 105);
+            this.labelDescriptionInOutput.Name = "labelDescriptionInOutput";
+            this.labelDescriptionInOutput.Size = new System.Drawing.Size(57, 13);
+            this.labelDescriptionInOutput.TabIndex = 6;
+            this.labelDescriptionInOutput.Text = "Описание";
             // 
-            // textBox2
+            // textBoxDescriptionInOutput
             // 
-            this.textBox2.Location = new System.Drawing.Point(3, 121);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(96, 36);
-            this.textBox2.TabIndex = 7;
+            this.textBoxDescriptionInOutput.Location = new System.Drawing.Point(3, 121);
+            this.textBoxDescriptionInOutput.Multiline = true;
+            this.textBoxDescriptionInOutput.Name = "textBoxDescriptionInOutput";
+            this.textBoxDescriptionInOutput.Size = new System.Drawing.Size(96, 36);
+            this.textBoxDescriptionInOutput.TabIndex = 7;
             // 
-            // label5
+            // labelXInOutput
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 160);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(14, 13);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "X";
+            this.labelXInOutput.AutoSize = true;
+            this.labelXInOutput.Location = new System.Drawing.Point(3, 160);
+            this.labelXInOutput.Name = "labelXInOutput";
+            this.labelXInOutput.Size = new System.Drawing.Size(14, 13);
+            this.labelXInOutput.TabIndex = 8;
+            this.labelXInOutput.Text = "X";
             // 
-            // textBox3
+            // textBoxXInOutput
             // 
-            this.textBox3.Location = new System.Drawing.Point(3, 176);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(96, 20);
-            this.textBox3.TabIndex = 9;
+            this.textBoxXInOutput.Location = new System.Drawing.Point(3, 176);
+            this.textBoxXInOutput.Name = "textBoxXInOutput";
+            this.textBoxXInOutput.ReadOnly = true;
+            this.textBoxXInOutput.Size = new System.Drawing.Size(96, 20);
+            this.textBoxXInOutput.TabIndex = 9;
             // 
-            // label6
+            // labelYInOutput
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 199);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(14, 13);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Y";
+            this.labelYInOutput.AutoSize = true;
+            this.labelYInOutput.Location = new System.Drawing.Point(3, 199);
+            this.labelYInOutput.Name = "labelYInOutput";
+            this.labelYInOutput.Size = new System.Drawing.Size(14, 13);
+            this.labelYInOutput.TabIndex = 10;
+            this.labelYInOutput.Text = "Y";
             // 
-            // textBox4
+            // textBoxYInOutput
             // 
-            this.textBox4.Location = new System.Drawing.Point(3, 215);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(96, 20);
-            this.textBox4.TabIndex = 11;
+            this.textBoxYInOutput.Location = new System.Drawing.Point(3, 215);
+            this.textBoxYInOutput.Name = "textBoxYInOutput";
+            this.textBoxYInOutput.ReadOnly = true;
+            this.textBoxYInOutput.Size = new System.Drawing.Size(96, 20);
+            this.textBoxYInOutput.TabIndex = 11;
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(2, 240);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(97, 31);
             this.button1.TabIndex = 12;
@@ -423,7 +422,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "DrawingForm";
             this.Text = "Draw Interface";
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
@@ -464,18 +463,18 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton DrawToLeftToolStripButton;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Label labelNameInOutput;
+        private System.Windows.Forms.TextBox textBoxNameInOutput;
+        private System.Windows.Forms.Label labelTypeInOutput;
+        private System.Windows.Forms.ComboBox comboBoxTypeInOutput;
+        private System.Windows.Forms.Label labelDescriptionInOutput;
+        private System.Windows.Forms.TextBox textBoxDescriptionInOutput;
+        private System.Windows.Forms.Label labelXInOutput;
+        private System.Windows.Forms.TextBox textBoxXInOutput;
+        private System.Windows.Forms.Label labelYInOutput;
+        private System.Windows.Forms.TextBox textBoxYInOutput;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox typeTB;
+        private System.Windows.Forms.TextBox textBoxTypeInOutput;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel ModeStatusLable;
     }
