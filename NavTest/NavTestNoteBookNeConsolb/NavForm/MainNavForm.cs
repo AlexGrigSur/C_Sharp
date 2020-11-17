@@ -12,9 +12,10 @@ namespace NavTestNoteBookNeConsolb.NavForm
 {
     public partial class MainNavForm : Form
     {
-        public MainNavForm()
+        public MainNavForm(string buildingName)
         {
             InitializeComponent();
+            
         }
     }
 }

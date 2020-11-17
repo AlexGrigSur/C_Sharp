@@ -111,7 +111,7 @@ namespace NavTestNoteBookNeConsolb
         private void CallNav()
         {
             this.Hide();
-            // NavForm form = new NavForm(BuildingName).ShowDialog();
+            new NavForm.MainNavForm(comboBox1.Text).ShowDialog();
             this.Show();
             ChoosePlan_Load(null, null);
         }

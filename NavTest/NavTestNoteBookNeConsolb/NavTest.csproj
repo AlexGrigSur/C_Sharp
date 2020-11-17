@@ -68,6 +68,7 @@
     <Compile Include="ChoosePlanAndDBCreate.Designer.cs">
       <DependentUpon>ChoosePlanAndDBCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataFromDB.cs" />
     <Compile Include="DB.cs" />
     <Compile Include="DrawingForms\LadderChoose.cs">
       <SubType>Form</SubType>
@@ -88,6 +89,7 @@
     <Compile Include="DrawingForms\NewLevelAdd.Designer.cs">
       <DependentUpon>NewLevelAdd.cs</DependentUpon>
     </Compile>
+    <Compile Include="NavCalc.cs" />
     <Compile Include="NavForm\MainNavForm.cs">
       <SubType>Form</SubType>
     </Compile>
