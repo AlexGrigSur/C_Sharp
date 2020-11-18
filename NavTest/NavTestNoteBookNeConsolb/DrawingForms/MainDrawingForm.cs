@@ -110,8 +110,8 @@ namespace NavTestNoteBookNeConsolb
                 }
             edgesCopy.Clear();
             pictureBox1.Invalidate();
-            ObservereMode();
             GreyMode(false);
+            ObservereMode();
         }
         private void updateFromDB()
         {

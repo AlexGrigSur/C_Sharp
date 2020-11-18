@@ -8,30 +8,32 @@ using System.Windows.Forms;
 
 namespace NavTestNoteBookNeConsolb
 {
-    class DB
+    class DB : IDisposable
     {
         private MySqlConnection connection;
         public DB()
         {
-            try
-            {
-                connection = new MySqlConnection("server=localhost;port=3306;username=root;password=root;Convert Zero Datetime=True");
-            }
-            catch
-            {
-                System.Environment.Exit(1);
-            }
+            //try
+            //{
+            connection = new MySqlConnection("server=localhost;port=3306;username=root;password=root");
+            OpenConnection();
+            //}
+            //catch
+            //{
+            //    System.Environment.Exit(1);
+            //}
         }
         public DB(string DBName)
         {
-            try
-            {
-                connection = new MySqlConnection($"server=localhost;port=3306;username=root;password=root;database={DBName}");//Convert Zero Datetime=True");
-            }
-            catch
-            {
-                System.Environment.Exit(1);
-            }
+            //try
+            //{
+            connection = new MySqlConnection($"server=localhost;port=3306;username=root;password=root;database={DBName}");//Convert Zero Datetime=True");
+            OpenConnection();
+            //}
+            //catch
+            //{
+            //    System.Environment.Exit(1);
+            //}
         }
         #region // connection
         private void OpenConnection()
@@ -59,22 +61,29 @@ namespace NavTestNoteBookNeConsolb
         #endregion
         public void ExecuteCommand(string SQLcommand)
         {
-            OpenConnection();
+            //OpenConnection();
             using (MySqlCommand command = new MySqlCommand(SQLcommand, GetConnection()))
             {
                 command.ExecuteNonQuery();
             }
-            CloseConnection();
+            //CloseConnection();
         }
         public MySqlDataReader ExecuteReader(string SQLcommand)
         {
             MySqlDataReader reader;
-            OpenConnection();
+            //OpenConnection();
             using (MySqlCommand command = new MySqlCommand(SQLcommand, GetConnection()))
             {
                 reader = command.ExecuteReader();
             }
             return reader;
+        }
+
+        public void Dispose()
+        {
+            CloseConnection();
+            GC.Collect();
+            GC.SuppressFinalize(this);
         }
     }
 }
