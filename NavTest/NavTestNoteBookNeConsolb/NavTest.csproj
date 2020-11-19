@@ -68,8 +68,8 @@
     <Compile Include="ChoosePlanAndDBCreate.Designer.cs">
       <DependentUpon>ChoosePlanAndDBCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataFromDB.cs" />
-    <Compile Include="DB.cs" />
+    <Compile Include="DB\WorkWithDB.cs" />
+    <Compile Include="DB\DB.cs" />
     <Compile Include="DrawingForms\LadderChoose.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,14 +89,20 @@
     <Compile Include="DrawingForms\NewLevelAdd.Designer.cs">
       <DependentUpon>NewLevelAdd.cs</DependentUpon>
     </Compile>
-    <Compile Include="NavCalc.cs" />
+    <Compile Include="CalcFunctions\NavCalc.cs" />
+    <Compile Include="NavForm\ChoosePoint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NavForm\ChoosePoint.Designer.cs">
+      <DependentUpon>ChoosePoint.cs</DependentUpon>
+    </Compile>
     <Compile Include="NavForm\MainNavForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="NavForm\MainNavForm.Designer.cs">
       <DependentUpon>MainNavForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NavUnite.cs" />
+    <Compile Include="CalcFunctions\NavUnite.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChoosePlanAndDBCreate.resx">
@@ -110,6 +116,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DrawingForms\NewLevelAdd.resx">
       <DependentUpon>NewLevelAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NavForm\ChoosePoint.resx">
+      <DependentUpon>ChoosePoint.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NavForm\MainNavForm.resx">
       <DependentUpon>MainNavForm.cs</DependentUpon>

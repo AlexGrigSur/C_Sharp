@@ -22,6 +22,7 @@ namespace NavTest
             description = Description;
         }
     }
+
     class ConnectivityComp // will always reCalculated in case of changings
     {
         public string FloorName { get; set; }

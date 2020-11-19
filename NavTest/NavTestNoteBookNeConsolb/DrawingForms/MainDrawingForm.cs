@@ -1,5 +1,5 @@
 ﻿using NavTest;
-using MySqlConnector;
+//using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -115,69 +115,8 @@ namespace NavTestNoteBookNeConsolb
         }
         private void updateFromDB()
         {
-            string maxCorrName = "";
-            obj.name = buildingName;
-            //// BETA
-            #region // Levels
-            int building_ID = -1;
-            int level_ID = -1;
-            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Buildings` where `buildingName`='{buildingName}'"))
-            {
-                if (reader.Read())
-                    building_ID = reader.GetInt32(0);
-            }
-            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id`,`levelName`,`levelFloor`,`levelScreenResX`,`levelScreenResY` from `Levels` where `building_ID`='{building_ID}'"))
-            {
-                while (reader.Read())
-                {
-                    level_ID = reader.GetInt32(0);
-                    obj.Floors.Add(reader.GetString(1), new Level(reader.GetString(1), reader.GetInt32(2)));
-                    obj.Floors[reader.GetString(1)].screenResX = reader.GetInt32(3);
-                    obj.Floors[reader.GetString(1)].screenResY = reader.GetInt32(4);
-                }
-            }
-            #endregion
-            #region // Nodes
-            using (MySqlDataReader reader = DataBase.ExecuteReader($"select `NodeName`,`NodeType`,`NodeDescription` from `Nodes` where `building_ID`='{building_ID}'"))
-            {
-                while (reader.Read())
-                {
-                    Node tempNode = new Node(reader.GetString(0), reader.GetInt32(1), reader.GetString(2));
-                    obj.NodeList.Add(tempNode.name, tempNode);
-                    if (tempNode.type == 0) maxCorrName = tempNode.name;
-                }
-            }
-
-            #endregion
-            #region // LevelNodes/Edges
-            foreach (Level i in obj.Floors.Values)
-            {
-                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `Nds`.`NodeName`,`levelNodeCoordX`,`levelNodeCoordY` from `LevelNodes` `LN` inner join `Nodes` `Nds` on `Nds`.`id`=`LN`.`Node_ID` where `level_ID`='{level_ID}'"))
-                {
-                    while (reader.Read())
-                    {
-                        i.AddNode(obj.NodeList[reader.GetString(0)], reader.GetInt32(1), reader.GetInt32(2));
-                        if (obj.NodeList[reader.GetString(0)].type == 2)
-                            obj.AddHyperGraphByConn(obj.NodeList[reader.GetString(0)]);
-                    }
-                }
-
-                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `First`.`NodeName`,`Second`.`NodeName` from `Edges` `EDG` inner join `Nodes` `First` on `First`.`id`=`EDG`.`startNode_ID` inner join `Nodes` `Second` on `Second`.`id`=`EDG`.`endNode_ID` where `level_ID`='{level_ID}'"))
-                {
-                    while (reader.Read())
-                    {
-                        if (!obj.Floors[i.Name].edges.ContainsKey(obj.NodeList[reader.GetString(0)]))
-                            obj.Floors[i.Name].edges.Add(obj.NodeList[reader.GetString(0)], new List<Node>());
-                        obj.Floors[i.Name].edges[obj.NodeList[reader.GetString(0)]].Add(obj.NodeList[reader.GetString(1)]);
-
-                        if (!obj.Floors[i.Name].edges.ContainsKey(obj.NodeList[reader.GetString(1)]))
-                            obj.Floors[i.Name].edges.Add(obj.NodeList[reader.GetString(1)], new List<Node>());
-                        obj.Floors[i.Name].edges[obj.NodeList[reader.GetString(1)]].Add(obj.NodeList[reader.GetString(0)]);
-                    }
-                }
-            }
-            if(maxCorrName!="") corridorCounter = Convert.ToInt32(maxCorrName.Split('_')[1]) + 1;
-            #endregion
+            DataFromDB dB = new DataFromDB(buildingName);
+            obj = dB.DownloadFromDB(ref corridorCounter, false);
         }
         private void updateDB()
         {
@@ -185,10 +124,9 @@ namespace NavTestNoteBookNeConsolb
             {
                 obj.NodesOptimizer();
                 NavSavePrepear prepear = new NavSavePrepear(ref obj);
-
+                DataToDB db = new DataToDB(ref obj);
+                db.updateDB(prepear.isNavAble);
                 LoadLevel();
-                
-
                 if (!prepear.isNavAble) MessageBox.Show("Введенный план не является связным. Навигация пока невозможна");
             }
             Changes(false);
@@ -592,6 +530,12 @@ namespace NavTestNoteBookNeConsolb
                     }
                     if (resizeToLeft)
                     {
+                        List<Node> NodeList = new List<Node>(obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor.Keys);
+                        foreach (Node i in NodeList)
+                        {
+                            List<int> coords = obj.Floors[ChooseLevelComboBox.Text].nodeListOnFloor[i];
+                            obj.EditNode(ChooseLevelComboBox.Text, i.name, i, coords[0] + (panelX - pictureBox1.Width), coords[1]+(panelY-pictureBox1.Height));
+                        }
                         G.DrawImage(pictureBox1.Image, panelX - pictureBox1.Image.Width, panelY - pictureBox1.Image.Height, pictureBox1.Width, pictureBox1.Height);
                         resizeToLeft = false;
                     }

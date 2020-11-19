@@ -13,27 +13,19 @@ namespace NavTestNoteBookNeConsolb
         private MySqlConnection connection;
         public DB()
         {
-            //try
-            //{
             connection = new MySqlConnection("server=localhost;port=3306;username=root;password=root");
             OpenConnection();
-            //}
-            //catch
-            //{
-            //    System.Environment.Exit(1);
-            //}
         }
         public DB(string DBName)
         {
-            //try
-            //{
+            NewConnection(DBName);
+        }
+
+        public void NewConnection(string DBName)
+        {
+            //CloseConnection();
             connection = new MySqlConnection($"server=localhost;port=3306;username=root;password=root;database={DBName}");//Convert Zero Datetime=True");
             OpenConnection();
-            //}
-            //catch
-            //{
-            //    System.Environment.Exit(1);
-            //}
         }
         #region // connection
         private void OpenConnection()
