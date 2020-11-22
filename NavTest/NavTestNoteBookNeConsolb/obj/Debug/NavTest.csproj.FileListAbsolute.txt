@@ -51,3 +51,4 @@ C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.ChoosePlanAndDBCreate.resources
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.ChoosePlanAndDBCreate.resources
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.NavForm.MainNavForm.resources
+C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.NavForm.ChoosePoint.resources

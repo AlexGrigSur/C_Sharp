@@ -164,7 +164,7 @@ namespace NavTestNoteBookNeConsolb
                 G.FillEllipse(brush, X - radius, Y - radius, 2 * radius, 2 * radius);
                 brush = new SolidBrush(colorSecond);
                 G.FillRectangle(brush, X, Y, 1, 1);
-                if (/*transparent == 255 &&*/ nodeName != "") G.DrawString(nodeName.Substring(0, ((nodeName.Length < 4) ? nodeName.Length : 4)), new Font("Microsoft Sans Serif", 15f), new SolidBrush(colorFirst), X + radius + 2, Y - radius);
+                if (nodeName != "") G.DrawString(nodeName.Substring(0, ((nodeName.Length < 4) ? nodeName.Length : 4)), new Font("Microsoft Sans Serif", 15f), new SolidBrush(colorFirst), X + radius + 2, Y - radius);
             }
             pictureBox1.Invalidate();
         }
