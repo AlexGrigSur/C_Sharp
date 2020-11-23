@@ -20,13 +20,12 @@ namespace NavTestNoteBookNeConsolb
         }
         public void SplitByConnectivity(ref Map map)
         {
-            foreach (string floorName in map.Floors.Keys)
+            foreach (int floorIndex in map.GetFloorsList().Keys)
             {
-                map.Floors[floorName].connectivityComponents.Clear();
-                Level currentLevel = map.Floors[floorName];
-                if (map.Floors[floorName].Equals(currentLevel));
+                map.ClearConnectivityComponentsOnLevel(floorIndex);
+                Level currentLevel = map.GetFloorsList()[floorIndex];
                 Dictionary<NavTest.Node, int> nodesToBeVisited = new Dictionary<NavTest.Node, int>(); // 0-notVisited ,1-reachable, 2-visited
-                foreach (Node j in currentLevel.nodeListOnFloor.Keys)
+                foreach (Node j in currentLevel.GetNodeListOnFloor().Keys)
                     nodesToBeVisited.Add(j, 0);
                 while (nodesToBeVisited.Count > 0)
                 {
@@ -34,15 +33,14 @@ namespace NavTestNoteBookNeConsolb
                     int visitedNodesValue = 0;
                     int reachableNodesValue = 1;
                     ReccurConnectivityComponents(ref currentLevel, ref nodesToBeVisited, nodesToBeVisited.First().Key, ref reachableNodesValue, ref visitedNodesValue, ref exit);
-                    currentLevel.connectivityComponents.Add(new ConnectivityComp());
+                    currentLevel.AddConnectivityComponents(floorIndex);
                     foreach (Node j in nodesToBeVisited.Keys)
-                        if (nodesToBeVisited[j] > 0) currentLevel.connectivityComponents.Last().add(j);
+                        if (nodesToBeVisited[j] > 0) currentLevel.GetConnectivityComponentsList().Last().add(j);
 
-                    currentLevel.connectivityComponents.Last().FloorName = currentLevel.Name;
-
-                    foreach (Node j in currentLevel.connectivityComponents.Last().GetAllNodesList())
+                    //currentLevel.connectivityComponents.Last().FloorName = currentLevel.Name;
+                    foreach (Node j in currentLevel.GetConnectivityComponentsList().Last().GetAllNodesList())
                     {
-                        if (j.type == 2) map.HyperGraphByConnectivity[j].Add(currentLevel.connectivityComponents.Last());
+                        if (j.type == 2) map.AddInExistingHyperGraphByConnectivity(j, currentLevel.GetConnectivityComponentsList().Last());
                         nodesToBeVisited.Remove(j);
                     }
                 }
@@ -57,7 +55,7 @@ namespace NavTestNoteBookNeConsolb
                 exit = true;
                 return; // all visited
             }
-            foreach (Node i in level.edges[currentNode]) // reach all nodes
+            foreach (Node i in level.GetEdgesList()[currentNode]) // reach all nodes
             {
                 if (nodesToBeVisited[i] == 0) // if not reachable
                 {
@@ -65,7 +63,7 @@ namespace NavTestNoteBookNeConsolb
                     reachableNodesValue += 1;
                 }
             }
-            foreach (Node i in level.edges[currentNode]) // move 
+            foreach (Node i in level.GetEdgesList()[currentNode]) // move 
             {
                 if (nodesToBeVisited[i] != 2)
                 {
@@ -83,18 +81,18 @@ namespace NavTestNoteBookNeConsolb
         private void IsMapConnectivity(ref Map map)
         {
             Dictionary<ConnectivityComp, int> ConnectivityComponentsList = new Dictionary<ConnectivityComp, int>();
-            foreach (Level i in map.Floors.Values)
+            foreach (Level i in map.GetFloorsList().Values)
             {
-                foreach (ConnectivityComp j in i.connectivityComponents)
+                foreach (ConnectivityComp j in i.GetConnectivityComponentsList())
                     ConnectivityComponentsList.Add(j, 0);
             }
             bool exit = false;
             int visitedNodesValue = 0;
             int reachableNodesValue = 1;
-            ReccurMapConnectivity(ref map.HyperGraphByConnectivity, ref ConnectivityComponentsList, map.Floors.First().Value.connectivityComponents.First(), ref reachableNodesValue, ref visitedNodesValue, ref exit);
+            ReccurMapConnectivity(/*ref*/ map.GetHyperGraphByConnectivity(), ref ConnectivityComponentsList, map.GetFloorsList().First().Value.GetConnectivityComponentsList().First(), ref reachableNodesValue, ref visitedNodesValue, ref exit);
             if (reachableNodesValue != ConnectivityComponentsList.Count) isNavAble = false;
         }
-        private void ReccurMapConnectivity(ref Dictionary<Node, List<ConnectivityComp>> hyperGraphByConnectivity, ref Dictionary<ConnectivityComp, int> nodesToBeVisited, ConnectivityComp currentNode, ref int reachableNodesValue, ref int visitedNodesValue, ref bool exit) // simple version
+        private void ReccurMapConnectivity(/*ref*/ Dictionary<Node, List<ConnectivityComp>> hyperGraphByConnectivity, ref Dictionary<ConnectivityComp, int> nodesToBeVisited, ConnectivityComp currentNode, ref int reachableNodesValue, ref int visitedNodesValue, ref bool exit) // simple version
         {
             visitedNodesValue += 1;
             nodesToBeVisited[currentNode] = 2;
@@ -117,7 +115,7 @@ namespace NavTestNoteBookNeConsolb
                 foreach (ConnectivityComp j in hyperGraphByConnectivity[i])
                     if (nodesToBeVisited[j] != 2)
                     {
-                        ReccurMapConnectivity(ref hyperGraphByConnectivity, ref nodesToBeVisited, j, ref reachableNodesValue, ref visitedNodesValue, ref exit);
+                        ReccurMapConnectivity(/*ref*/ hyperGraphByConnectivity, ref nodesToBeVisited, j, ref reachableNodesValue, ref visitedNodesValue, ref exit);
                         if (exit) return;
                     }
             }

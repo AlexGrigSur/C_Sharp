@@ -12,27 +12,33 @@ namespace NavTestNoteBookNeConsolb
 {
     public partial class NewLevelAdd : Form
     {
-        public string levelName { get { return LevelNameTextBox.Text.Trim(); } }
         public int levelFloor { get { return Convert.ToInt32(FloorTextBox.Text); } }
         public bool ContinueFlag { get; set; }
 
-        public NewLevelAdd(string levelName = "", int levelFloor = -1)
+        public NewLevelAdd()
         {
             InitializeComponent();
-
-            LevelNameTextBox.Text = levelName;
-            if (levelFloor != -1) FloorTextBox.Text = Convert.ToString(-1);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (LevelNameTextBox.Text.Trim().Length != 0)
+            if (FloorTextBox.Text.Trim().Length != 0)
             {
                 ContinueFlag = true;
                 this.Close();
             }
             else
                 MessageBox.Show("Заполните все поля");
+        }
+
+        private void FloorTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar == '-')
+            {
+                e.Handled = true;
+            }
+
         }
     }
 }

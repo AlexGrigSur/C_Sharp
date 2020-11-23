@@ -22,7 +22,7 @@ namespace NavTestNoteBookNeConsolb
             using (DB DataBase = new DB("Plans"))
             {
                 string maxCorrName = "";
-                map.name = buildingName;
+                map.Name = buildingName;
                 //// BETA
                 #region // Levels
                 int building_ID = -1;
@@ -32,14 +32,14 @@ namespace NavTestNoteBookNeConsolb
                     if (reader.Read())
                         building_ID = reader.GetInt32(0);
                 }
-                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id`,`levelName`,`levelFloor`,`levelScreenResX`,`levelScreenResY` from `Levels` where `building_ID`='{building_ID}'"))
+                using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id`,`levelFloor`,`levelScreenResX`,`levelScreenResY` from `Levels` where `building_ID`='{building_ID}'"))
                 {
                     while (reader.Read())
                     {
                         level_ID.Add(reader.GetInt32(0));
-                        map.Floors.Add(reader.GetString(1), new Level(reader.GetString(1), reader.GetInt32(2)));
-                        map.Floors[reader.GetString(1)].screenResX = reader.GetInt32(3);
-                        map.Floors[reader.GetString(1)].screenResY = reader.GetInt32(4);
+                        map.AddFloor(reader.GetInt32(1));
+                        map.GetFloorsList()[reader.GetInt32(1)].ScreenResX = reader.GetInt32(2);
+                        map.GetFloorsList()[reader.GetInt32(1)].ScreenResY = reader.GetInt32(3);
                     }
                 }
                 #endregion
@@ -49,7 +49,7 @@ namespace NavTestNoteBookNeConsolb
                     while (reader.Read())
                     {
                         Node tempNode = new Node(reader.GetString(0), reader.GetInt32(1), reader.GetString(2));
-                        map.NodeList.Add(tempNode.name, tempNode);
+                        map.AddInNodeList(tempNode);
                         if (tempNode.type == 0) maxCorrName = tempNode.name;
                     }
                 }
@@ -57,16 +57,15 @@ namespace NavTestNoteBookNeConsolb
                 #endregion
                 #region // LevelNodes/Edges
                 int iterator = 0;
-                foreach (Level i in map.Floors.Values)
+                foreach (Level i in map.GetFloorsList().Values)
                 {
-
                     using (MySqlDataReader reader = DataBase.ExecuteReader($"select `Nds`.`NodeName`,`levelNodeCoordX`,`levelNodeCoordY` from `LevelNodes` `LN` inner join `Nodes` `Nds` on `Nds`.`id`=`LN`.`Node_ID` where `level_ID`='{level_ID[iterator]}'"))
                     {
                         while (reader.Read())
                         {
-                            i.AddNode(map.NodeList[reader.GetString(0)], reader.GetInt32(1), reader.GetInt32(2));
-                            if (map.NodeList[reader.GetString(0)].type == 2)
-                                map.AddHyperGraphByConn(map.NodeList[reader.GetString(0)]);
+                            i.AddNode(map.GetNodeList()[reader.GetString(0)], reader.GetInt32(1), reader.GetInt32(2));
+                            if (map.GetNodeList()[reader.GetString(0)].type == 2)
+                                map.AddHyperGraphByConn(map.GetNodeList()[reader.GetString(0)]);
                         }
                     }
 
@@ -74,28 +73,28 @@ namespace NavTestNoteBookNeConsolb
                     {
                         while (reader.Read())
                         {
-                            if (!map.Floors[i.Name].edges.ContainsKey(map.NodeList[reader.GetString(0)]))
-                                map.Floors[i.Name].edges.Add(map.NodeList[reader.GetString(0)], new List<Node>());
-                            map.Floors[i.Name].edges[map.NodeList[reader.GetString(0)]].Add(map.NodeList[reader.GetString(1)]);
+                            if (!map.GetFloorsList()[i.FloorIndex].GetEdgesList().ContainsKey(map.GetNode(reader.GetString(0))))
+                                map.GetFloor(i.FloorIndex).AddEdge(map.GetNode(reader.GetString(0)));
+                            map.GetFloor(i.FloorIndex).GetEdge(map.GetNode(reader.GetString(0))).Add(map.GetNode(reader.GetString(1)));
 
-                            if (!map.Floors[i.Name].edges.ContainsKey(map.NodeList[reader.GetString(1)]))
-                                map.Floors[i.Name].edges.Add(map.NodeList[reader.GetString(1)], new List<Node>());
-                            map.Floors[i.Name].edges[map.NodeList[reader.GetString(1)]].Add(map.NodeList[reader.GetString(0)]);
+                            if (!map.GetFloor(i.FloorIndex).GetEdgesList().ContainsKey(map.GetNode(reader.GetString(1))))
+                                map.GetFloor(i.FloorIndex).AddEdge(map.GetNode(reader.GetString(1)));
+                            map.GetFloor(i.FloorIndex).GetEdge(map.GetNode(reader.GetString(1))).Add(map.GetNode(reader.GetString(0)));
                         }
                     }
                     if (isNav)
                     {
                         int connectivityCompIndex = -1;
-                        using (MySqlDataReader reader = DataBase.ExecuteReader($"select `connectivityComponentIndex`, `Nd`.`NodeName` from `ConnectivityComponents` `CC` inner join `Nodes` `Nd` on `Nd`.`id`=`CC`.`node_ID` where `level_ID`='{level_ID[iterator]}'"))
+                        using (MySqlDataReader reader = DataBase.ExecuteReader($"select `connectivityComponentIndex`, `Nd`.`NodeName`, `Lvl`.`levelFloor` from `ConnectivityComponents` `CC` inner join `Levels` `Lvl` on `CC`.`level_ID`=`Lvl`.`id` inner join `Nodes` `Nd` on `Nd`.`id`=`CC`.`node_ID` where `level_ID`='{level_ID[iterator]}'"))
                         {
                             while (reader.Read())
                             {
                                 if (connectivityCompIndex != reader.GetInt32(0))
                                 {
-                                    i.connectivityComponents.Add(new ConnectivityComp());
+                                    i.AddConnectivityComponents(reader.GetInt32(2));
                                     connectivityCompIndex = reader.GetInt32(0);
                                 }
-                                i.connectivityComponents.Last().add(map.NodeList[reader.GetString(1)]);
+                                i.GetConnectivityComponentsList().Last().add(map.GetNode(reader.GetString(1)));
                             }
                         }
                     }
@@ -117,7 +116,7 @@ namespace NavTestNoteBookNeConsolb
         }
         public void updateDB(bool isNavAble)
         {
-            string buildingName = map.name;
+            string buildingName = map.Name;
             using (DB DataBase = new DB("Plans"))
             {
                 #region // Удаление старых данных 
@@ -133,32 +132,32 @@ namespace NavTestNoteBookNeConsolb
                 }
                 #endregion
                 #region // вставить Nodes
-                foreach (Node tempNode in map.NodeList.Values)
+                foreach (Node tempNode in map.GetNodeList().Values)
                     DataBase.ExecuteCommand($"insert into `Nodes` values(null,'{building_ID}','{tempNode.name}','{tempNode.type}','{tempNode.description}')"); // вставить CommonNodes
                 #endregion
                 List<int> coords;
                 Dictionary<Node, List<Node>> tempDictionary;
-                foreach (Level i in map.Floors.Values) // Floors
+                foreach (Level i in map.GetFloorsList().Values) // Floors
                 {
                     #region // вставить этажи
-                    DataBase.ExecuteCommand($"insert into `Levels` values(null,'{building_ID}','{i.Name}','{i.floor}','{i.screenResX}','{i.screenResY}')"); // добавить этаж
-                    using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Levels` where `building_ID`='{building_ID}' and `levelName`='{i.Name}'")) // Вытащить этот id
+                    DataBase.ExecuteCommand($"insert into `Levels` values(null,'{building_ID}','{i.FloorIndex}','{i.ScreenResX}','{i.ScreenResY}')"); // добавить этаж
+                    using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Levels` where `building_ID`='{building_ID}' and `levelFloor`='{i.FloorIndex}'")) // Вытащить этот id
                     {
                         if (reader.Read()) level_ID = reader.GetInt32(0);
                     }
                     #endregion
                     #region // вставить вершины из этажей
-                    foreach (Node tempNode in i.nodeListOnFloor.Keys)
+                    foreach (Node tempNode in i.GetNodeListOnFloor().Keys)
                     {
                         int node_ID = -1;
                         using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Nodes` where `building_ID`='{building_ID}' and `NodeName`='{tempNode.name}'"))
                         {
                             if (reader.Read()) node_ID = reader.GetInt32(0);
                         }
-                        coords = map.GetCoordOfNode(i.Name, tempNode);
+                        coords = map.GetCoordOfNode(i.FloorIndex, tempNode);
                         DataBase.ExecuteCommand($"insert into `LevelNodes` values (null,'{level_ID}','{node_ID}','{coords[0]}','{coords[1]}')");
                         int iterator = 0;
-                        foreach (ConnectivityComp tempConnComp in i.connectivityComponents)
+                        foreach (ConnectivityComp tempConnComp in i.GetConnectivityComponentsList())
                         {
                             if (tempConnComp.isContains(tempNode))
                                 break;
@@ -169,7 +168,7 @@ namespace NavTestNoteBookNeConsolb
                     }
                     #endregion
                     #region // вставить рёбра
-                    tempDictionary = new Dictionary<Node, List<Node>>(i.edges);
+                    tempDictionary = new Dictionary<Node, List<Node>>(i.GetEdgesList());
                     foreach (Node nodeKey in tempDictionary.Keys)
                     {
                         int startNode_ID = -1;
