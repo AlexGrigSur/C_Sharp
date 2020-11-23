@@ -367,6 +367,11 @@ namespace NavTest
             return null;
         }
         public void ClearConnectivityComponentsOnLevel(int levelIndex) => Floors[levelIndex].ClearConnectivityComponents();
+        public List<ConnectivityComp> GetConnectivities(Node node)
+        {
+            return HyperGraphByConnectivity[node];
+        }
+        
         public Dictionary<Node, List<ConnectivityComp>> GetHyperGraphByConnectivity()
         {
             return HyperGraphByConnectivity;

@@ -8,6 +8,12 @@ using NavTest;
 
 namespace NavTestNoteBookNeConsolb
 {
+    public struct TaskToCalc
+    {
+        ConnectivityComp CurrConnComp;
+        Node startNode;
+        Node endNode;
+    }
     class NavCalc
     {
         Map map;
@@ -31,7 +37,7 @@ namespace NavTestNoteBookNeConsolb
     public class Dijkstra
     {
         private Map map;
-        List<ConnectivityComp> connectivityCompsList;
+        private List<ConnectivityComp> connectivityCompsList;
         private ConnectivityComp conCompStart;
         private ConnectivityComp conCompEnd;
         public Dijkstra(ref Map _map, ref List<ConnectivityComp> _connectivityCompsList, ref ConnectivityComp _connectivityCompStart, ref ConnectivityComp _connectivityCompEnd)
@@ -41,55 +47,44 @@ namespace NavTestNoteBookNeConsolb
             conCompStart = _connectivityCompStart;
             conCompEnd = _connectivityCompEnd;
         }
-        private static int MinimumDistance(int[] distance, bool[] shortestPathTreeSet, int verticesCount)
+        private ConnectivityComp MinimumDistance(ConnectivityComp currentConComp, ref Dictionary<ConnectivityComp, int> distance, ref Dictionary<ConnectivityComp, bool> isFixedConComp)
         {
             int min = int.MaxValue;
-            int minIndex = 0;
-
-            for (int v = 0; v < verticesCount; ++v)
+            ConnectivityComp minIndex=null;
+            foreach (Node nds in currentConComp.GetLadderList())
             {
-                if (shortestPathTreeSet[v] == false && distance[v] <= min)
+                foreach (ConnectivityComp conn in map.GetConnectivities(nds))
                 {
-                    min = distance[v];
-                    minIndex = v;
+                    if (!isFixedConComp[conn] && distance[conn] <= min)
+                    {
+                        min = distance[conn];
+                        minIndex = conn;
+                    }
                 }
             }
-
             return minIndex;
         }
 
-        private static void Print(int[] distance, int verticesCount)
+        public void DijkstraAlgo(ConnectivityComp comp)
         {
-            Console.WriteLine("Vertex    Distance from source");
+            Dictionary<ConnectivityComp, int> distance = new Dictionary<ConnectivityComp, int>();
+            Dictionary<ConnectivityComp, bool> isFixedConComp = new Dictionary<ConnectivityComp, bool>();
 
-            for (int i = 0; i < verticesCount; ++i)
-                Console.WriteLine("{0}\t  {1}", i, distance[i]);
-        }
-
-        public static void DijkstraAlgo(ConnectivityComp comp)
-        {
-            //int[] distance = new int[];
-            //bool[] shortestPathTreeSet = new bool[verticesCount];
-
-            //for (int i = 0; i < verticesCount; ++i)
-            //{
-            //    distance[i] = int.MaxValue;
-            //    shortestPathTreeSet[i] = false;
-            //}
-
-            //distance[source] = 0;
-
-            //for (int count = 0; count < verticesCount - 1; ++count)
-            //{
-            //    int u = MinimumDistance(distance, shortestPathTreeSet, verticesCount);
-            //    shortestPathTreeSet[u] = true;
-
-            //    for (int v = 0; v < verticesCount; ++v)
-            //        if (!shortestPathTreeSet[v] && Convert.ToBoolean(graph[u, v]) && distance[u] != int.MaxValue && distance[u] + graph[u, v] < distance[v])
-            //            distance[v] = distance[u] + graph[u, v];
-            //}
-
-            //Print(distance, verticesCount);
+            foreach (ConnectivityComp i in connectivityCompsList)
+            {
+                distance.Add(i, int.MaxValue);
+                isFixedConComp.Add(i, false);
+            }
+            distance[conCompStart] = 0;
+            foreach(ConnectivityComp i in connectivityCompsList)
+            {
+                ConnectivityComp u = MinimumDistance(i, ref distance, ref isFixedConComp);
+                isFixedConComp[u] = true;
+                foreach(Node nd in i.GetLadderList())
+                foreach(ConnectivityComp j in map.GetConnectivities(nd))
+                    if (!isFixedConComp[j] && distance[u] != int.MaxValue && distance[u] + 1 < distance[j])
+                        distance[j] = distance[u] + 1;
+            }
         }
 
         class A_Star
@@ -110,12 +105,6 @@ namespace NavTestNoteBookNeConsolb
             private static List<Node> GetPathForNode(Node startNode, Node endNode)
             {
                 List<Node> result = new List<Node>();
-                //var currentNode = pathNode;
-                //while (currentNode != null)
-                //{
-                //    result.Add(currentNode.Position);
-                //    currentNode = currentNode.CameFrom;
-                //}
                 result.Reverse();
                 return result;
             }
