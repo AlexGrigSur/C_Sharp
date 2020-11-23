@@ -356,6 +356,16 @@ namespace NavTest
         public void RemoveEdge(int floorIndex, List<Node> nodes) => Floors[floorIndex].RemoveEdge(nodes);
         #endregion
         #region // HyperGraph
+        public ConnectivityComp FindConnectivityCompByNode(Node nd)
+        {
+            foreach(Level i in Floors.Values)
+            {
+                foreach (ConnectivityComp ConComp in i.GetConnectivityComponentsList())
+                    if (ConComp.isContains(nd))
+                        return ConComp;
+            }
+            return null;
+        }
         public void ClearConnectivityComponentsOnLevel(int levelIndex) => Floors[levelIndex].ClearConnectivityComponents();
         public Dictionary<Node, List<ConnectivityComp>> GetHyperGraphByConnectivity()
         {

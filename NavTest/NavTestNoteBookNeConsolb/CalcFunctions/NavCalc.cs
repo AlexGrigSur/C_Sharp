@@ -10,56 +10,36 @@ namespace NavTestNoteBookNeConsolb
 {
     class NavCalc
     {
-        static int Vertex = 9;
-        int minDistance(int[] dist, bool[] sptSet)
+        Map map;
+        public NavCalc(Map _map, Node startNode, Node endNode)
         {
-            int min = int.MaxValue, min_index = -1;
-
-            for (int v = 0; v < Vertex; v++)
-                if (sptSet[v] == false && dist[v] <= min)
-                {
-                    min = dist[v];
-                    min_index = v;
-                }
-
-            return min_index;
-        }
-
-        void dijkstra(int[,] graph, int src)
-        {
-            int[] dist = new int[Vertex];
-            bool[] sptSet = new bool[Vertex];
-
-            for (int i = 0; i < Vertex; i++)
+            map = _map;
+            var startConComp = map.FindConnectivityCompByNode(startNode);
+            var endConComp = map.FindConnectivityCompByNode(endNode);
+            if (!startConComp.Equals(endConComp))
             {
-                dist[i] = int.MaxValue;
-                sptSet[i] = false;
-            }
+                List<ConnectivityComp> connectivityCompsList = new List<ConnectivityComp>();
+                foreach (Level i in map.GetFloorsList().Values)
+                    foreach (ConnectivityComp comp in i.GetConnectivityComponentsList())
+                        connectivityCompsList.Add(comp);
 
-            dist[src] = 0;
-            for (int count = 0; count < Vertex - 1; count++)
-            {
-                int u = minDistance(dist, sptSet);
-                sptSet[u] = true;
-                for (int v = 0; v < Vertex; v++)
-                    if (!sptSet[v] && graph[u, v] != 0 &&
-                        dist[u] != int.MaxValue && dist[u] + graph[u, v] < dist[v])
-                        dist[v] = dist[u] + graph[u, v];
+                Dijkstra algo = new Dijkstra(ref map, ref connectivityCompsList, ref startConComp, ref endConComp);
             }
-            //printSolution(dist, Vertex);
         }
     }
 
     public class Dijkstra
     {
         private Map map;
+        List<ConnectivityComp> connectivityCompsList;
         private ConnectivityComp conCompStart;
         private ConnectivityComp conCompEnd;
-        public Dijkstra(ref Map _map, ref ConnectivityComp _connectivityCompStart, ref ConnectivityComp _connectivityCompEnd)
+        public Dijkstra(ref Map _map, ref List<ConnectivityComp> _connectivityCompsList, ref ConnectivityComp _connectivityCompStart, ref ConnectivityComp _connectivityCompEnd)
         {
             map = _map;
-            conCompStart=_connectivityCompStart;
-            conCompEnd=_connectivityCompEnd;
+            connectivityCompsList = _connectivityCompsList;
+            conCompStart = _connectivityCompStart;
+            conCompEnd = _connectivityCompEnd;
         }
         private static int MinimumDistance(int[] distance, bool[] shortestPathTreeSet, int verticesCount)
         {

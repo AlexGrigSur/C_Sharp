@@ -140,7 +140,7 @@ namespace NavTestNoteBookNeConsolb.NavForm
             {
                 if (StartPointButton.Text != EndPointButton.Text)
                 {
-                    NavCalc navCalc = new NavCalc();
+                    NavCalc navCalc = new NavCalc(map,map.GetNode(StartPointButton.Text),map.GetNode(EndPointButton.Text));
                     bool isDifferentConnectivityComp = avaliableNodes[map.GetNode(StartPointButton.Text)].Equals(avaliableNodes[map.GetNode(EndPointButton.Text)]);
                     
                 }
@@ -155,6 +155,12 @@ namespace NavTestNoteBookNeConsolb.NavForm
         private void ChooseLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadLevel();
+        }
+
+        private void RefreshRouteButton_Click(object sender, EventArgs e)
+        {
+            StartPointButton.Text = "Выберите точку";
+            EndPointButton.Text = "Выберите точку";
         }
     }
 }
