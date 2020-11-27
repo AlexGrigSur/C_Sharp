@@ -16,7 +16,7 @@ namespace NavTestNoteBookNeConsolb.NavForm
         private Map map;
         private int panelX = 0;
         private int panelY = 0;
-        private int radius = 10;
+        static private int radius = 10;
 
         private Dictionary<Node, ConnectivityComp> avaliableNodes;
         public MainNavForm(string buildingName)
@@ -36,7 +36,7 @@ namespace NavTestNoteBookNeConsolb.NavForm
             ChooseLevelComboBox.SelectedIndex = 0;
             LoadLevel();
         }
-
+        DrawClass draw = new DrawClass(radius);
         private void updateLevelList()
         {
             ChooseLevelComboBox.Items.Clear();
@@ -70,59 +70,11 @@ namespace NavTestNoteBookNeConsolb.NavForm
                 }
             }
         }
-
         private void LoadLevel()
         {
-            Level floor = map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text));
-            pictureBox1.Image = new Bitmap(floor.ScreenResX, floor.ScreenResY);
-            panelX = floor.ScreenResX;
-            panelY = floor.ScreenResY;
-
-            foreach (Node nodeIter in floor.GetNodeListOnFloor().Keys) // draw all Nodes
-                DrawNode(floor.GetNodeOnFloor(nodeIter)[0], floor.GetNodeOnFloor(nodeIter)[1], 255, ((nodeIter.type == 0) ? "" : nodeIter.name)); // ternary operator to not draw text on corridor nodes
-            Dictionary<Node, List<Node>> edgesCopy = new Dictionary<Node, List<Node>>(map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetEdgesList());
-            foreach (Node FirstNodeLine in edgesCopy.Keys) // draw All 
-                foreach (Node SecondNodeLine in edgesCopy[FirstNodeLine])
-                {
-                    DrawLine(floor.GetNodeOnFloor(FirstNodeLine)[0], floor.GetNodeOnFloor(FirstNodeLine)[1], floor.GetNodeOnFloor(SecondNodeLine)[0], floor.GetNodeOnFloor(SecondNodeLine)[1]);
-                    edgesCopy[SecondNodeLine].Remove(FirstNodeLine);
-                }
-            edgesCopy.Clear();
+            pictureBox1.Image = new Bitmap(draw.LoadLevel(Convert.ToInt32(ChooseLevelComboBox.Text), ref map, out panelX, out panelY));
             pictureBox1.Invalidate();
         }
-        private void DrawNode(int X, int Y, int transparent = 255, string nodeName = "")
-        {
-            using (Graphics G = Graphics.FromImage(pictureBox1.Image))
-            {
-                Color colorFirst, colorSecond;
-                colorFirst = Color.FromArgb(transparent, Color.Black);
-                colorSecond = Color.FromArgb(transparent, Color.Orange);
-
-                Pen pen = new Pen(colorFirst);
-                Brush brush = new SolidBrush(colorFirst);
-                G.DrawEllipse(pen, X - radius, Y - radius, 2 * radius, 2 * radius);
-                G.FillEllipse(brush, X - radius, Y - radius, 2 * radius, 2 * radius);
-                brush = new SolidBrush(colorSecond);
-                G.FillRectangle(brush, X, Y, 1, 1);
-                if (nodeName != "") G.DrawString(nodeName.Substring(0, ((nodeName.Length < 4) ? nodeName.Length : 4)), new Font("Microsoft Sans Serif", 15f), new SolidBrush(colorFirst), X + radius + 2, Y - radius);
-            }
-            pictureBox1.Invalidate();
-        }
-        private void DrawLine(int X1, int Y1, int X2, int Y2)
-        {
-            using (Graphics G = Graphics.FromImage(pictureBox1.Image))
-            {
-                Color lineColor;
-                lineColor = Color.Purple;
-                G.DrawLine(new Pen(lineColor), X1, Y1, X2, Y2);
-            }
-            List<Node> nodeList = map.SearchNode(Convert.ToInt32(ChooseLevelComboBox.Text), X1, Y1, X2, Y2);
-            string nodeName = (nodeList[0].type == 0) ? "" : nodeList[0].name;
-            DrawNode(map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetNodeOnFloor(nodeList[0])[0], map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetNodeOnFloor(nodeList[0])[1], 255, nodeName);
-            nodeName = (nodeList[1].type == 0) ? "" : nodeList[1].name;
-            DrawNode(map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetNodeOnFloor(nodeList[1])[0], map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetNodeOnFloor(nodeList[1])[1], 255, nodeName);
-        }
-
         #region // RootSelection
         private void ChoosePointMenu(Button button)
         {
@@ -140,9 +92,9 @@ namespace NavTestNoteBookNeConsolb.NavForm
             {
                 if (StartPointButton.Text != EndPointButton.Text)
                 {
-                    NavCalc navCalc = new NavCalc(map,map.GetNode(StartPointButton.Text),map.GetNode(EndPointButton.Text));
+                    NavCalc navCalc = new NavCalc(map, map.GetNode(StartPointButton.Text), map.GetNode(EndPointButton.Text));
                     bool isDifferentConnectivityComp = avaliableNodes[map.GetNode(StartPointButton.Text)].Equals(avaliableNodes[map.GetNode(EndPointButton.Text)]);
-                    
+
                 }
                 else
                     MessageBox.Show("Вы уже в точке назначения :)");
@@ -154,6 +106,11 @@ namespace NavTestNoteBookNeConsolb.NavForm
 
         private void ChooseLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (avaliableNodes.Count == 0)
+            {
+                MessageBox.Show("План не имеет доступных точек для расчёта маршрута");
+                return;
+            }
             LoadLevel();
         }
 

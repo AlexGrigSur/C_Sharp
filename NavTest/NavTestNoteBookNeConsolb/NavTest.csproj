@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="DB\WorkWithDB.cs" />
     <Compile Include="DB\DB.cs" />
+    <Compile Include="DrawClass.cs" />
     <Compile Include="DrawingForms\LadderChoose.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -48,11 +48,11 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.DrawToLeftToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.labelTypeInOutput = new System.Windows.Forms.Label();
+            this.comboBoxTypeInOutput = new System.Windows.Forms.ComboBox();
+            this.textBoxTypeInOutput = new System.Windows.Forms.TextBox();
             this.labelNameInOutput = new System.Windows.Forms.Label();
             this.textBoxNameInOutput = new System.Windows.Forms.TextBox();
-            this.labelTypeInOutput = new System.Windows.Forms.Label();
-            this.textBoxTypeInOutput = new System.Windows.Forms.TextBox();
-            this.comboBoxTypeInOutput = new System.Windows.Forms.ComboBox();
             this.labelDescriptionInOutput = new System.Windows.Forms.Label();
             this.textBoxDescriptionInOutput = new System.Windows.Forms.TextBox();
             this.labelXInOutput = new System.Windows.Forms.Label();
@@ -283,22 +283,6 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(109, 273);
             this.flowLayoutPanel2.TabIndex = 3;
             // 
-            // labelNameInOutput
-            // 
-            this.labelNameInOutput.AutoSize = true;
-            this.labelNameInOutput.Location = new System.Drawing.Point(3, 66);
-            this.labelNameInOutput.Name = "labelNameInOutput";
-            this.labelNameInOutput.Size = new System.Drawing.Size(57, 13);
-            this.labelNameInOutput.TabIndex = 0;
-            this.labelNameInOutput.Text = "Название";
-            // 
-            // textBoxNameInOutput
-            // 
-            this.textBoxNameInOutput.Location = new System.Drawing.Point(3, 82);
-            this.textBoxNameInOutput.Name = "textBoxNameInOutput";
-            this.textBoxNameInOutput.Size = new System.Drawing.Size(96, 20);
-            this.textBoxNameInOutput.TabIndex = 1;
-            // 
             // labelTypeInOutput
             // 
             this.labelTypeInOutput.AutoSize = true;
@@ -307,16 +291,6 @@
             this.labelTypeInOutput.Size = new System.Drawing.Size(26, 13);
             this.labelTypeInOutput.TabIndex = 5;
             this.labelTypeInOutput.Text = "Тип";
-            // 
-            // textBoxTypeInOutput
-            // 
-            this.textBoxTypeInOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxTypeInOutput.Location = new System.Drawing.Point(3, 43);
-            this.textBoxTypeInOutput.Name = "textBoxTypeInOutput";
-            this.textBoxTypeInOutput.ReadOnly = true;
-            this.textBoxTypeInOutput.Size = new System.Drawing.Size(96, 20);
-            this.textBoxTypeInOutput.TabIndex = 13;
             // 
             // comboBoxTypeInOutput
             // 
@@ -331,6 +305,32 @@
             this.comboBoxTypeInOutput.Size = new System.Drawing.Size(96, 21);
             this.comboBoxTypeInOutput.TabIndex = 2;
             this.comboBoxTypeInOutput.SelectedIndexChanged += new System.EventHandler(this.comboBoxTypeInOutput_SelectedIndexChanged);
+            // 
+            // textBoxTypeInOutput
+            // 
+            this.textBoxTypeInOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxTypeInOutput.Location = new System.Drawing.Point(3, 43);
+            this.textBoxTypeInOutput.Name = "textBoxTypeInOutput";
+            this.textBoxTypeInOutput.ReadOnly = true;
+            this.textBoxTypeInOutput.Size = new System.Drawing.Size(96, 20);
+            this.textBoxTypeInOutput.TabIndex = 13;
+            // 
+            // labelNameInOutput
+            // 
+            this.labelNameInOutput.AutoSize = true;
+            this.labelNameInOutput.Location = new System.Drawing.Point(3, 66);
+            this.labelNameInOutput.Name = "labelNameInOutput";
+            this.labelNameInOutput.Size = new System.Drawing.Size(57, 13);
+            this.labelNameInOutput.TabIndex = 0;
+            this.labelNameInOutput.Text = "Название";
+            // 
+            // textBoxNameInOutput
+            // 
+            this.textBoxNameInOutput.Location = new System.Drawing.Point(3, 82);
+            this.textBoxNameInOutput.Name = "textBoxNameInOutput";
+            this.textBoxNameInOutput.Size = new System.Drawing.Size(117, 20);
+            this.textBoxNameInOutput.TabIndex = 1;
             // 
             // labelDescriptionInOutput
             // 
