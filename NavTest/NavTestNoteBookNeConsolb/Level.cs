@@ -81,8 +81,8 @@ namespace NavTest
         public int FloorIndex
         {
             get { return floorIndex; }
-        }        
-        
+        }
+
         #region // ConnectivityComponents
         public List<ConnectivityComp> GetConnectivityComponentsList()
         {
@@ -109,11 +109,11 @@ namespace NavTest
                 }
             if ((maxX + 10 != screenResX) || (maxY + 10 != screenResY))
             {
-                screenResX = maxX - minX - 15;
-                screenResY = maxY - minY - 15;
+                screenResX = maxX - minX - 100;
+                screenResY = maxY - minY - 100;
             }
-            if (screenResX < 800) screenResX = 800;
-            if (screenResY < 600) screenResY = 600;
+            if (screenResX < 800) screenResX = 900;
+            if (screenResY < 600) screenResY = 700;
         }
 
         #region // NodeList
@@ -192,6 +192,7 @@ namespace NavTest
             edges[obj[0]].Add(obj[1]);
             edges[obj[1]].Add(obj[0]);
         }
+        public void AddSingleEdge(Node baseNode, Node connNode) => edges[baseNode].Add(connNode);
         public void RemoveEdge(List<Node> obj)
         {
             edges[obj[0]].Remove(obj[1]);
@@ -356,9 +357,10 @@ namespace NavTest
         public void RemoveEdge(int floorIndex, List<Node> nodes) => Floors[floorIndex].RemoveEdge(nodes);
         #endregion
         #region // HyperGraph
+        public void ClearHyperGraphByConnectivity() => HyperGraphByConnectivity.Clear();
         public ConnectivityComp FindConnectivityCompByNode(Node nd)
         {
-            foreach(Level i in Floors.Values)
+            foreach (Level i in Floors.Values)
             {
                 foreach (ConnectivityComp ConComp in i.GetConnectivityComponentsList())
                     if (ConComp.isContains(nd))
@@ -370,16 +372,13 @@ namespace NavTest
         public List<ConnectivityComp> GetConnectivities(Node node)
         {
             return HyperGraphByConnectivity[node];
-        }
-        
+        } 
+
         public Dictionary<Node, List<ConnectivityComp>> GetHyperGraphByConnectivity()
         {
             return HyperGraphByConnectivity;
         }
-        public void AddInExistingHyperGraphByConnectivity(Node nd, ConnectivityComp comp)
-        {
-            HyperGraphByConnectivity[nd].Add(comp);
-        }
+        public void AddInExistingHyperGraphByConnectivity(Node nd, ConnectivityComp comp) => HyperGraphByConnectivity[nd].Add(comp);
         public void AddHyperGraphByConn(Node obj)
         {
             if (!HyperGraphByConnectivity.ContainsKey(obj)) HyperGraphByConnectivity.Add(obj, new List<ConnectivityComp>());

@@ -15,20 +15,34 @@ namespace NavTestNoteBookNeConsolb
         public Image LoadLevel(int currentLevel, ref Map map, out int panelX, out int panelY)
         {
             Level floor = map.GetFloor(currentLevel);
-            Image picture = new Bitmap(floor.ScreenResX, floor.ScreenResY);
-            panelX = floor.ScreenResX;
-            panelY = floor.ScreenResY;
+
+            panelX = (floor.ScreenResX == int.MaxValue) ? 900 : floor.ScreenResX;
+            panelY = (floor.ScreenResY == int.MaxValue) ? 700 : floor.ScreenResY;
+
+            Image picture = new Bitmap(panelX, panelY);
+
 
             foreach (Node nodeIter in floor.GetNodeListOnFloor().Keys) // draw all Nodes
                 picture = DrawNode(picture, floor.GetNodeOnFloor(nodeIter)[0], floor.GetNodeOnFloor(nodeIter)[1], 255, ((nodeIter.type == 0) ? "" : nodeIter.name)); // ternary operator to not draw text on corridor nodes
+            
             Dictionary<Node, List<Node>> edgesCopy = new Dictionary<Node, List<Node>>(map.GetFloor(currentLevel).GetEdgesList());
+
+            Dictionary<Node, List<Node>> removed = new Dictionary<Node, List<Node>>();
+
             foreach (Node FirstNodeLine in edgesCopy.Keys) // draw All 
                 foreach (Node SecondNodeLine in edgesCopy[FirstNodeLine])
                 {
                     picture = DrawLine(picture, floor.GetNodeOnFloor(FirstNodeLine)[0], floor.GetNodeOnFloor(FirstNodeLine)[1], (FirstNodeLine.type == 0) ? "" : FirstNodeLine.name, floor.GetNodeOnFloor(SecondNodeLine)[0], floor.GetNodeOnFloor(SecondNodeLine)[1], (SecondNodeLine.type == 0) ? "" : SecondNodeLine.name);
-                    edgesCopy[SecondNodeLine].Remove(FirstNodeLine);
+                    if (!removed.ContainsKey(SecondNodeLine)) removed.Add(SecondNodeLine, new List<Node>());
+                    removed[SecondNodeLine].Add(FirstNodeLine);
                 }
+
+            foreach (Node i in removed.Keys)
+                foreach (Node j in removed[i])
+                    map.GetFloor(currentLevel).AddSingleEdge(i, j);
+
             edgesCopy.Clear();
+            removed.Clear();
 
             return picture;
         }
@@ -71,7 +85,6 @@ namespace NavTestNoteBookNeConsolb
             }
             return picture;
         }
-
         public List<int> SearchNodesOnScreen(Image picture, int e_X, int e_Y, int radius)
         {
             List<int> coord = new List<int>();

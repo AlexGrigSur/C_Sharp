@@ -25,11 +25,16 @@ namespace NavTestNoteBookNeConsolb.NavForm
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(dataGridView1.SelectedRows.Count==1)
+            if (dataGridView1.SelectedRows.Count == 1)
             {
                 SelectedNode = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
                 ContinueFlag = true;
+                this.Close();
             }
+            else
+                MessageBox.Show("Выберите вершину для продолжения");
         }
+
+        private void dataGridView1_DoubleClick(object sender, EventArgs e) => button1_Click(null, null);
     }
 }

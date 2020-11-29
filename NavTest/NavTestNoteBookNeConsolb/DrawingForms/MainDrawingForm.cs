@@ -16,6 +16,7 @@ namespace NavTestNoteBookNeConsolb
         private string buildingName = "";
 
         private int Mode = -1; // -1 - ObserverMode, 0-AddNode, 1-EditNode, 2-DeleteNode, 3-AddEdge, 4 - Delete Edge
+        private int currentLevel = -1;
 
         private List<int> FirstPoint = new List<int>(); // for AddEdge/DeleteEdge
 
@@ -88,18 +89,23 @@ namespace NavTestNoteBookNeConsolb
                         map.GetFloor(form.levelFloor).ScreenResY = panelY;
                         updateLevelList();
                         ChooseLevelComboBox.SelectedIndex = ChooseLevelComboBox.Items.Count - 2;
+                        //currentLevel = Convert.ToInt32(ChooseLevelComboBox.Text);
                         Changes(true);
                     }
                 }
             }
             else
-                LoadLevel();
+            {
+                currentLevel = Convert.ToInt32(ChooseLevelComboBox.Text);
+                LoadLevel();                
+            }
         }
 
         private void LoadLevel()
         {
-            pictureBox1.Image = new Bitmap(draw.LoadLevel(Convert.ToInt32(ChooseLevelComboBox.Text), ref map, out panelX, out panelY));
+            pictureBox1.Image = new Bitmap(draw.LoadLevel(currentLevel, ref map, out panelX, out panelY));
             pictureBox1.Invalidate();
+            SecondLayer = new Bitmap(pictureBox1.Image);
             GreyMode(false);
             ObservereMode();
         }
@@ -132,21 +138,13 @@ namespace NavTestNoteBookNeConsolb
             pictureBox1.Image = new Bitmap(draw.DrawNode(pictureBox1.Image, X, Y, transparent, nodeName));
             pictureBox1.Invalidate();
         }
-        private void DrawLine(int X1, int Y1, int X2, int Y2)
+        private void DrawLine(int X1, int Y1, Node firstNode, int X2, int Y2, Node secondNode)
         {
-            List<Node> nodeList = map.SearchNode(Convert.ToInt32(ChooseLevelComboBox.Text), X1, Y1, X2, Y2);
-            string FirstNodeName, SecondNodeName;
-            if (map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetNodeOnFloor(nodeList[0])[0] == X1 && map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetNodeOnFloor(nodeList[0])[1] == Y2)
-            {
-                FirstNodeName = (nodeList[0].type != 0) ? nodeList[0].name : "";
-                SecondNodeName = (nodeList[1].type != 0) ? nodeList[1].name : "";
-            }
-            else
-            {
-                FirstNodeName = (nodeList[1].type != 0) ? nodeList[1].name : "";
-                SecondNodeName = (nodeList[0].type != 0) ? nodeList[0].name : "";
-            }
-            pictureBox1.Image = new Bitmap(draw.DrawLine(pictureBox1.Image, X1, Y1, FirstNodeName, X2, Y2, SecondNodeName));
+
+            string firstNodeName = (firstNode.type != 0) ? firstNode.name : "";
+            string secondNodeName = (secondNode.type != 0) ? secondNode.name : "";
+
+            pictureBox1.Image = new Bitmap(draw.DrawLine(pictureBox1.Image, X1, Y1, firstNodeName, X2, Y2, secondNodeName));
             pictureBox1.Invalidate();
         }
         #region // Mode selection
@@ -249,7 +247,7 @@ namespace NavTestNoteBookNeConsolb
         {
             if (observerNode.Count == 2)
             {
-                Node tempNode = map.SearchNode(Convert.ToInt32(ChooseLevelComboBox.Text), observerNode[0], observerNode[1])[0];
+                Node tempNode = map.SearchNode(currentLevel, observerNode[0], observerNode[1])[0];
                 textBoxNameInOutput.Text = tempNode.name;
                 textBoxTypeInOutput.Text = comboBoxTypeInOutput.Items[tempNode.type].ToString();
                 textBoxDescriptionInOutput.Text = tempNode.description;
@@ -323,7 +321,7 @@ namespace NavTestNoteBookNeConsolb
                             {
                                 pictureBox1.Image = new Bitmap(SecondLayer);
                                 pictureBox1.Invalidate();
-                                HighlighterNode(map.GetCoordOfNode(Convert.ToInt32(ChooseLevelComboBox.Text), FoundNode));
+                                HighlighterNode(map.GetCoordOfNode(currentLevel, FoundNode));
                                 DrawNode(e.X, e.Y, 155);
                                 textBoxXInOutput.Text = e.X.ToString();
                                 textBoxYInOutput.Text = e.Y.ToString();
@@ -466,8 +464,8 @@ namespace NavTestNoteBookNeConsolb
                 Bitmap bmp = new Bitmap(panelX, panelY);
                 if (ChooseLevelComboBox.SelectedIndex != -1 && ChooseLevelComboBox.SelectedIndex != ChooseLevelComboBox.Items.Count - 1)
                 {
-                    map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).ScreenResX = panelX;
-                    map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).ScreenResY = panelY;
+                    map.GetFloor(currentLevel).ScreenResX = panelX;
+                    map.GetFloor(currentLevel).ScreenResY = panelY;
                 }
                 using (Graphics G = Graphics.FromImage(bmp))
                 {
@@ -483,11 +481,11 @@ namespace NavTestNoteBookNeConsolb
                     }
                     if (resizeToLeft)
                     {
-                        List<Node> NodeList = new List<Node>(map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetNodeListOnFloor().Keys);
+                        List<Node> NodeList = new List<Node>(map.GetFloor(currentLevel).GetNodeListOnFloor().Keys);
                         foreach (Node i in NodeList)
                         {
-                            List<int> coords = map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetNodeOnFloor(i);
-                            map.EditNode(Convert.ToInt32(ChooseLevelComboBox.Text), i.name, i, coords[0] + (panelX - pictureBox1.Width), coords[1] + (panelY - pictureBox1.Height));
+                            List<int> coords = map.GetFloor(currentLevel).GetNodeOnFloor(i);
+                            map.EditNode(currentLevel, i.name, i, coords[0] + (panelX - pictureBox1.Width), coords[1] + (panelY - pictureBox1.Height));
                         }
                         G.DrawImage(pictureBox1.Image, panelX - pictureBox1.Image.Width, panelY - pictureBox1.Image.Height, pictureBox1.Width, pictureBox1.Height);
                         resizeToLeft = false;
@@ -539,7 +537,7 @@ namespace NavTestNoteBookNeConsolb
                 {
                     List<Node> localLadderList = new List<Node>(map.GetHyperGraphByConnectivity().Keys);
                     for (int i = 0; i < localLadderList.Count; ++i)
-                        if (map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetNodeListOnFloor().ContainsKey(localLadderList[i]))
+                        if (map.GetFloor(currentLevel).GetNodeListOnFloor().ContainsKey(localLadderList[i]))
                         {
                             localLadderList.Remove(localLadderList[i]);
                             --i;
@@ -558,8 +556,11 @@ namespace NavTestNoteBookNeConsolb
                             comboBoxTypeInOutput.SelectedIndex = FoundNode.type;
                             textBoxDescriptionInOutput.Text = FoundNode.description;
                             textBoxDescriptionInOutput.ReadOnly = true;
+                            isNewLadder = false;
                         }
                     }
+                    else
+                        comboBoxTypeInOutput.SelectedIndex = -1;
                 }
                 else
                     isNewLadder = false;
@@ -579,7 +580,7 @@ namespace NavTestNoteBookNeConsolb
                                 MessageBox.Show("Заполните поля названия и/или типа");
                                 return;
                             }
-                            if (map.GetNodeList().ContainsKey(textBoxNameInOutput.Text) && (comboBoxTypeInOutput.SelectedIndex != 2 || isNewLadder))
+                            if (map.GetNodeList().ContainsKey(textBoxNameInOutput.Text) && (comboBoxTypeInOutput.SelectedIndex != 2 || isNewLadder) && !(comboBoxTypeInOutput.SelectedIndex == 2 && !isNewLadder))
                             {
                                 MessageBox.Show("Вершина с данным именем уже существует. Измените его для продолжения работы");
                                 return;
@@ -592,7 +593,7 @@ namespace NavTestNoteBookNeConsolb
                         }
                         if (comboBoxTypeInOutput.SelectedIndex == 2 && !isNewLadder)
                         {
-                            map.AddNode(Convert.ToInt32(ChooseLevelComboBox.Text), FoundNode, Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text));
+                            map.AddNode(currentLevel, FoundNode, Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text));
                             comboBoxTypeInOutput.SelectedIndex = -1;
                         }
                         else
@@ -610,7 +611,7 @@ namespace NavTestNoteBookNeConsolb
                                 description = textBoxDescriptionInOutput.Text;
                             }
                             Node newNode = new Node(NodeName, comboBoxTypeInOutput.SelectedIndex, description);
-                            map.AddNode(Convert.ToInt32(ChooseLevelComboBox.Text), newNode, Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text));
+                            map.AddNode(currentLevel, newNode, Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text));
                             comboBoxTypeInOutput.SelectedIndex = -1;
                         }
                         pictureBox1.Image = new Bitmap(SecondLayer);
@@ -652,14 +653,14 @@ namespace NavTestNoteBookNeConsolb
                         if (changeFlag)
                         {
                             NewNode = new Node(name, FoundNode.type, descr);
-                            map.EditNode(Convert.ToInt32(ChooseLevelComboBox.Text), FoundNode.name, NewNode);
+                            map.EditNode(currentLevel, FoundNode.name, NewNode);
                         }
 
                         if (isGreyMode)
                         {
-                            List<int> tempCoord = map.GetCoordOfNode(Convert.ToInt32(ChooseLevelComboBox.Text), NewNode);
+                            List<int> tempCoord = map.GetCoordOfNode(currentLevel, NewNode);
                             if (tempCoord[0] != Convert.ToInt32(textBoxXInOutput.Text) || tempCoord[1] != Convert.ToInt32(textBoxYInOutput.Text))
-                                map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).NodeCoordChange(NewNode, Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text));
+                                map.GetFloor(currentLevel).NodeCoordChange(NewNode, Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text));
                             changeFlag = true;
                         }
                         if (changeFlag)
@@ -676,7 +677,7 @@ namespace NavTestNoteBookNeConsolb
                         {
                             Changes(true);
                             GreyMode(false);
-                            map.RemoveNode(Convert.ToInt32(ChooseLevelComboBox.Text), FoundNode);
+                            map.RemoveNode(currentLevel, FoundNode);
                             LoadLevel();
                             textBoxNameInOutput.Text = "";
                             textBoxTypeInOutput.Text = "";
@@ -691,24 +692,24 @@ namespace NavTestNoteBookNeConsolb
                     {
                         if (FirstPoint.Count != 0)
                         {
-                            List<int> foundNodeCoord = map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetNodeOnFloor(FoundNode); // second Node
-                            if (foundNodeCoord[0] != FirstPoint[0] && foundNodeCoord[1] != FirstPoint[1])
+                            List<int> foundNodeCoord = map.GetFloor(currentLevel).GetNodeOnFloor(FoundNode); // second Node
+                            if (foundNodeCoord[0] != FirstPoint[0] || foundNodeCoord[1] != FirstPoint[1])
                             {
-                                Node FirstNode = map.SearchNode(Convert.ToInt32(ChooseLevelComboBox.Text), FirstPoint[0], FirstPoint[1])[0];
-                                if (Mode == 3 && !map.isEdgeExists(Convert.ToInt32(ChooseLevelComboBox.Text), FirstNode, FoundNode))
+                                Node FirstNode = map.SearchNode(currentLevel, FirstPoint[0], FirstPoint[1])[0];
+                                if (Mode == 3 && !map.isEdgeExists(currentLevel, FirstNode, FoundNode))
                                 {
                                     GreyMode(false);
-                                    map.AddEdge(Convert.ToInt32(ChooseLevelComboBox.Text), new List<Node> { FirstNode, FoundNode });
-                                    DrawLine(FirstPoint[0], FirstPoint[1], foundNodeCoord[0], foundNodeCoord[1]);
+                                    map.AddEdge(currentLevel, new List<Node> { FirstNode, FoundNode });
+                                    DrawLine(FirstPoint[0], FirstPoint[1], FirstNode, foundNodeCoord[0], foundNodeCoord[1], FoundNode);
                                     FirstPoint.Clear();
                                     Changes(true);
                                 }
                                 else
                                 {
-                                    if (Mode == 4 && map.isEdgeExists(Convert.ToInt32(ChooseLevelComboBox.Text), FirstNode, FoundNode))
+                                    if (Mode == 4 && map.isEdgeExists(currentLevel, FirstNode, FoundNode))
                                     {
                                         GreyMode(false);
-                                        map.RemoveEdge(Convert.ToInt32(ChooseLevelComboBox.Text), new List<Node> { FirstNode, FoundNode });
+                                        map.RemoveEdge(currentLevel, new List<Node> { FirstNode, FoundNode });
                                         LoadLevel();//DrawLine(FirstPoint[0], FirstPoint[1], foundNodeCoord[0], foundNodeCoord[1]);
                                         FirstPoint.Clear();
                                         Changes(true);
@@ -729,8 +730,8 @@ namespace NavTestNoteBookNeConsolb
                 if (result == DialogResult.Yes)
                 {
                     Changes(true);
-                    map.RemoveFromFloors(Convert.ToInt32(ChooseLevelComboBox.Text));
-                    ChooseLevelComboBox.Items.Remove(Convert.ToInt32(ChooseLevelComboBox.Text));
+                    map.RemoveFromFloors(currentLevel);
+                    ChooseLevelComboBox.Items.Remove(currentLevel);
                     if (ChooseLevelComboBox.Items.Count > 0)
                         ChooseLevelComboBox.SelectedIndex = 0;
                     else
@@ -757,11 +758,11 @@ namespace NavTestNoteBookNeConsolb
             DialogResult result = MessageBox.Show("Вы уверены?", "Warning", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                foreach (Node i in map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).GetNodeListOnFloor().Keys)
-                    if (i.type == 2) map.RemoveNode(Convert.ToInt32(ChooseLevelComboBox.Text), i);
+                foreach (Node i in map.GetFloor(currentLevel).GetNodeListOnFloor().Keys)
+                    if (i.type == 2) map.RemoveNode(currentLevel, i);
 
-                map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).ClearNodeListOnFloor();
-                map.GetFloor(Convert.ToInt32(ChooseLevelComboBox.Text)).ClearEdges();
+                map.GetFloor(currentLevel).ClearNodeListOnFloor();
+                map.GetFloor(currentLevel).ClearEdges();
                 Changes(true);
             }
         }

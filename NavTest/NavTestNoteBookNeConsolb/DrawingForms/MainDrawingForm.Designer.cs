@@ -329,7 +329,7 @@
             // 
             this.textBoxNameInOutput.Location = new System.Drawing.Point(3, 82);
             this.textBoxNameInOutput.Name = "textBoxNameInOutput";
-            this.textBoxNameInOutput.Size = new System.Drawing.Size(117, 20);
+            this.textBoxNameInOutput.Size = new System.Drawing.Size(96, 20);
             this.textBoxNameInOutput.TabIndex = 1;
             // 
             // labelDescriptionInOutput

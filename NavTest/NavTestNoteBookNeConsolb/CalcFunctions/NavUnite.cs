@@ -20,13 +20,16 @@ namespace NavTestNoteBookNeConsolb
         }
         public void SplitByConnectivity(ref Map map)
         {
+            map.ClearHyperGraphByConnectivity();
             foreach (int floorIndex in map.GetFloorsList().Keys)
             {
                 map.ClearConnectivityComponentsOnLevel(floorIndex);
                 Level currentLevel = map.GetFloorsList()[floorIndex];
                 Dictionary<NavTest.Node, int> nodesToBeVisited = new Dictionary<NavTest.Node, int>(); // 0-notVisited ,1-reachable, 2-visited
+
                 foreach (Node j in currentLevel.GetNodeListOnFloor().Keys)
                     nodesToBeVisited.Add(j, 0);
+
                 while (nodesToBeVisited.Count > 0)
                 {
                     bool exit = false;
@@ -37,10 +40,13 @@ namespace NavTestNoteBookNeConsolb
                     foreach (Node j in nodesToBeVisited.Keys)
                         if (nodesToBeVisited[j] > 0) currentLevel.GetConnectivityComponentsList().Last().add(j);
 
-                    //currentLevel.connectivityComponents.Last().FloorName = currentLevel.Name;
                     foreach (Node j in currentLevel.GetConnectivityComponentsList().Last().GetAllNodesList())
                     {
-                        if (j.type == 2) map.AddInExistingHyperGraphByConnectivity(j, currentLevel.GetConnectivityComponentsList().Last());
+                        if (j.type == 2)
+                        {
+                            map.AddHyperGraphByConn(j);
+                            map.AddInExistingHyperGraphByConnectivity(j, currentLevel.GetConnectivityComponentsList().Last());
+                        }
                         nodesToBeVisited.Remove(j);
                     }
                 }
@@ -77,7 +83,7 @@ namespace NavTestNoteBookNeConsolb
                 return;
             }
         }
-        
+
         private void IsMapConnectivity(ref Map map)
         {
             Dictionary<ConnectivityComp, int> ConnectivityComponentsList = new Dictionary<ConnectivityComp, int>();
@@ -89,10 +95,16 @@ namespace NavTestNoteBookNeConsolb
             bool exit = false;
             int visitedNodesValue = 0;
             int reachableNodesValue = 1;
-            ReccurMapConnectivity(/*ref*/ map.GetHyperGraphByConnectivity(), ref ConnectivityComponentsList, map.GetFloorsList().First().Value.GetConnectivityComponentsList().First(), ref reachableNodesValue, ref visitedNodesValue, ref exit);
-            if (reachableNodesValue != ConnectivityComponentsList.Count) isNavAble = false;
+            if (ConnectivityComponentsList.Count > 0)
+            {
+                ReccurMapConnectivity(/*ref*/ map.GetHyperGraphByConnectivity(), ref ConnectivityComponentsList, map.GetFloorsList().First().Value.GetConnectivityComponentsList().First(), ref reachableNodesValue, ref visitedNodesValue, ref exit);
+                if (reachableNodesValue != ConnectivityComponentsList.Count) isNavAble = false;
+            }
+            else
+                isNavAble = false;
         }
-        private void ReccurMapConnectivity(/*ref*/ Dictionary<Node, List<ConnectivityComp>> hyperGraphByConnectivity, ref Dictionary<ConnectivityComp, int> nodesToBeVisited, ConnectivityComp currentNode, ref int reachableNodesValue, ref int visitedNodesValue, ref bool exit) // simple version
+
+        private void ReccurMapConnectivity(Dictionary<Node, List<ConnectivityComp>> hyperGraphByConnectivity, ref Dictionary<ConnectivityComp, int> nodesToBeVisited, ConnectivityComp currentNode, ref int reachableNodesValue, ref int visitedNodesValue, ref bool exit) // simple version
         {
             visitedNodesValue += 1;
             nodesToBeVisited[currentNode] = 2;
@@ -101,14 +113,17 @@ namespace NavTestNoteBookNeConsolb
                 exit = true;
                 return; // all visited
             }
+
             foreach (Node i in currentNode.GetLadderList()) // reach all nodes
             {
                 foreach (ConnectivityComp j in hyperGraphByConnectivity[i])
+                {
                     if (nodesToBeVisited[j] == 0) // if not reachable
                     {
                         nodesToBeVisited[j] = 1;
                         reachableNodesValue += 1;
                     }
+                }
             }
             foreach (Node i in currentNode.GetLadderList()) // reach all nodes
             {

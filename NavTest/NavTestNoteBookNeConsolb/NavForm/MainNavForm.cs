@@ -23,8 +23,8 @@ namespace NavTestNoteBookNeConsolb.NavForm
         {
             InitializeComponent();
 
-            panelX = panel1.Width;
-            panelY = panel1.Height;
+            panelX = 900;
+            panelY = 700;
 
             pictureBox1.Parent = panel1;
             pictureBox1.Location = Point.Empty;
@@ -51,7 +51,6 @@ namespace NavTestNoteBookNeConsolb.NavForm
             foreach (int i in levelListToSort)
                 ChooseLevelComboBox.Items.Add(i);
         }
-
         private void DownloadFromDB(string buildingName)
         {
             DataFromDB db = new DataFromDB(buildingName);
@@ -61,6 +60,7 @@ namespace NavTestNoteBookNeConsolb.NavForm
         }
         private void updateAvaliableNodes()
         {
+            avaliableNodes = new Dictionary<Node, ConnectivityComp>();
             foreach (Level Flr in map.GetFloorsList().Values)
             {
                 foreach (ConnectivityComp CnCmp in Flr.GetConnectivityComponentsList())
@@ -79,13 +79,12 @@ namespace NavTestNoteBookNeConsolb.NavForm
         private void ChoosePointMenu(Button button)
         {
             ChoosePoint form = new ChoosePoint(ref avaliableNodes);
+            form.ShowDialog();
             if (form.ContinueFlag)
                 button.Text = form.SelectedNode;
         }
         private void StartPointButton_Click(object sender, EventArgs e) => ChoosePointMenu(StartPointButton);
-
         private void EndPointButton_Click(object sender, EventArgs e) => ChoosePointMenu(EndPointButton);
-
         private void ContinueButton_Click(object sender, EventArgs e)
         {
             if (StartPointButton.Text != "Выберите точку" && EndPointButton.Text != "Выберите точку")
@@ -93,8 +92,7 @@ namespace NavTestNoteBookNeConsolb.NavForm
                 if (StartPointButton.Text != EndPointButton.Text)
                 {
                     NavCalc navCalc = new NavCalc(map, map.GetNode(StartPointButton.Text), map.GetNode(EndPointButton.Text));
-                    bool isDifferentConnectivityComp = avaliableNodes[map.GetNode(StartPointButton.Text)].Equals(avaliableNodes[map.GetNode(EndPointButton.Text)]);
-
+                    navCalc.startCalc();
                 }
                 else
                     MessageBox.Show("Вы уже в точке назначения :)");
@@ -103,7 +101,6 @@ namespace NavTestNoteBookNeConsolb.NavForm
                 MessageBox.Show("Выберите начальную и конечную точки");
         }
         #endregion
-
         private void ChooseLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (avaliableNodes.Count == 0)
@@ -113,7 +110,6 @@ namespace NavTestNoteBookNeConsolb.NavForm
             }
             LoadLevel();
         }
-
         private void RefreshRouteButton_Click(object sender, EventArgs e)
         {
             StartPointButton.Text = "Выберите точку";
