@@ -79,7 +79,10 @@ namespace NavTestNoteBookNeConsolb
         {
             if (ChooseLevelComboBox.SelectedIndex == ChooseLevelComboBox.Items.Count - 1)
             {
-                using (NewLevelAdd form = new NewLevelAdd())
+                List<int> currentLevelList = new List<int>();
+                foreach (Level i in map.GetFloorsList().Values)
+                    currentLevelList.Add(i.FloorIndex);
+                using (NewLevelAdd form = new NewLevelAdd(currentLevelList))
                 {
                     form.ShowDialog();
                     if (form.ContinueFlag)
@@ -89,7 +92,6 @@ namespace NavTestNoteBookNeConsolb
                         map.GetFloor(form.levelFloor).ScreenResY = panelY;
                         updateLevelList();
                         ChooseLevelComboBox.SelectedIndex = ChooseLevelComboBox.Items.Count - 2;
-                        //currentLevel = Convert.ToInt32(ChooseLevelComboBox.Text);
                         Changes(true);
                     }
                 }
@@ -302,7 +304,6 @@ namespace NavTestNoteBookNeConsolb
                         {
                             if (!isGreyMode)
                             {
-                                //isGreyMode = true;
                                 SearchNodeInBase(nodeByCoord);
                                 GreyMode(true);
                                 pictureBox1.Invalidate();
@@ -379,10 +380,10 @@ namespace NavTestNoteBookNeConsolb
                             }
                             else
                             {
-                                pictureBox1.Image = new Bitmap(SecondLayer); // костыль
+                                pictureBox1.Image = new Bitmap(SecondLayer);
                                 SearchNodeInBase(FindNode);
 
-                                HighlighterNode(FirstPoint); // костыль №2
+                                HighlighterNode(FirstPoint);
                                 HighlighterNode(FindNode);
                             }
                         }
@@ -710,7 +711,7 @@ namespace NavTestNoteBookNeConsolb
                                     {
                                         GreyMode(false);
                                         map.RemoveEdge(currentLevel, new List<Node> { FirstNode, FoundNode });
-                                        LoadLevel();//DrawLine(FirstPoint[0], FirstPoint[1], foundNodeCoord[0], foundNodeCoord[1]);
+                                        LoadLevel();
                                         FirstPoint.Clear();
                                         Changes(true);
                                     }
@@ -738,7 +739,6 @@ namespace NavTestNoteBookNeConsolb
                     {
                         ObservereMode();
                         GreyMode(false);
-                        //updateFromDB();
 
                         updateLevelList();
 

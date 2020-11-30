@@ -182,6 +182,7 @@ namespace NavTest
             nodeListOnFloor.Remove(obj);
         }
         #endregion
+
         #region // Edges
         public bool EdgeExists(List<Node> obj) => edges[obj[0]].Contains(obj[1]);
         public bool EdgeExists(Node n1, Node n2) => edges[n1].Contains(n2);
@@ -189,10 +190,14 @@ namespace NavTest
         public void AddEdge(Node nd, List<Node> ndList) => edges.Add(nd, ndList);
         public void AddExistingEdge(List<Node> obj)
         {
-            edges[obj[0]].Add(obj[1]);
-            edges[obj[1]].Add(obj[0]);
+            if(!EdgeExists(obj[0],obj[1])) edges[obj[0]].Add(obj[1]);
+            if (!EdgeExists(obj[1], obj[0])) edges[obj[1]].Add(obj[0]);
         }
-        public void AddSingleEdge(Node baseNode, Node connNode) => edges[baseNode].Add(connNode);
+        public void AddSingleEdge(Node baseNode, Node connNode)
+        {
+            if (!EdgeExists(baseNode, connNode))
+                edges[baseNode].Add(connNode);
+        }
         public void RemoveEdge(List<Node> obj)
         {
             edges[obj[0]].Remove(obj[1]);

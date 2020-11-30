@@ -23,9 +23,12 @@ namespace NavTestNoteBookNeConsolb
             {
                 string maxCorrName = "";
                 map.Name = buildingName;
-                //// BETA
+
+
                 #region // Levels
+
                 int building_ID = -1;
+
                 List<int> level_ID = new List<int>();
                 using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Buildings` " +
                     $"where `buildingName`='{buildingName}'"))
@@ -33,6 +36,7 @@ namespace NavTestNoteBookNeConsolb
                     if (reader.Read())
                         building_ID = reader.GetInt32(0);
                 }
+
                 using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id`,`levelFloor`,`levelScreenResX`,`levelScreenResY` from `Levels` " +
                     $"where `building_ID`='{building_ID}'"))
                 {
@@ -44,8 +48,11 @@ namespace NavTestNoteBookNeConsolb
                         map.GetFloor(reader.GetInt32(1)).ScreenResY = reader.GetInt32(3);
                     }
                 }
+
                 #endregion
+
                 #region // Nodes
+
                 using (MySqlDataReader reader = DataBase.ExecuteReader($"select `NodeName`,`NodeType`,`NodeDescription` from `Nodes` " +
                     $"where `building_ID`='{building_ID}'"))
                 {
@@ -58,6 +65,7 @@ namespace NavTestNoteBookNeConsolb
                 }
 
                 #endregion
+
                 #region // LevelNodes/Edges
                 int iterator = 0;
                 foreach (Level i in map.GetFloorsList().Values)
@@ -87,6 +95,7 @@ namespace NavTestNoteBookNeConsolb
                                 map.GetFloor(i.FloorIndex).AddEdge(map.GetNode(reader.GetString(0)));
 
                             map.GetFloor(i.FloorIndex).GetEdge(map.GetNode(reader.GetString(0))).Add(map.GetNode(reader.GetString(1)));
+
 
                             if (!map.GetFloor(i.FloorIndex).GetEdgesList().ContainsKey(map.GetNode(reader.GetString(1))))
                                 map.GetFloor(i.FloorIndex).AddEdge(map.GetNode(reader.GetString(1)));
@@ -156,7 +165,7 @@ namespace NavTestNoteBookNeConsolb
                 #endregion
                 #region // вставить Nodes
                 foreach (Node tempNode in map.GetNodeList().Values)
-                    DataBase.ExecuteCommand($"insert into `Nodes` values(null,'{building_ID}','{tempNode.name}','{tempNode.type}','{tempNode.description}')"); // вставить CommonNodes
+                    DataBase.ExecuteCommand($"insert into `Nodes` values(null,'{building_ID}','{tempNode.name}','{tempNode.type}','{tempNode.description}')"); // bug here
                 #endregion
                 List<int> coords;
                 Dictionary<Node, List<Node>> tempDictionary;
@@ -222,7 +231,7 @@ namespace NavTestNoteBookNeConsolb
                     tempDictionary.Clear();
                     foreach (Node z in removed.Keys)
                         foreach (Node j in removed[z])
-                            i.AddSingleEdge(z, j);
+                                i.AddSingleEdge(z, j);
                     removed.Clear();
 
                     #endregion

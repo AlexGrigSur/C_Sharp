@@ -23,7 +23,6 @@ namespace NavTestNoteBookNeConsolb
 
         public void NewConnection(string DBName)
         {
-            //CloseConnection();
             connection = new MySqlConnection($"server=localhost;port=3306;username=root;password=root;database={DBName}");//Convert Zero Datetime=True");
             OpenConnection();
         }

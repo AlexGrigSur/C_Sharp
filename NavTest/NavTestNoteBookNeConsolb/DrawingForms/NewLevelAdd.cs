@@ -14,16 +14,22 @@ namespace NavTestNoteBookNeConsolb
     {
         public int levelFloor { get { return Convert.ToInt32(FloorTextBox.Text); } }
         public bool ContinueFlag { get; set; }
-
-        public NewLevelAdd()
+        private List<int> existingLevels;
+        public NewLevelAdd(List<int> _existingLevels)
         {
             InitializeComponent();
+            existingLevels = _existingLevels;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             if (FloorTextBox.Text.Trim().Length != 0)
             {
+                if (existingLevels.Contains(Convert.ToInt32(FloorTextBox.Text.Trim())))
+                {
+                    MessageBox.Show("Такой этаж уже существует. Добавление невозможно");
+                    return;
+                }
                 ContinueFlag = true;
                 this.Close();
             }
@@ -33,8 +39,7 @@ namespace NavTestNoteBookNeConsolb
 
         private void FloorTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar == '-')
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
             }

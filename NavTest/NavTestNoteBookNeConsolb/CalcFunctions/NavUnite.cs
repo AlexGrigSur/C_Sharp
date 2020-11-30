@@ -37,6 +37,7 @@ namespace NavTestNoteBookNeConsolb
                     int reachableNodesValue = 1;
                     ReccurConnectivityComponents(ref currentLevel, ref nodesToBeVisited, nodesToBeVisited.First().Key, ref reachableNodesValue, ref visitedNodesValue, ref exit);
                     currentLevel.AddConnectivityComponents(floorIndex);
+
                     foreach (Node j in nodesToBeVisited.Keys)
                         if (nodesToBeVisited[j] > 0) currentLevel.GetConnectivityComponentsList().Last().add(j);
 

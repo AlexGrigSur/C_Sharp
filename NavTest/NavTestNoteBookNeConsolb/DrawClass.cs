@@ -5,6 +5,11 @@ using NavTest;
 
 namespace NavTestNoteBookNeConsolb
 {
+    public struct PointCoord
+    {
+        public int x;
+        public int y;
+    }
     class DrawClass
     {
         public DrawClass(int _radius)
@@ -24,7 +29,7 @@ namespace NavTestNoteBookNeConsolb
 
             foreach (Node nodeIter in floor.GetNodeListOnFloor().Keys) // draw all Nodes
                 picture = DrawNode(picture, floor.GetNodeOnFloor(nodeIter)[0], floor.GetNodeOnFloor(nodeIter)[1], 255, ((nodeIter.type == 0) ? "" : nodeIter.name)); // ternary operator to not draw text on corridor nodes
-            
+
             Dictionary<Node, List<Node>> edgesCopy = new Dictionary<Node, List<Node>>(map.GetFloor(currentLevel).GetEdgesList());
 
             Dictionary<Node, List<Node>> removed = new Dictionary<Node, List<Node>>();
@@ -102,6 +107,23 @@ namespace NavTestNoteBookNeConsolb
                         }
             }
             return coord;
+        }
+
+        public Image RouteBuilder(Image picture, List<List<int>> nodes)
+        {
+            using (Graphics G = Graphics.FromImage(picture))
+            {
+                Pen pen = new Pen(Color.FromArgb(155, Color.Red));
+                Brush brush = new SolidBrush(Color.FromArgb(155, Color.Red));
+                foreach (var i in nodes) // i[0] = i.x, i[1] = i.y
+                {
+                    G.DrawEllipse(pen, i[0] - radius, i[1] - radius, 2 * radius, 2 * radius);
+                    G.FillEllipse(brush, i[0] - radius, i[1] - radius, 2 * radius, 2 * radius);
+                }
+                for (int i = 0; i < nodes.Count - 1; ++i) // same logic
+                    G.DrawLine(pen, nodes[i][0], nodes[i][1], nodes[i + 1][0], nodes[i + 1][1]);
+            }
+            return picture;
         }
     }
 }
