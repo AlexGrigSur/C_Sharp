@@ -1,5 +1,5 @@
 ﻿using System;
-using NavTest;
+//using NavTest;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NavTestNoteBookNeConsolb.NavForm
+namespace NavTest//NavTestNoteBookNeConsolb.NavForm
 {
     public partial class ChoosePoint : Form
     {

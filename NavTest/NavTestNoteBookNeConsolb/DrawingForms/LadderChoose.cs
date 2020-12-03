@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NavTestNoteBookNeConsolb.DrawingForms
+namespace NavTest
 {
     public partial class LadderChoose : Form
     {

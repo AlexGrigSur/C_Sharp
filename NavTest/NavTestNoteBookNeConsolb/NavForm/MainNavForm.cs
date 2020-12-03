@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NavTestNoteBookNeConsolb.NavForm
+namespace NavTest//NavTestNoteBookNeConsolb.NavForm
 {
     public partial class MainNavForm : Form
     {
@@ -170,6 +170,12 @@ namespace NavTestNoteBookNeConsolb.NavForm
             {
                 if (StartPointButton.Text != EndPointButton.Text)
                 {
+                    if (currentRouteElem != -1)
+                    {
+                        pictureBox1.Image = SecondLayer;
+                        SecondLayer = null;
+                    }
+
                     Route = new NavCalc(map, map.GetNode(StartPointButton.Text), map.GetNode(EndPointButton.Text)).startCalc();
                     RouteNavigation = Route.Keys.ToList();
                     currentRouteElem = 0;

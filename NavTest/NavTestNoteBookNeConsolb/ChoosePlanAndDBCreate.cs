@@ -1,15 +1,10 @@
 ﻿using System;
 using MySqlConnector;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NavTestNoteBookNeConsolb
+namespace NavTest
 {
     public partial class ChoosePlanAndDBCreate : Form
     {
@@ -139,7 +134,7 @@ namespace NavTestNoteBookNeConsolb
         private void CallNav()
         {
             this.Hide();
-            new NavForm.MainNavForm(comboBox1.Text).ShowDialog();
+            new MainNavForm(comboBox1.Text).ShowDialog();
             this.Show();
             ChoosePlan_Load(null, null);
             comboBox1.SelectedIndex = -1;

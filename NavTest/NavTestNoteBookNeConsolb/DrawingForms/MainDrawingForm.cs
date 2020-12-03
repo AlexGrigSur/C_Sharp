@@ -1,15 +1,12 @@
-﻿using NavTest;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using NavTestNoteBookNeConsolb.DrawingForms;
 
-namespace NavTestNoteBookNeConsolb
+namespace NavTest
 {
     public partial class DrawingForm : Form
     {
-        //private DB DataBase = new DB("Plans");
         static private int radius = 10;
         private DrawClass draw = new DrawClass(radius);
         private Map map;
@@ -44,7 +41,7 @@ namespace NavTestNoteBookNeConsolb
 
             updateFromDB();
             updateLevelList();
-
+            
             panelX = panel1.Width;
             panelY = panel1.Height;
 
@@ -99,7 +96,7 @@ namespace NavTestNoteBookNeConsolb
             else
             {
                 currentLevel = Convert.ToInt32(ChooseLevelComboBox.Text);
-                LoadLevel();                
+                LoadLevel();
             }
         }
 
@@ -110,7 +107,10 @@ namespace NavTestNoteBookNeConsolb
             SecondLayer = new Bitmap(pictureBox1.Image);
             GreyMode(false);
             ObservereMode();
+            if (panelX < pictureBox1.Width || panelY < pictureBox1.Height) Form1_ResizeEnd(null, null);
         }
+
+        #region //DB
         private void updateFromDB()
         {
             DataFromDB dB = new DataFromDB(buildingName);
@@ -129,6 +129,9 @@ namespace NavTestNoteBookNeConsolb
             }
             Changes(false);
         }
+        #endregion
+
+        #region //Drawing
         private void HighlighterNode(int X, int Y)
         {
             pictureBox1.Image = new Bitmap(draw.HighlighterNode(pictureBox1.Image, X, Y));
@@ -149,6 +152,8 @@ namespace NavTestNoteBookNeConsolb
             pictureBox1.Image = new Bitmap(draw.DrawLine(pictureBox1.Image, X1, Y1, firstNodeName, X2, Y2, secondNodeName));
             pictureBox1.Invalidate();
         }
+        #endregion
+
         #region // Mode selection
         private void ObservereMode()
         {
@@ -184,7 +189,7 @@ namespace NavTestNoteBookNeConsolb
                 Mode = 0;
                 ModeStatusLable.Text = "Mode: CreateNode";
                 GreyMode(false);
-                button1.Text = "Добавить Вершину";
+                MainActivityButton.Text = "Добавить Вершину";
             }
             else
                 ObservereMode();
@@ -197,7 +202,7 @@ namespace NavTestNoteBookNeConsolb
                 PanelActivate(true);
                 ModeStatusLable.Text = "Mode: EditNode";
                 GreyMode(false);
-                button1.Text = "Изменить Вершину";
+                MainActivityButton.Text = "Изменить Вершину";
             }
             else
                 ObservereMode();
@@ -210,7 +215,7 @@ namespace NavTestNoteBookNeConsolb
                 Mode = 2;
                 GreyMode(false);
                 ModeStatusLable.Text = "Mode: DeleteNode";
-                button1.Text = "Удалить Вершину";
+                MainActivityButton.Text = "Удалить Вершину";
             }
             else
                 ObservereMode();
@@ -224,7 +229,7 @@ namespace NavTestNoteBookNeConsolb
                 FirstPoint.Clear();
                 if (isGreyMode) GreyMode(false);
                 ModeStatusLable.Text = "Mode: CreateEdge";
-                button1.Text = "Добавить Ребро";
+                MainActivityButton.Text = "Добавить Ребро";
             }
             else
                 ObservereMode();
@@ -238,7 +243,7 @@ namespace NavTestNoteBookNeConsolb
                 FirstPoint.Clear();
                 GreyMode(false);
                 ModeStatusLable.Text = "Mode: DeleteEdge";
-                button1.Text = "Удалить Ребро";
+                MainActivityButton.Text = "Удалить Ребро";
             }
             else
                 ObservereMode();
@@ -391,7 +396,6 @@ namespace NavTestNoteBookNeConsolb
                     }
             }
         }
-
         private void PanelActivate(bool isPanelActivated)
         {
             labelNameInOutput.Enabled = true;
@@ -567,7 +571,6 @@ namespace NavTestNoteBookNeConsolb
                     isNewLadder = false;
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             switch (Mode)
@@ -722,7 +725,6 @@ namespace NavTestNoteBookNeConsolb
                     }
             }
         }
-
         private void toolStripButton2_Click(object sender, EventArgs e) // Удаление уровня
         {
             if (ChooseLevelComboBox.SelectedIndex != -1)

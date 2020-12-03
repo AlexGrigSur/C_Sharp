@@ -1,4 +1,4 @@
-﻿namespace NavTestNoteBookNeConsolb.NavForm
+﻿namespace NavTest//NavTestNoteBookNeConsolb.NavForm
 {
     partial class ChoosePoint
     {

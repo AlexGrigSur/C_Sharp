@@ -1,4 +1,4 @@
-﻿namespace NavTestNoteBookNeConsolb
+﻿namespace NavTest//NavTestNoteBookNeConsolb
 {
     partial class NewLevelAdd
     {

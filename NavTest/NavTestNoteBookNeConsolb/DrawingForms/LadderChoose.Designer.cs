@@ -1,4 +1,4 @@
-﻿namespace NavTestNoteBookNeConsolb.DrawingForms
+﻿namespace NavTest// NavTestNoteBookNeConsolb.DrawingForms
 {
     partial class LadderChoose
     {

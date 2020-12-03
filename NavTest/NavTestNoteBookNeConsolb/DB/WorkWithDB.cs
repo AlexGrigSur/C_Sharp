@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySqlConnector;
-using NavTest;
 
-namespace NavTestNoteBookNeConsolb
+namespace NavTest
 {
     class DataFromDB
     {

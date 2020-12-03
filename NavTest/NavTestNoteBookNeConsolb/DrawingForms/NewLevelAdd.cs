@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NavTestNoteBookNeConsolb
+namespace NavTest//NavTestNoteBookNeConsolb
 {
     public partial class NewLevelAdd : Form
     {

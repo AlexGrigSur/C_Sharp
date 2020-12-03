@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using NavTest;
 
-namespace NavTestNoteBookNeConsolb
+namespace NavTest//NavTestNoteBookNeConsolb
 {
     public struct PointCoord
     {

@@ -83,7 +83,8 @@
     <Compile Include="DrawingForms\MainDrawingForm.Designer.cs">
       <DependentUpon>MainDrawingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Level.cs" />
+    <Compile Include="MapData\ConnectivityComponents.cs" />
+    <Compile Include="MapData\Level.cs" />
     <Compile Include="DrawingForms\NewLevelAdd.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +92,7 @@
       <DependentUpon>NewLevelAdd.cs</DependentUpon>
     </Compile>
     <Compile Include="CalcFunctions\NavCalc.cs" />
+    <Compile Include="MapData\Map.cs" />
     <Compile Include="NavForm\ChoosePoint.cs">
       <SubType>Form</SubType>
     </Compile>
