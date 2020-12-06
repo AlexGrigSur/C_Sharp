@@ -14,12 +14,6 @@ C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\bin\Releas
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\bin\Release\System.Threading.Tasks.Extensions.xml
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.csprojAssemblyReference.cache
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTestNoteBookNeConsolb.ChoosePlanAndDBCreate.resources
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTestNoteBookNeConsolb.DrawingForms.LadderChoose.resources
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTestNoteBookNeConsolb.DrawingForm.resources
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTestNoteBookNeConsolb.NewLevelAdd.resources
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTestNoteBookNeConsolb.NavForm.ChoosePoint.resources
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTestNoteBookNeConsolb.NavForm.MainNavForm.resources
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTestNoteBookNeConsolb.Properties.Resources.resources
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.csproj.GenerateResource.cache
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.csproj.CoreCompileInputs.cache
@@ -54,3 +48,9 @@ C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTe
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.NewLevelAdd.resources
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.ChoosePoint.resources
 C:\Users\Alex\Desktop\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.MainNavForm.resources
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.ChoosePlanAndDBCreate.resources
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.LadderChoose.resources
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.DrawingForm.resources
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.NewLevelAdd.resources
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.ChoosePoint.resources
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Release\NavTest.MainNavForm.resources

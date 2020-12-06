@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System.Linq;
 
 namespace NavTest
@@ -9,6 +11,8 @@ namespace NavTest
         private Map map;
         private Node startNode;
         private Node endNode;
+
+        public string timeToCalc { get; set; }
         public NavCalc(Map _map, Node _startNode, Node _endNode)
         {
             map = _map;
@@ -18,12 +22,19 @@ namespace NavTest
 
         public Dictionary<ConnectivityComp, List<Node>> startCalc()
         {
+            Stopwatch time = new Stopwatch();
+
             ConnectivityComp startConComp = map.FindConnectivityCompByNode(startNode);
             ConnectivityComp endConComp = map.FindConnectivityCompByNode(endNode);
 
             List<TaskToCalc> calc = new List<TaskToCalc>();
+
+            timeToCalc = "";
             if (startConComp.Equals(endConComp))
+            {
+                timeToCalc += "Алгоритм Дейкстры выполнен за 0 миллисекунд(не требовался)\n";
                 calc.Add(new TaskToCalc(startConComp, startNode, endNode));
+            }
             else
             {
                 List<ConnectivityComp> connectivityCompsList = new List<ConnectivityComp>();
@@ -31,19 +42,26 @@ namespace NavTest
                     foreach (ConnectivityComp comp in i.GetConnectivityComponentsList())
                         connectivityCompsList.Add(comp);
 
-                Dijkstra algo = new Dijkstra(ref map, ref startConComp, ref endConComp);
-                calc = algo.DijkstraAlgo();
+                time.Start();
+                calc = new Dijkstra(ref map, ref startConComp, ref endConComp).DijkstraAlgo();
+                time.Stop();
+                timeToCalc += $"Алгоритм Дейкстры выполнен за {time.ElapsedMilliseconds} миллисекунд\n";
+                
                 calc.Reverse();
                 calc[0] = new TaskToCalc(calc[0].CurrConnComp, startNode, new Node());
                 calc[calc.Count - 1] = new TaskToCalc(calc[calc.Count - 1].CurrConnComp, new Node(), endNode);
+                
                 getPriorityForAStar(ref calc);
             }
             
             Dictionary<ConnectivityComp, List<Node>> finalPath = new Dictionary<ConnectivityComp, List<Node>>();
-            
+            time = new Stopwatch();
+            time.Start();
             foreach (TaskToCalc i in calc)
                 finalPath.Add(i.CurrConnComp, new A_Star(ref map, i.CurrConnComp, i.startNode, i.endNode).Calc());
-            
+            time.Stop();
+            timeToCalc += $"Алгоритм A* выполнен за {time.ElapsedMilliseconds} миллисекунд";
+
             return finalPath;
         }
 
@@ -213,6 +231,14 @@ namespace NavTest
             }
             return min;
         }
+
+        public bool FoundInSet(ref List<A_Star_Point> set, A_Star_Point toCompare)
+        {
+            foreach(var i in set)
+                if(i.currentNode.Equals(toCompare.currentNode))
+                    return true;
+            return false;
+        }
         public List<Node> Calc()
         {
             List<Node> result = new List<Node>();
@@ -228,22 +254,24 @@ namespace NavTest
                 var currentPoint = FindMin(ref openSet);
 
                 if (currentPoint.currentNode.Equals(endNode))
-                    return PrintPath(currentPoint, /*?*/ closedSet);
+                    return PrintPath(currentPoint, closedSet);
 
                 openSet.Remove(currentPoint);
                 closedSet.Add(currentPoint);
 
                 foreach (var neighbourNode in GetNeighbours(currentPoint))
                 {
-                    // Шаг 7
-                    if (closedSet.Count(node => map.GetCoordOfNode(curConComp.GetFloor(), node.currentNode)/*Position*/ == map.GetCoordOfNode(curConComp.GetFloor(), neighbourNode.currentNode)) > 0)
+                    //if (closedSet.Count(node => map.GetCoordOfNode(curConComp.GetFloor(), node.currentNode) == map.GetCoordOfNode(curConComp.GetFloor(), neighbourNode.currentNode)) > 0)
+                    //    continue;
+                    if (FoundInSet(ref closedSet, neighbourNode))
                         continue;
 
                     bool isFound = false;
                     A_Star_Point openNode = new A_Star_Point();
                     foreach (var node in openSet)
                     {
-                        if (map.GetCoordOfNode(curConComp.GetFloor(), node.currentNode) == map.GetCoordOfNode(curConComp.GetFloor(), neighbourNode.currentNode))
+                        if (node.currentNode.Equals(neighbourNode.currentNode))// if node.currentNode.equals(neighbourNode.currentNode)
+                        //if(map.GetCoordOfNode(curConComp.GetFloor(), node.currentNode) == map.GetCoordOfNode(curConComp.GetFloor(), neighbourNode.currentNode))
                         {
                             isFound = true;
                             openNode = neighbourNode;
@@ -262,7 +290,6 @@ namespace NavTest
                 }
             }
             return null;
-            //return result;
         }
 
         private static List<Node> PrintPath(A_Star_Point pathNode, List<A_Star_Point> pathNodeList)

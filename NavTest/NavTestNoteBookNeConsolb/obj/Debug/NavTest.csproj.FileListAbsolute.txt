@@ -13,12 +13,6 @@ C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\bin\Debug\
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\bin\Debug\System.Threading.Tasks.Extensions.xml
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.ChoosePlanAndDBCreate.resources
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.DrawingForms.LadderChoose.resources
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.DrawingForm.resources
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.NewLevelAdd.resources
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.NavForm.ChoosePoint.resources
-C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.NavForm.MainNavForm.resources
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.Properties.Resources.resources
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.csproj.GenerateResource.cache
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.csproj.CoreCompileInputs.cache
@@ -26,3 +20,9 @@ C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.exe
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTestNoteBookNeConsolb.pdb
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.csprojAssemblyReference.cache
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.ChoosePlanAndDBCreate.resources
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.LadderChoose.resources
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.DrawingForm.resources
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.NewLevelAdd.resources
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.ChoosePoint.resources
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavTest\NavTestNoteBookNeConsolb\obj\Debug\NavTest.MainNavForm.resources

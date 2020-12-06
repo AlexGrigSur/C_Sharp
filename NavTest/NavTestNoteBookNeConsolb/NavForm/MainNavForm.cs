@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NavTest//NavTestNoteBookNeConsolb.NavForm
+namespace NavTest
 {
     public partial class MainNavForm : Form
     {
@@ -28,7 +28,6 @@ namespace NavTest//NavTestNoteBookNeConsolb.NavForm
         public MainNavForm(string buildingName)
         {
             InitializeComponent();
-
 
             DownloadFromDB(buildingName);
             updateLevelList();
@@ -160,6 +159,20 @@ namespace NavTest//NavTestNoteBookNeConsolb.NavForm
             pictureBox1.Invalidate();
 
             Step.Visible = false;
+            ContinueButton.Enabled= true;
+            PreviousButton.Enabled = true;
+            ContinueButton.Visible = false;
+            PreviousButton.Visible = false;
+        }
+
+        private void ResetRoute()
+        {
+            pictureBox1.Image = SecondLayer;
+            SecondLayer = null;
+
+            Step.Text = "";
+            ContinueButton.Enabled = true;
+            PreviousButton.Enabled = true;
             ContinueButton.Visible = false;
             PreviousButton.Visible = false;
         }
@@ -170,13 +183,9 @@ namespace NavTest//NavTestNoteBookNeConsolb.NavForm
             {
                 if (StartPointButton.Text != EndPointButton.Text)
                 {
-                    if (currentRouteElem != -1)
-                    {
-                        pictureBox1.Image = SecondLayer;
-                        SecondLayer = null;
-                    }
-
-                    Route = new NavCalc(map, map.GetNode(StartPointButton.Text), map.GetNode(EndPointButton.Text)).startCalc();
+                    if (currentRouteElem != -1) ResetRoute();
+                    NavCalc alg = new NavCalc(map, map.GetNode(StartPointButton.Text), map.GetNode(EndPointButton.Text));
+                    Route = alg.startCalc();
                     RouteNavigation = Route.Keys.ToList();
                     currentRouteElem = 0;
 
@@ -189,9 +198,13 @@ namespace NavTest//NavTestNoteBookNeConsolb.NavForm
                     }
 
                     drawPath();
+                    MessageBox.Show(alg.timeToCalc);
                 }
                 else
+                {
+                    if (currentRouteElem != -1) ResetRoute();
                     MessageBox.Show("Вы уже в точке назначения :)");
+                }
             }
             else
                 MessageBox.Show("Выберите начальную и конечную точки");
