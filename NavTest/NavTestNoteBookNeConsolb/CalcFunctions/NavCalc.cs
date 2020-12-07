@@ -46,14 +46,14 @@ namespace NavTest
                 calc = new Dijkstra(ref map, ref startConComp, ref endConComp).DijkstraAlgo();
                 time.Stop();
                 timeToCalc += $"Алгоритм Дейкстры выполнен за {time.ElapsedMilliseconds} миллисекунд\n";
-                
+
                 calc.Reverse();
                 calc[0] = new TaskToCalc(calc[0].CurrConnComp, startNode, new Node());
                 calc[calc.Count - 1] = new TaskToCalc(calc[calc.Count - 1].CurrConnComp, new Node(), endNode);
-                
+
                 getPriorityForAStar(ref calc);
             }
-            
+
             Dictionary<ConnectivityComp, List<Node>> finalPath = new Dictionary<ConnectivityComp, List<Node>>();
             time = new Stopwatch();
             time.Start();
@@ -191,13 +191,11 @@ namespace NavTest
     #region //A_Star
     public struct A_Star_Point
     {
-        public Node currentNode;
         public Node previousNode;
         public int currentDistance;
         public int heuristic;
-        public A_Star_Point(Node _currentNode, Node _previousNode, int _currentDistance, int _heuristic)
+        public A_Star_Point(Node _previousNode, int _currentDistance, int _heuristic)
         {
-            currentNode = _currentNode;
             previousNode = _previousNode;
             currentDistance = _currentDistance;
             heuristic = _heuristic;
@@ -208,8 +206,13 @@ namespace NavTest
         private Map map;
         private ConnectivityComp curConComp;
         private Dictionary<Node, int> heuristic = new Dictionary<Node, int>();
+
+        Dictionary<Node, A_Star_Point> openSet = new Dictionary<Node, A_Star_Point>();
+        Dictionary<Node, A_Star_Point> closedSet = new Dictionary<Node, A_Star_Point>();
+
         private Node startNode;
         private Node endNode;
+
         public A_Star(ref Map _map, ConnectivityComp _currentConComp, Node _startNode, Node _endNode)
         {
             map = _map;
@@ -217,107 +220,81 @@ namespace NavTest
             startNode = _startNode;
             endNode = _endNode;
         }
-        private A_Star_Point FindMin(ref List<A_Star_Point> openSet)
+        private Node FindMin(ref Dictionary<Node, A_Star_Point> openSet)
         {
-            A_Star_Point min = openSet[0];
-            int min_distance_plus_heuristic = min.currentDistance + min.heuristic;
-            for (int i = 1; i < openSet.Count; ++i)
+            Node minNode = openSet.Keys.First();
+            int min_distance_plus_heuristic = openSet[minNode].currentDistance + openSet[minNode].heuristic;
+
+            foreach (Node i in openSet.Keys)
             {
                 if (openSet[i].currentDistance + openSet[i].heuristic < min_distance_plus_heuristic)
                 {
+                    minNode = i;
                     min_distance_plus_heuristic = openSet[i].currentDistance + openSet[i].heuristic;
-                    min = openSet[i];
                 }
             }
-            return min;
+            return minNode;
         }
 
-        public bool FoundInSet(ref List<A_Star_Point> set, A_Star_Point toCompare)
-        {
-            foreach(var i in set)
-                if(i.currentNode.Equals(toCompare.currentNode))
-                    return true;
-            return false;
-        }
         public List<Node> Calc()
         {
             List<Node> result = new List<Node>();
-            var closedSet = new List<A_Star_Point>();
-            var openSet = new List<A_Star_Point>();
+
             GetHeuristicToAllNodes();
-            
-            A_Star_Point FirstPoint = new A_Star_Point(startNode, startNode, 0, heuristic[startNode]);
-            openSet.Add(FirstPoint);
-            
+
+            openSet.Add(startNode, new A_Star_Point(startNode, 0, heuristic[startNode]));
+
             while (openSet.Count > 0)
             {
-                var currentPoint = FindMin(ref openSet);
+                Node currentPoint = FindMin(ref openSet);
 
-                if (currentPoint.currentNode.Equals(endNode))
-                    return PrintPath(currentPoint, closedSet);
-
+                closedSet.Add(currentPoint, openSet[currentPoint]);
                 openSet.Remove(currentPoint);
-                closedSet.Add(currentPoint);
+
+                if (currentPoint.Equals(endNode))
+                    return PrintPath(currentPoint);
+
 
                 foreach (var neighbourNode in GetNeighbours(currentPoint))
                 {
-                    //if (closedSet.Count(node => map.GetCoordOfNode(curConComp.GetFloor(), node.currentNode) == map.GetCoordOfNode(curConComp.GetFloor(), neighbourNode.currentNode)) > 0)
-                    //    continue;
-                    if (FoundInSet(ref closedSet, neighbourNode))
+                    if (closedSet.ContainsKey(neighbourNode))
                         continue;
 
-                    bool isFound = false;
-                    A_Star_Point openNode = new A_Star_Point();
-                    foreach (var node in openSet)
-                    {
-                        if (node.currentNode.Equals(neighbourNode.currentNode))// if node.currentNode.equals(neighbourNode.currentNode)
-                        //if(map.GetCoordOfNode(curConComp.GetFloor(), node.currentNode) == map.GetCoordOfNode(curConComp.GetFloor(), neighbourNode.currentNode))
-                        {
-                            isFound = true;
-                            openNode = neighbourNode;
-                            break;
-                        }
-                    }
-
-                    if (!isFound)
-                        openSet.Add(neighbourNode);
+                    if (!openSet.ContainsKey(neighbourNode))//!isFound)
+                        openSet.Add(neighbourNode, new A_Star_Point(currentPoint, closedSet[currentPoint].currentDistance + GetDistanceBetweenTwoPoints(currentPoint, neighbourNode), heuristic[neighbourNode]));
                     else
-                        if (openNode.currentDistance > neighbourNode.currentDistance)
-                        {
-                            openNode.previousNode = currentPoint.currentNode;
-                            openNode.currentDistance = neighbourNode.currentDistance;
-                        }
+                    {
+                        int distance = closedSet[currentPoint].currentDistance + GetDistanceBetweenTwoPoints(currentPoint, neighbourNode);
+                        if (openSet[neighbourNode].currentDistance > distance)
+                            openSet[neighbourNode] = new A_Star_Point(currentPoint, distance, heuristic[neighbourNode]);
+                    }
                 }
             }
             return null;
         }
 
-        private static List<Node> PrintPath(A_Star_Point pathNode, List<A_Star_Point> pathNodeList)
+        private List<Node> PrintPath(Node EndNode)
         {
             var result = new List<Node>();
-            var currentPoint = pathNode;
-            while (!currentPoint.currentNode.Equals(currentPoint.previousNode))
-            {
-                result.Add(currentPoint.currentNode);
 
-                foreach (var i in pathNodeList)
-                    if (i.currentNode.Equals(currentPoint.previousNode))
-                    {
-                        currentPoint = i;
-                        break;
-                    }
+            Node currentPoint = EndNode;
+            
+            while (!currentPoint.Equals(closedSet[currentPoint].previousNode))
+            {
+                result.Add(currentPoint);
+                currentPoint = closedSet[currentPoint].previousNode;
             }
-            result.Add(currentPoint.currentNode);
+            result.Add(currentPoint);
             result.Reverse();
             return result;
         }
 
-        private List<A_Star_Point> GetNeighbours(A_Star_Point currentPoint)
+        private List<Node> GetNeighbours(Node currentPoint)
         {
-            List<A_Star_Point> neighbours = new List<A_Star_Point>();
+            List<Node> neighbours = new List<Node>();
 
-            foreach (Node i in map.GetFloor(curConComp.GetFloor()).GetEdge(currentPoint.currentNode))
-                neighbours.Add(new A_Star_Point(i, currentPoint.currentNode, currentPoint.currentDistance + GetDistanceBetweenTwoPoints(currentPoint.currentNode, i), heuristic[i]));
+            foreach (Node i in map.GetFloor(curConComp.GetFloor()).GetEdge(currentPoint))
+                neighbours.Add(i);
 
             return neighbours;
         }
