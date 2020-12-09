@@ -20,8 +20,8 @@ namespace NavTest//NavTestNoteBookNeConsolb
         {
             Level floor = map.GetFloor(currentLevel);
 
-            panelX = (floor.ScreenResX == int.MaxValue) ? 900 : floor.ScreenResX;
-            panelY = (floor.ScreenResY == int.MaxValue) ? 700 : floor.ScreenResY;
+            panelX = (floor.ScreenResX-100 == int.MaxValue) ? 900 : floor.ScreenResX;
+            panelY = (floor.ScreenResY-100 == int.MaxValue) ? 700 : floor.ScreenResY;
 
             Image picture = new Bitmap(panelX, panelY);
 

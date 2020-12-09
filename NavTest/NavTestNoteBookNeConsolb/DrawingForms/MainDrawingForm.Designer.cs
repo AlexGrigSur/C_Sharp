@@ -62,6 +62,7 @@
             this.MainActivityButton = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.ModeStatusLable = new System.Windows.Forms.ToolStripStatusLabel();
+            this.nodeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -88,7 +89,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(96, 60);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -213,7 +214,8 @@
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearToolStripMenuItem,
-            this.saveToolStripMenuItem});
+            this.saveToolStripMenuItem,
+            this.nodeGeneratorToolStripMenuItem});
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
@@ -223,14 +225,14 @@
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(126, 26);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(126, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -304,7 +306,7 @@
             "Кабинет",
             "Лестница"});
             this.comboBoxTypeInOutput.Location = new System.Drawing.Point(4, 21);
-            this.comboBoxTypeInOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxTypeInOutput.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxTypeInOutput.Name = "comboBoxTypeInOutput";
             this.comboBoxTypeInOutput.Size = new System.Drawing.Size(127, 24);
             this.comboBoxTypeInOutput.TabIndex = 2;
@@ -315,7 +317,7 @@
             this.textBoxTypeInOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTypeInOutput.Location = new System.Drawing.Point(4, 53);
-            this.textBoxTypeInOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxTypeInOutput.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxTypeInOutput.Name = "textBoxTypeInOutput";
             this.textBoxTypeInOutput.ReadOnly = true;
             this.textBoxTypeInOutput.Size = new System.Drawing.Size(127, 22);
@@ -334,7 +336,7 @@
             // textBoxNameInOutput
             // 
             this.textBoxNameInOutput.Location = new System.Drawing.Point(4, 100);
-            this.textBoxNameInOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxNameInOutput.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxNameInOutput.Name = "textBoxNameInOutput";
             this.textBoxNameInOutput.Size = new System.Drawing.Size(127, 22);
             this.textBoxNameInOutput.TabIndex = 1;
@@ -352,7 +354,7 @@
             // textBoxDescriptionInOutput
             // 
             this.textBoxDescriptionInOutput.Location = new System.Drawing.Point(4, 147);
-            this.textBoxDescriptionInOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxDescriptionInOutput.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxDescriptionInOutput.Multiline = true;
             this.textBoxDescriptionInOutput.Name = "textBoxDescriptionInOutput";
             this.textBoxDescriptionInOutput.Size = new System.Drawing.Size(127, 43);
@@ -371,7 +373,7 @@
             // textBoxXInOutput
             // 
             this.textBoxXInOutput.Location = new System.Drawing.Point(4, 215);
-            this.textBoxXInOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxXInOutput.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxXInOutput.Name = "textBoxXInOutput";
             this.textBoxXInOutput.ReadOnly = true;
             this.textBoxXInOutput.Size = new System.Drawing.Size(127, 22);
@@ -390,7 +392,7 @@
             // textBoxYInOutput
             // 
             this.textBoxYInOutput.Location = new System.Drawing.Point(4, 262);
-            this.textBoxYInOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxYInOutput.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxYInOutput.Name = "textBoxYInOutput";
             this.textBoxYInOutput.ReadOnly = true;
             this.textBoxYInOutput.Size = new System.Drawing.Size(127, 22);
@@ -424,6 +426,13 @@
             this.ModeStatusLable.Name = "ModeStatusLable";
             this.ModeStatusLable.Size = new System.Drawing.Size(151, 20);
             this.ModeStatusLable.Text = "toolStripStatusLabel1";
+            // 
+            // nodeGeneratorToolStripMenuItem
+            // 
+            this.nodeGeneratorToolStripMenuItem.Name = "nodeGeneratorToolStripMenuItem";
+            this.nodeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.nodeGeneratorToolStripMenuItem.Text = "NodeGenerator";
+            this.nodeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.nodeGeneratorToolStripMenuItem_Click_1);
             // 
             // DrawingForm
             // 
@@ -491,6 +500,7 @@
         private System.Windows.Forms.TextBox textBoxTypeInOutput;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel ModeStatusLable;
+        private System.Windows.Forms.ToolStripMenuItem nodeGeneratorToolStripMenuItem;
     }
 }
 

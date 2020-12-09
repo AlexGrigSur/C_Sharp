@@ -41,7 +41,7 @@ namespace NavTest
 
             updateFromDB();
             updateLevelList();
-            
+
             panelX = panel1.Width;
             panelY = panel1.Height;
 
@@ -464,7 +464,7 @@ namespace NavTest
                 panelX = panel1.Width;
                 ReWrite = true;
             }
-            if (ReWrite)
+            if (ReWrite || isNodeGenerator)
             {
                 Bitmap bmp = new Bitmap(panelX, panelY);
                 if (ChooseLevelComboBox.SelectedIndex != -1 && ChooseLevelComboBox.SelectedIndex != ChooseLevelComboBox.Items.Count - 1)
@@ -767,6 +767,63 @@ namespace NavTest
                 map.GetFloor(currentLevel).ClearEdges();
                 Changes(true);
             }
+        }
+
+        private bool isNodeGenerator = false;
+        private void nodeGeneratorToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (ChooseLevelComboBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Добавьте уровень для продолжения");
+                return;
+            }
+            int count = 256;
+            int sqrt = Convert.ToInt32(Math.Sqrt(count));
+
+            panelX = sqrt * 50 + 200;
+            panelY = panelX;//+1000;
+            //panel1.Width = panelX; //sqrt * 50 + 100;
+            //panel1.Height = panel1.Width;
+            isNodeGenerator = true;
+            Form1_ResizeEnd(null, null);
+            isNodeGenerator = false;
+
+            CreateNode_Click(null, null);
+            for (int i = 0; i < sqrt; ++i)
+            {
+                for (int j = 0; j < sqrt; ++j)
+                {
+                    SecondLayer = new Bitmap(pictureBox1.Image);
+                    comboBoxTypeInOutput.SelectedIndex = 0;
+                    textBoxXInOutput.Text = Convert.ToString(50 + i * 50);
+                    textBoxYInOutput.Text = Convert.ToString(50 + j * 50);
+                    button1_Click(null, null);
+                }
+            }
+            LoadLevel();
+
+            CreateEdge_Click(null, null);
+            for (int i = 0; i < sqrt; ++i)
+            {
+                for (int j = 0; j < sqrt; ++j)
+                {
+
+                    FirstPoint = new List<int>() { 50 + i * 50, 50 + j * 50 };
+                    if (i != sqrt - 1)
+                    {
+                        FoundNode = map.SearchNode(currentLevel, 50 + (i + 1) * 50, 50 + j * 50)[0];
+                        button1_Click(null, null);
+                    }
+                    if (j != sqrt - 1)
+                    {
+                        FirstPoint = new List<int>() { 50 + i * 50, 50 + j * 50 };
+                        FoundNode = map.SearchNode(currentLevel, 50 + i * 50, 50 + (j + 1) * 50)[0];
+                        button1_Click(null, null);
+                    }
+
+                }
+            }
+            LoadLevel();
         }
     }
 }

@@ -72,11 +72,11 @@ namespace NavTest
                 }
             if ((maxX + 10 != screenResX) || (maxY + 10 != screenResY))
             {
-                screenResX = maxX - minX - 100;
-                screenResY = maxY - minY - 100;
+                screenResX = maxX - minX + 100;
+                screenResY = maxY - minY + 100;
             }
-            if (screenResX < 800) screenResX = 900;
-            if (screenResY < 600) screenResY = 700;
+            if (screenResX < 900) screenResX = 900;
+            if (screenResY < 700) screenResY = 700;
         }
 
         #region // NodeList

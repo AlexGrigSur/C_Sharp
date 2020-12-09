@@ -265,7 +265,7 @@ namespace NavTest
                     else
                     {
                         int distance = closedSet[currentPoint].currentDistance + GetDistanceBetweenTwoPoints(currentPoint, neighbourNode);
-                        if (openSet[neighbourNode].currentDistance > distance)
+                        if (openSet[neighbourNode].currentDistance > distance) 
                             openSet[neighbourNode] = new A_Star_Point(currentPoint, distance, heuristic[neighbourNode]);
                     }
                 }
