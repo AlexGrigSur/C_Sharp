@@ -15,7 +15,7 @@ namespace NavTest
         private int Mode = -1; // -1 - ObserverMode, 0-AddNode, 1-EditNode, 2-DeleteNode, 3-AddEdge, 4 - Delete Edge
         private int currentLevel = -1;
 
-        private List<int> FirstPoint = new List<int>(); // for AddEdge/DeleteEdge
+        private List<int> NodeCoordList = new List<int>(); // for AddEdge/DeleteEdge
 
         private int panelX = 0;
         private int panelY = 0;
@@ -44,6 +44,9 @@ namespace NavTest
 
             panelX = panel1.Width;
             panelY = panel1.Height;
+
+            nodeGeneratorToolStripMenuItem.Visible = false;
+            DrawToLeftToolStripButton.Visible = false;
 
             pictureBox1.Parent = panel1;
             pictureBox1.Location = Point.Empty;
@@ -162,6 +165,10 @@ namespace NavTest
                 isGreyMode = false;
                 GreyMode(false);
             }
+            textBoxNameInOutput.Text = "";
+            textBoxDescriptionInOutput.Text = "";
+            textBoxXInOutput.Text = "";
+            textBoxYInOutput.Text = "";
             ModeStatusLable.Text = "Mode: Observere";
             PanelActivate(false);
             Mode = -1;
@@ -226,7 +233,7 @@ namespace NavTest
             {
                 PanelActivate(false);
                 Mode = 3;
-                FirstPoint.Clear();
+                NodeCoordList.Clear();
                 if (isGreyMode) GreyMode(false);
                 ModeStatusLable.Text = "Mode: CreateEdge";
                 MainActivityButton.Text = "Добавить Ребро";
@@ -240,7 +247,7 @@ namespace NavTest
             {
                 PanelActivate(false);
                 Mode = 4;
-                FirstPoint.Clear();
+                NodeCoordList.Clear();
                 GreyMode(false);
                 ModeStatusLable.Text = "Mode: DeleteEdge";
                 MainActivityButton.Text = "Удалить Ребро";
@@ -255,6 +262,20 @@ namespace NavTest
             if (observerNode.Count == 2)
             {
                 Node tempNode = map.SearchNode(currentLevel, observerNode[0], observerNode[1])[0];
+                if(tempNode.type==0)
+                {
+                    labelNameInOutput.Visible = false;
+                    labelDescriptionInOutput.Visible = false;
+                    textBoxNameInOutput.Visible = false;
+                    textBoxDescriptionInOutput.Visible = false;
+                }
+                else
+                {
+                    labelNameInOutput.Visible = true;
+                    labelDescriptionInOutput.Visible = true;
+                    textBoxNameInOutput.Visible = true;
+                    textBoxDescriptionInOutput.Visible = true;
+                }
                 textBoxNameInOutput.Text = tempNode.name;
                 textBoxTypeInOutput.Text = comboBoxTypeInOutput.Items[tempNode.type].ToString();
                 textBoxDescriptionInOutput.Text = tempNode.description;
@@ -360,9 +381,9 @@ namespace NavTest
                         List<int> FindNode = SearchNodesOnScreen(e, radius);
                         if (FindNode.Count == 0) // Если не найдено вершин
                             return;
-                        if (FirstPoint.Count == 0) // если первая не выбрана
+                        if (NodeCoordList.Count == 0) // если первая не выбрана
                         {
-                            FirstPoint = FindNode;
+                            NodeCoordList = FindNode;
 
                             if (isGreyMode)
                                 pictureBox1.Image = new Bitmap(SecondLayer);
@@ -371,15 +392,15 @@ namespace NavTest
 
                             SearchNodeInBase(FindNode);
 
-                            HighlighterNode(FirstPoint);
+                            HighlighterNode(NodeCoordList);
 
                             return;
                         }
                         else
                         {
-                            if (FindNode[0] == FirstPoint[0] && FindNode[1] == FirstPoint[1])
+                            if (FindNode[0] == NodeCoordList[0] && FindNode[1] == NodeCoordList[1])
                             {
-                                FirstPoint.Clear();
+                                NodeCoordList.Clear();
                                 GreyMode(false);
                                 return;
                             }
@@ -388,7 +409,7 @@ namespace NavTest
                                 pictureBox1.Image = new Bitmap(SecondLayer);
                                 SearchNodeInBase(FindNode);
 
-                                HighlighterNode(FirstPoint);
+                                HighlighterNode(NodeCoordList);
                                 HighlighterNode(FindNode);
                             }
                         }
@@ -398,14 +419,14 @@ namespace NavTest
         }
         private void PanelActivate(bool isPanelActivated)
         {
-            labelNameInOutput.Enabled = true;
+            //labelNameInOutput.Enabled = true;
             labelNameInOutput.Visible = true;
-            textBoxNameInOutput.Enabled = true;
+            //textBoxNameInOutput.Enabled = true;
             textBoxNameInOutput.Visible = true;
 
-            labelDescriptionInOutput.Enabled = true;
+            //labelDescriptionInOutput.Enabled = true;
             labelDescriptionInOutput.Visible = true;
-            textBoxDescriptionInOutput.Enabled = true;
+            //textBoxDescriptionInOutput.Enabled = true;
             textBoxDescriptionInOutput.Visible = true;
 
             if (isPanelActivated)
@@ -420,16 +441,16 @@ namespace NavTest
                 textBoxYInOutput.Text = "";
                 if (Mode != 1)
                 {
-                    textBoxTypeInOutput.Enabled = false;
+                    //textBoxTypeInOutput.Enabled = false;
                     textBoxTypeInOutput.Visible = false;
-                    comboBoxTypeInOutput.Enabled = true;
+                    //comboBoxTypeInOutput.Enabled = true;
                     comboBoxTypeInOutput.Visible = true;
                 }
                 else
                 {
-                    textBoxTypeInOutput.Enabled = true;
+                    //textBoxTypeInOutput.Enabled = true;
                     textBoxTypeInOutput.Visible = true;
-                    comboBoxTypeInOutput.Enabled = false;
+                    //comboBoxTypeInOutput.Enabled = false;
                     comboBoxTypeInOutput.Visible = false;
                 }
             }
@@ -439,10 +460,10 @@ namespace NavTest
                 textBoxDescriptionInOutput.ReadOnly = true;
                 textBoxXInOutput.ReadOnly = true;
                 textBoxYInOutput.ReadOnly = true;
-                textBoxTypeInOutput.Enabled = true;
+                //textBoxTypeInOutput.Enabled = true;
                 textBoxTypeInOutput.Visible = true;
                 textBoxTypeInOutput.Text = "";
-                comboBoxTypeInOutput.Enabled = false;
+                //comboBoxTypeInOutput.Enabled = false;
                 comboBoxTypeInOutput.Visible = false;
             }
         }
@@ -516,25 +537,25 @@ namespace NavTest
         {
             if (comboBoxTypeInOutput.SelectedIndex == 0)
             {
-                labelNameInOutput.Enabled = false;
+                //labelNameInOutput.Enabled = false;
                 labelNameInOutput.Visible = false;
-                textBoxNameInOutput.Enabled = false;
+                //textBoxNameInOutput.Enabled = false;
                 textBoxNameInOutput.Visible = false;
 
-                labelDescriptionInOutput.Enabled = false;
+                //labelDescriptionInOutput.Enabled = false;
                 labelDescriptionInOutput.Visible = false;
-                textBoxDescriptionInOutput.Enabled = false;
+                //textBoxDescriptionInOutput.Enabled = false;
                 textBoxDescriptionInOutput.Visible = false;
             }
             else
             {
-                labelNameInOutput.Enabled = true;
+                //labelNameInOutput.Enabled = true;
                 labelNameInOutput.Visible = true;
-                textBoxNameInOutput.Enabled = true;
+                //textBoxNameInOutput.Enabled = true;
                 textBoxNameInOutput.Visible = true;
-                labelDescriptionInOutput.Enabled = true;
+                //labelDescriptionInOutput.Enabled = true;
                 labelDescriptionInOutput.Visible = true;
-                textBoxDescriptionInOutput.Enabled = true;
+                //textBoxDescriptionInOutput.Enabled = true;
                 textBoxDescriptionInOutput.Visible = true;
 
 
@@ -694,18 +715,18 @@ namespace NavTest
                 case 3: // AddEdge
                 case 4: // DeleteEdge
                     {
-                        if (FirstPoint.Count != 0)
+                        if (NodeCoordList.Count != 0)
                         {
                             List<int> foundNodeCoord = map.GetFloor(currentLevel).GetNodeOnFloor(FoundNode); // second Node
-                            if (foundNodeCoord[0] != FirstPoint[0] || foundNodeCoord[1] != FirstPoint[1])
+                            if (foundNodeCoord[0] != NodeCoordList[0] || foundNodeCoord[1] != NodeCoordList[1])
                             {
-                                Node FirstNode = map.SearchNode(currentLevel, FirstPoint[0], FirstPoint[1])[0];
+                                Node FirstNode = map.SearchNode(currentLevel, NodeCoordList[0], NodeCoordList[1])[0];
                                 if (Mode == 3 && !map.isEdgeExists(currentLevel, FirstNode, FoundNode))
                                 {
                                     GreyMode(false);
                                     map.AddEdge(currentLevel, new List<Node> { FirstNode, FoundNode });
-                                    DrawLine(FirstPoint[0], FirstPoint[1], FirstNode, foundNodeCoord[0], foundNodeCoord[1], FoundNode);
-                                    FirstPoint.Clear();
+                                    DrawLine(NodeCoordList[0], NodeCoordList[1], FirstNode, foundNodeCoord[0], foundNodeCoord[1], FoundNode);
+                                    NodeCoordList.Clear();
                                     Changes(true);
                                 }
                                 else
@@ -715,7 +736,7 @@ namespace NavTest
                                         GreyMode(false);
                                         map.RemoveEdge(currentLevel, new List<Node> { FirstNode, FoundNode });
                                         LoadLevel();
-                                        FirstPoint.Clear();
+                                        NodeCoordList.Clear();
                                         Changes(true);
                                     }
                                 }
@@ -725,7 +746,95 @@ namespace NavTest
                     }
             }
         }
-        private void toolStripButton2_Click(object sender, EventArgs e) // Удаление уровня
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e) // Clear
+        {
+            DialogResult result = MessageBox.Show("Вы уверены?", "Warning", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                foreach (Node i in map.GetFloor(currentLevel).GetNodeListOnFloor().Keys)
+                    if (i.type == 2) map.RemoveNode(currentLevel, i);
+
+                map.GetFloor(currentLevel).ClearNodeListOnFloor();
+                map.GetFloor(currentLevel).ClearEdges();
+                Changes(true);
+                LoadLevel();
+            }
+        }
+
+        private bool isNodeGenerator = false;
+        private void nodeGeneratorToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (ChooseLevelComboBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Добавьте уровень для продолжения");
+                return;
+            }
+            int count = 256;
+            int sqrt = Convert.ToInt32(Math.Sqrt(count));
+
+            panelX = sqrt * 50 + 200;
+            panelY = panelX;
+
+            isNodeGenerator = true;
+            Form1_ResizeEnd(null, null);
+            isNodeGenerator = false;
+
+            CreateNode_Click(null, null);
+            for (int i = 0; i < sqrt; ++i)
+            {
+                for (int j = 0; j < sqrt; ++j)
+                {
+                    SecondLayer = new Bitmap(pictureBox1.Image);
+                    comboBoxTypeInOutput.SelectedIndex = 0;
+                    textBoxXInOutput.Text = Convert.ToString(50 + i * 50);
+                    textBoxYInOutput.Text = Convert.ToString(50 + j * 50);
+                    button1_Click(null, null);
+                }
+            }
+            LoadLevel();
+
+            CreateEdge_Click(null, null);
+            for (int i = 0; i < sqrt; ++i)
+            {
+                for (int j = 0; j < sqrt; ++j)
+                {
+
+                    NodeCoordList = new List<int>() { 50 + i * 50, 50 + j * 50 };
+                    if (i != sqrt - 1)
+                    {
+                        FoundNode = map.SearchNode(currentLevel, 50 + (i + 1) * 50, 50 + j * 50)[0];
+                        button1_Click(null, null);
+                    }
+                    if (j != sqrt - 1)
+                    {
+                        NodeCoordList = new List<int>() { 50 + i * 50, 50 + j * 50 };
+                        FoundNode = map.SearchNode(currentLevel, 50 + i * 50, 50 + (j + 1) * 50)[0];
+                        button1_Click(null, null);
+                    }
+
+                }
+            }
+            LoadLevel();
+        }
+        private void DrawingForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+                saveToolStripMenuItem_Click(null, null);
+                return;
+            }
+            if (e.Control && e.Shift && e.KeyCode == Keys.T)
+            {
+                nodeGeneratorToolStripMenuItem_Click_1(null, null);
+                return;
+            }
+            if(e.Control && e.KeyCode == Keys.L)
+            {
+                DrawToLeftToolStripButton_Click(null, null);
+                return;
+            }
+        }
+        private void DeleteLevelToolStripButton_Click(object sender, EventArgs e)
         {
             if (ChooseLevelComboBox.SelectedIndex != -1)
             {
@@ -754,76 +863,6 @@ namespace NavTest
                     }
                 }
             }
-        }
-        private void clearToolStripMenuItem_Click(object sender, EventArgs e) // Clear
-        {
-            DialogResult result = MessageBox.Show("Вы уверены?", "Warning", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
-            {
-                foreach (Node i in map.GetFloor(currentLevel).GetNodeListOnFloor().Keys)
-                    if (i.type == 2) map.RemoveNode(currentLevel, i);
-
-                map.GetFloor(currentLevel).ClearNodeListOnFloor();
-                map.GetFloor(currentLevel).ClearEdges();
-                Changes(true);
-            }
-        }
-
-        private bool isNodeGenerator = false;
-        private void nodeGeneratorToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            if (ChooseLevelComboBox.SelectedIndex == -1)
-            {
-                MessageBox.Show("Добавьте уровень для продолжения");
-                return;
-            }
-            int count = 256;
-            int sqrt = Convert.ToInt32(Math.Sqrt(count));
-
-            panelX = sqrt * 50 + 200;
-            panelY = panelX;//+1000;
-            //panel1.Width = panelX; //sqrt * 50 + 100;
-            //panel1.Height = panel1.Width;
-            isNodeGenerator = true;
-            Form1_ResizeEnd(null, null);
-            isNodeGenerator = false;
-
-            CreateNode_Click(null, null);
-            for (int i = 0; i < sqrt; ++i)
-            {
-                for (int j = 0; j < sqrt; ++j)
-                {
-                    SecondLayer = new Bitmap(pictureBox1.Image);
-                    comboBoxTypeInOutput.SelectedIndex = 0;
-                    textBoxXInOutput.Text = Convert.ToString(50 + i * 50);
-                    textBoxYInOutput.Text = Convert.ToString(50 + j * 50);
-                    button1_Click(null, null);
-                }
-            }
-            LoadLevel();
-
-            CreateEdge_Click(null, null);
-            for (int i = 0; i < sqrt; ++i)
-            {
-                for (int j = 0; j < sqrt; ++j)
-                {
-
-                    FirstPoint = new List<int>() { 50 + i * 50, 50 + j * 50 };
-                    if (i != sqrt - 1)
-                    {
-                        FoundNode = map.SearchNode(currentLevel, 50 + (i + 1) * 50, 50 + j * 50)[0];
-                        button1_Click(null, null);
-                    }
-                    if (j != sqrt - 1)
-                    {
-                        FirstPoint = new List<int>() { 50 + i * 50, 50 + j * 50 };
-                        FoundNode = map.SearchNode(currentLevel, 50 + i * 50, 50 + (j + 1) * 50)[0];
-                        button1_Click(null, null);
-                    }
-
-                }
-            }
-            LoadLevel();
         }
     }
 }

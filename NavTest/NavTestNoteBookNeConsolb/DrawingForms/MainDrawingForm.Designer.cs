@@ -43,8 +43,9 @@
             this.toolStripButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nodeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.DeleteLevelToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.DrawToLeftToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
@@ -62,7 +63,6 @@
             this.MainActivityButton = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.ModeStatusLable = new System.Windows.Forms.ToolStripStatusLabel();
-            this.nodeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -79,17 +79,16 @@
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.SystemColors.Info;
             this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location = new System.Drawing.Point(128, 27);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel1.Location = new System.Drawing.Point(96, 22);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(903, 560);
+            this.panel1.Size = new System.Drawing.Size(677, 455);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(96, 60);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -102,10 +101,10 @@
             this.ChooseLevelComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.ChooseLevelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ChooseLevelComboBox.FormattingEnabled = true;
-            this.ChooseLevelComboBox.Location = new System.Drawing.Point(3, 19);
-            this.ChooseLevelComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ChooseLevelComboBox.Location = new System.Drawing.Point(2, 15);
+            this.ChooseLevelComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.ChooseLevelComboBox.Name = "ChooseLevelComboBox";
-            this.ChooseLevelComboBox.Size = new System.Drawing.Size(112, 24);
+            this.ChooseLevelComboBox.Size = new System.Drawing.Size(85, 21);
             this.ChooseLevelComboBox.TabIndex = 1;
             this.ChooseLevelComboBox.SelectedIndexChanged += new System.EventHandler(this.ChooseLevelComboBox_SelectedIndexChanged);
             // 
@@ -118,29 +117,28 @@
             this.flowLayoutPanel1.Controls.Add(this.DeleteNode);
             this.flowLayoutPanel1.Controls.Add(this.CreateEdge);
             this.flowLayoutPanel1.Controls.Add(this.DeleteEdge);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 36);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 29);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(121, 316);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(91, 257);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 17);
+            this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Этаж";
             // 
             // CreateNode
             // 
             this.CreateNode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.CreateNode.Location = new System.Drawing.Point(3, 47);
-            this.CreateNode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CreateNode.Location = new System.Drawing.Point(2, 40);
+            this.CreateNode.Margin = new System.Windows.Forms.Padding(2);
             this.CreateNode.Name = "CreateNode";
-            this.CreateNode.Size = new System.Drawing.Size(112, 46);
+            this.CreateNode.Size = new System.Drawing.Size(84, 37);
             this.CreateNode.TabIndex = 0;
             this.CreateNode.Text = "Create Node";
             this.CreateNode.UseVisualStyleBackColor = true;
@@ -149,10 +147,10 @@
             // EditNode
             // 
             this.EditNode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.EditNode.Location = new System.Drawing.Point(3, 97);
-            this.EditNode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.EditNode.Location = new System.Drawing.Point(2, 81);
+            this.EditNode.Margin = new System.Windows.Forms.Padding(2);
             this.EditNode.Name = "EditNode";
-            this.EditNode.Size = new System.Drawing.Size(112, 46);
+            this.EditNode.Size = new System.Drawing.Size(84, 37);
             this.EditNode.TabIndex = 3;
             this.EditNode.Text = "Edit Node";
             this.EditNode.UseVisualStyleBackColor = true;
@@ -161,10 +159,10 @@
             // DeleteNode
             // 
             this.DeleteNode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.DeleteNode.Location = new System.Drawing.Point(3, 147);
-            this.DeleteNode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.DeleteNode.Location = new System.Drawing.Point(2, 122);
+            this.DeleteNode.Margin = new System.Windows.Forms.Padding(2);
             this.DeleteNode.Name = "DeleteNode";
-            this.DeleteNode.Size = new System.Drawing.Size(112, 46);
+            this.DeleteNode.Size = new System.Drawing.Size(84, 37);
             this.DeleteNode.TabIndex = 2;
             this.DeleteNode.Text = "Delete Node";
             this.DeleteNode.UseVisualStyleBackColor = true;
@@ -173,10 +171,10 @@
             // CreateEdge
             // 
             this.CreateEdge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.CreateEdge.Location = new System.Drawing.Point(3, 197);
-            this.CreateEdge.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CreateEdge.Location = new System.Drawing.Point(2, 163);
+            this.CreateEdge.Margin = new System.Windows.Forms.Padding(2);
             this.CreateEdge.Name = "CreateEdge";
-            this.CreateEdge.Size = new System.Drawing.Size(112, 46);
+            this.CreateEdge.Size = new System.Drawing.Size(84, 37);
             this.CreateEdge.TabIndex = 1;
             this.CreateEdge.Text = "Create Edge";
             this.CreateEdge.UseVisualStyleBackColor = true;
@@ -185,10 +183,10 @@
             // DeleteEdge
             // 
             this.DeleteEdge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.DeleteEdge.Location = new System.Drawing.Point(3, 247);
-            this.DeleteEdge.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.DeleteEdge.Location = new System.Drawing.Point(2, 204);
+            this.DeleteEdge.Margin = new System.Windows.Forms.Padding(2);
             this.DeleteEdge.Name = "DeleteEdge";
-            this.DeleteEdge.Size = new System.Drawing.Size(112, 46);
+            this.DeleteEdge.Size = new System.Drawing.Size(84, 37);
             this.DeleteEdge.TabIndex = 4;
             this.DeleteEdge.Text = "Delete Edge";
             this.DeleteEdge.UseVisualStyleBackColor = true;
@@ -200,12 +198,12 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripSeparator1,
-            this.toolStripButton2,
+            this.DeleteLevelToolStripButton,
             this.toolStripSeparator2,
             this.DrawToLeftToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1196, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(897, 27);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -219,37 +217,44 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(34, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(33, 24);
             this.toolStripButton1.Text = "toolStripButton1";
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // nodeGeneratorToolStripMenuItem
+            // 
+            this.nodeGeneratorToolStripMenuItem.Name = "nodeGeneratorToolStripMenuItem";
+            this.nodeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.nodeGeneratorToolStripMenuItem.Text = "NodeGenerator";
+            this.nodeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.nodeGeneratorToolStripMenuItem_Click_1);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
-            // toolStripButton2
+            // DeleteLevelToolStripButton
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(131, 24);
-            this.toolStripButton2.Text = "Удалить уровень";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.DeleteLevelToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.DeleteLevelToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("DeleteLevelToolStripButton.Image")));
+            this.DeleteLevelToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DeleteLevelToolStripButton.Name = "DeleteLevelToolStripButton";
+            this.DeleteLevelToolStripButton.Size = new System.Drawing.Size(103, 24);
+            this.DeleteLevelToolStripButton.Text = "Удалить уровень";
+            this.DeleteLevelToolStripButton.Click += new System.EventHandler(this.DeleteLevelToolStripButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -262,7 +267,7 @@
             this.DrawToLeftToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawToLeftToolStripButton.Image")));
             this.DrawToLeftToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.DrawToLeftToolStripButton.Name = "DrawToLeftToolStripButton";
-            this.DrawToLeftToolStripButton.Size = new System.Drawing.Size(125, 24);
+            this.DrawToLeftToolStripButton.Size = new System.Drawing.Size(100, 24);
             this.DrawToLeftToolStripButton.Text = "Растянуть влево";
             this.DrawToLeftToolStripButton.Click += new System.EventHandler(this.DrawToLeftToolStripButton_Click);
             // 
@@ -281,19 +286,18 @@
             this.flowLayoutPanel2.Controls.Add(this.labelYInOutput);
             this.flowLayoutPanel2.Controls.Add(this.textBoxYInOutput);
             this.flowLayoutPanel2.Controls.Add(this.MainActivityButton);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(1036, 36);
-            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(777, 29);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(145, 336);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(109, 273);
             this.flowLayoutPanel2.TabIndex = 3;
             // 
             // labelTypeInOutput
             // 
             this.labelTypeInOutput.AutoSize = true;
-            this.labelTypeInOutput.Location = new System.Drawing.Point(4, 0);
-            this.labelTypeInOutput.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelTypeInOutput.Location = new System.Drawing.Point(3, 0);
             this.labelTypeInOutput.Name = "labelTypeInOutput";
-            this.labelTypeInOutput.Size = new System.Drawing.Size(33, 17);
+            this.labelTypeInOutput.Size = new System.Drawing.Size(26, 13);
             this.labelTypeInOutput.TabIndex = 5;
             this.labelTypeInOutput.Text = "Тип";
             // 
@@ -305,10 +309,9 @@
             "Коридор",
             "Кабинет",
             "Лестница"});
-            this.comboBoxTypeInOutput.Location = new System.Drawing.Point(4, 21);
-            this.comboBoxTypeInOutput.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxTypeInOutput.Location = new System.Drawing.Point(3, 16);
             this.comboBoxTypeInOutput.Name = "comboBoxTypeInOutput";
-            this.comboBoxTypeInOutput.Size = new System.Drawing.Size(127, 24);
+            this.comboBoxTypeInOutput.Size = new System.Drawing.Size(96, 21);
             this.comboBoxTypeInOutput.TabIndex = 2;
             this.comboBoxTypeInOutput.SelectedIndexChanged += new System.EventHandler(this.comboBoxTypeInOutput_SelectedIndexChanged);
             // 
@@ -316,94 +319,85 @@
             // 
             this.textBoxTypeInOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxTypeInOutput.Location = new System.Drawing.Point(4, 53);
-            this.textBoxTypeInOutput.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxTypeInOutput.Location = new System.Drawing.Point(3, 43);
             this.textBoxTypeInOutput.Name = "textBoxTypeInOutput";
             this.textBoxTypeInOutput.ReadOnly = true;
-            this.textBoxTypeInOutput.Size = new System.Drawing.Size(127, 22);
+            this.textBoxTypeInOutput.Size = new System.Drawing.Size(96, 20);
             this.textBoxTypeInOutput.TabIndex = 13;
             // 
             // labelNameInOutput
             // 
             this.labelNameInOutput.AutoSize = true;
-            this.labelNameInOutput.Location = new System.Drawing.Point(4, 79);
-            this.labelNameInOutput.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelNameInOutput.Location = new System.Drawing.Point(3, 66);
             this.labelNameInOutput.Name = "labelNameInOutput";
-            this.labelNameInOutput.Size = new System.Drawing.Size(72, 17);
+            this.labelNameInOutput.Size = new System.Drawing.Size(57, 13);
             this.labelNameInOutput.TabIndex = 0;
             this.labelNameInOutput.Text = "Название";
             // 
             // textBoxNameInOutput
             // 
-            this.textBoxNameInOutput.Location = new System.Drawing.Point(4, 100);
-            this.textBoxNameInOutput.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxNameInOutput.Location = new System.Drawing.Point(3, 82);
             this.textBoxNameInOutput.Name = "textBoxNameInOutput";
-            this.textBoxNameInOutput.Size = new System.Drawing.Size(127, 22);
+            this.textBoxNameInOutput.Size = new System.Drawing.Size(96, 20);
             this.textBoxNameInOutput.TabIndex = 1;
             // 
             // labelDescriptionInOutput
             // 
             this.labelDescriptionInOutput.AutoSize = true;
-            this.labelDescriptionInOutput.Location = new System.Drawing.Point(4, 126);
-            this.labelDescriptionInOutput.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelDescriptionInOutput.Location = new System.Drawing.Point(3, 105);
             this.labelDescriptionInOutput.Name = "labelDescriptionInOutput";
-            this.labelDescriptionInOutput.Size = new System.Drawing.Size(74, 17);
+            this.labelDescriptionInOutput.Size = new System.Drawing.Size(57, 13);
             this.labelDescriptionInOutput.TabIndex = 6;
             this.labelDescriptionInOutput.Text = "Описание";
             // 
             // textBoxDescriptionInOutput
             // 
-            this.textBoxDescriptionInOutput.Location = new System.Drawing.Point(4, 147);
-            this.textBoxDescriptionInOutput.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxDescriptionInOutput.Location = new System.Drawing.Point(3, 121);
             this.textBoxDescriptionInOutput.Multiline = true;
             this.textBoxDescriptionInOutput.Name = "textBoxDescriptionInOutput";
-            this.textBoxDescriptionInOutput.Size = new System.Drawing.Size(127, 43);
+            this.textBoxDescriptionInOutput.Size = new System.Drawing.Size(96, 36);
             this.textBoxDescriptionInOutput.TabIndex = 7;
             // 
             // labelXInOutput
             // 
             this.labelXInOutput.AutoSize = true;
-            this.labelXInOutput.Location = new System.Drawing.Point(4, 194);
-            this.labelXInOutput.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelXInOutput.Location = new System.Drawing.Point(3, 160);
             this.labelXInOutput.Name = "labelXInOutput";
-            this.labelXInOutput.Size = new System.Drawing.Size(17, 17);
+            this.labelXInOutput.Size = new System.Drawing.Size(14, 13);
             this.labelXInOutput.TabIndex = 8;
             this.labelXInOutput.Text = "X";
             // 
             // textBoxXInOutput
             // 
-            this.textBoxXInOutput.Location = new System.Drawing.Point(4, 215);
-            this.textBoxXInOutput.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxXInOutput.Location = new System.Drawing.Point(3, 176);
             this.textBoxXInOutput.Name = "textBoxXInOutput";
             this.textBoxXInOutput.ReadOnly = true;
-            this.textBoxXInOutput.Size = new System.Drawing.Size(127, 22);
+            this.textBoxXInOutput.Size = new System.Drawing.Size(96, 20);
             this.textBoxXInOutput.TabIndex = 9;
             // 
             // labelYInOutput
             // 
             this.labelYInOutput.AutoSize = true;
-            this.labelYInOutput.Location = new System.Drawing.Point(4, 241);
-            this.labelYInOutput.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelYInOutput.Location = new System.Drawing.Point(3, 199);
             this.labelYInOutput.Name = "labelYInOutput";
-            this.labelYInOutput.Size = new System.Drawing.Size(17, 17);
+            this.labelYInOutput.Size = new System.Drawing.Size(14, 13);
             this.labelYInOutput.TabIndex = 10;
             this.labelYInOutput.Text = "Y";
             // 
             // textBoxYInOutput
             // 
-            this.textBoxYInOutput.Location = new System.Drawing.Point(4, 262);
-            this.textBoxYInOutput.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxYInOutput.Location = new System.Drawing.Point(3, 215);
             this.textBoxYInOutput.Name = "textBoxYInOutput";
             this.textBoxYInOutput.ReadOnly = true;
-            this.textBoxYInOutput.Size = new System.Drawing.Size(127, 22);
+            this.textBoxYInOutput.Size = new System.Drawing.Size(96, 20);
             this.textBoxYInOutput.TabIndex = 11;
             // 
             // MainActivityButton
             // 
-            this.MainActivityButton.Location = new System.Drawing.Point(3, 290);
-            this.MainActivityButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MainActivityButton.Location = new System.Drawing.Point(2, 240);
+            this.MainActivityButton.Margin = new System.Windows.Forms.Padding(2);
             this.MainActivityButton.Name = "MainActivityButton";
-            this.MainActivityButton.Size = new System.Drawing.Size(129, 38);
+            this.MainActivityButton.Size = new System.Drawing.Size(97, 31);
             this.MainActivityButton.TabIndex = 12;
             this.MainActivityButton.Text = "Continue";
             this.MainActivityButton.UseVisualStyleBackColor = true;
@@ -414,41 +408,35 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ModeStatusLable});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 591);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 479);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1196, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(897, 22);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // ModeStatusLable
             // 
             this.ModeStatusLable.Name = "ModeStatusLable";
-            this.ModeStatusLable.Size = new System.Drawing.Size(151, 20);
+            this.ModeStatusLable.Size = new System.Drawing.Size(118, 17);
             this.ModeStatusLable.Text = "toolStripStatusLabel1";
-            // 
-            // nodeGeneratorToolStripMenuItem
-            // 
-            this.nodeGeneratorToolStripMenuItem.Name = "nodeGeneratorToolStripMenuItem";
-            this.nodeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.nodeGeneratorToolStripMenuItem.Text = "NodeGenerator";
-            this.nodeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.nodeGeneratorToolStripMenuItem_Click_1);
             // 
             // DrawingForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1196, 617);
+            this.ClientSize = new System.Drawing.Size(897, 501);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "DrawingForm";
             this.Text = "Draw Interface";
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DrawingForm_KeyDown);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -482,7 +470,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton DeleteLevelToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton DrawToLeftToolStripButton;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
