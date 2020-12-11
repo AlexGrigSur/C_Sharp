@@ -62,15 +62,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChoosePlanAndDBCreate.cs">
+    <Compile Include="StartWindow\ChoosePlanAndDBCreate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChoosePlanAndDBCreate.Designer.cs">
+    <Compile Include="StartWindow\ChoosePlanAndDBCreate.Designer.cs">
       <DependentUpon>ChoosePlanAndDBCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="DB\WorkWithDB.cs" />
     <Compile Include="DB\DB.cs" />
-    <Compile Include="DrawClass.cs" />
+    <Compile Include="DrawClass\DrawClass.cs" />
     <Compile Include="DrawingForms\LadderChoose.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,24 +91,24 @@
     <Compile Include="DrawingForms\NewLevelAdd.Designer.cs">
       <DependentUpon>NewLevelAdd.cs</DependentUpon>
     </Compile>
-    <Compile Include="CalcFunctions\NavCalc.cs" />
+    <Compile Include="CalcFunctions\NavRouteCalc.cs" />
     <Compile Include="MapData\Map.cs" />
-    <Compile Include="NavForm\ChoosePoint.cs">
+    <Compile Include="NavigationForm\ChoosePoint.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NavForm\ChoosePoint.Designer.cs">
+    <Compile Include="NavigationForm\ChoosePoint.Designer.cs">
       <DependentUpon>ChoosePoint.cs</DependentUpon>
     </Compile>
-    <Compile Include="NavForm\MainNavForm.cs">
+    <Compile Include="NavigationForm\MainNavForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NavForm\MainNavForm.Designer.cs">
+    <Compile Include="NavigationForm\MainNavForm.Designer.cs">
       <DependentUpon>MainNavForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CalcFunctions\NavUnite.cs" />
+    <Compile Include="CalcFunctions\NavConnCheck.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ChoosePlanAndDBCreate.resx">
+    <EmbeddedResource Include="StartWindow\ChoosePlanAndDBCreate.resx">
       <DependentUpon>ChoosePlanAndDBCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DrawingForms\LadderChoose.resx">
@@ -120,10 +120,10 @@
     <EmbeddedResource Include="DrawingForms\NewLevelAdd.resx">
       <DependentUpon>NewLevelAdd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NavForm\ChoosePoint.resx">
+    <EmbeddedResource Include="NavigationForm\ChoosePoint.resx">
       <DependentUpon>ChoosePoint.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NavForm\MainNavForm.resx">
+    <EmbeddedResource Include="NavigationForm\MainNavForm.resx">
       <DependentUpon>MainNavForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -134,6 +134,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -148,6 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="1200px-Refresh_icon.svg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

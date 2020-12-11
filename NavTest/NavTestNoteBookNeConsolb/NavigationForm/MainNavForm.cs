@@ -18,7 +18,7 @@ namespace NavTest
         private int panelY = 0;
         static private int radius = 10;
 
-        private int currentRouteElem=-1;
+        private int currentRouteElem = -1;
         private Image SecondLayer;
 
         private Dictionary<Node, ConnectivityComp> avaliableNodes;
@@ -103,7 +103,7 @@ namespace NavTest
             int floor = RouteNavigation[currentRouteElem].GetFloor();
             ChooseLevelComboBox.SelectedItem = floor;
             SecondLayer = new Bitmap(pictureBox1.Image);
-            List<List<int>> ToDraw = new List<List<int>>();
+            List<Point> ToDraw = new List<Point>();
             foreach (Node i in Route[RouteNavigation[currentRouteElem]])
                 ToDraw.Add(map.GetFloor(floor).GetNodeOnFloor(i));
             pictureBox1.Image = new DrawClass(radius).RouteBuilder(pictureBox1.Image, ToDraw);
@@ -123,6 +123,7 @@ namespace NavTest
                 --currentRouteElem;
                 drawPath();
             }
+            RouteDescription();
         }
         private void ContinueButton_Click(object sender, EventArgs e)
         {
@@ -137,6 +138,7 @@ namespace NavTest
                 ++currentRouteElem;
                 drawPath();
             }
+            RouteDescription();
         }
         #endregion
         private void ChooseLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -148,18 +150,39 @@ namespace NavTest
             }
             LoadLevel();
         }
+
+        private void RouteDescription()
+        {
+            RouteDescriptionTextBox.Text = "";
+
+            string isCabinet = Route[RouteNavigation[currentRouteElem]].First().type == 1 ? "кабинета" : "лестницы";
+            RouteDescriptionTextBox.Text = $" - Начните движение из {isCabinet} {Route[RouteNavigation[currentRouteElem]].First().name}\r\n";
+            RouteDescriptionTextBox.Text += $" - Двигайтесь по маршруту\r\n";
+            if (currentRouteElem < Route.Count - 1)
+            {
+                string isNextFloorHigher = (RouteNavigation[currentRouteElem].GetFloor() < RouteNavigation[currentRouteElem + 1].GetFloor()) ? "поднимитесь" : "спуститесь"; // isNextFloorHigher
+                RouteDescriptionTextBox.Text += $" - Доберитесь до лестницы {Route[RouteNavigation[currentRouteElem]].Last().name}\r\n";
+                RouteDescriptionTextBox.Text += $" - После чего { isNextFloorHigher} на этаж № { RouteNavigation[currentRouteElem + 1].GetFloor()}";
+            }
+            else
+            {
+                RouteDescriptionTextBox.Text += $" - Доберитесь о кабинета {Route[RouteNavigation[currentRouteElem]].Last().name}\r\n";
+                RouteDescriptionTextBox.Text += " - Вы в точке назначения";
+            }
+        }
+
         private void RefreshRouteButton_Click(object sender, EventArgs e)
         {
             StartPointButton.Text = "Выберите точку";
             EndPointButton.Text = "Выберите точку";
 
             currentRouteElem = -1;
-
+            RouteDescriptionTextBox.Text = "";
             pictureBox1.Image = new Bitmap(SecondLayer);
             pictureBox1.Invalidate();
 
             Step.Visible = false;
-            ContinueButton.Enabled= true;
+            ContinueButton.Enabled = true;
             PreviousButton.Enabled = true;
             ContinueButton.Visible = false;
             PreviousButton.Visible = false;
@@ -169,6 +192,8 @@ namespace NavTest
         {
             pictureBox1.Image = SecondLayer;
             SecondLayer = null;
+
+            RouteDescriptionTextBox.Text = "";
 
             Step.Text = "";
             ContinueButton.Enabled = true;
@@ -198,6 +223,7 @@ namespace NavTest
                     }
 
                     drawPath();
+                    RouteDescription();
                     MessageBox.Show(alg.timeToCalc);
                 }
                 else

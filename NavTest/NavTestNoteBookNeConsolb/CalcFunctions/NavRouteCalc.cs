@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
 
@@ -71,15 +72,15 @@ namespace NavTest
             {
                 int min = int.MaxValue;
                 Node ladrIndex = new Node();
-                List<int> baseCoord = map.GetCoordOfNode(calc[i].CurrConnComp.GetFloor(), calc[i].startNode);
-                List<int> ladderCoord;
+                /*List<int>*/Point baseCoord = map.GetCoordOfNode(calc[i].CurrConnComp.GetFloor(), calc[i].startNode);
+                /*List<int>*/Point ladderCoord;
 
                 foreach (Node ladr in calc[i].CurrConnComp.GetLadderList())
                 {
                     if (!map.GetConnectivities(ladr).Contains(calc[i + 1].CurrConnComp))
                         continue;
                     ladderCoord = map.GetCoordOfNode(calc[i].CurrConnComp.GetFloor(), ladr);
-                    int distance = Convert.ToInt32(Math.Sqrt(Math.Pow(ladderCoord[0] - baseCoord[0], 2) + Math.Pow(ladderCoord[1] - baseCoord[1], 2)));
+                    int distance = Convert.ToInt32(Math.Sqrt((ladderCoord.X - baseCoord.X)* (ladderCoord.X - baseCoord.X) + (ladderCoord.Y - baseCoord.Y)* (ladderCoord.Y - baseCoord.Y)));
                     if (distance < min)
                     {
                         min = distance;
@@ -306,9 +307,9 @@ namespace NavTest
         }
         private int GetDistanceBetweenTwoPoints(Node startPoint, Node EndPoint) // also using to calc heuristic (distance between node -> goal)
         {
-            List<int> start = map.GetCoordOfNode(curConComp.GetFloor(), startPoint);
-            List<int> end = map.GetCoordOfNode(curConComp.GetFloor(), EndPoint);
-            return Convert.ToInt32(Math.Sqrt(Math.Pow(start[0] - end[0], 2) + Math.Pow(start[1] - end[1], 2)));
+            /*List<int>*/Point start = map.GetCoordOfNode(curConComp.GetFloor(), startPoint);
+            /*List<int>*/Point end = map.GetCoordOfNode(curConComp.GetFloor(), EndPoint);
+            return Convert.ToInt32(Math.Sqrt((start.X - end.X)* (start.X - end.X) + (start.Y - end.Y)* (start.Y - end.Y)));
         }
     }
     #endregion

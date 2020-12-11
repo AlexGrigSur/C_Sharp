@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using NavTest;
@@ -25,7 +26,7 @@ namespace NavTest
         private int screenResX;
         private int screenResY;
         private List<ConnectivityComp> connectivityComponents = new List<ConnectivityComp>();
-        private Dictionary<Node, List<int>> nodeListOnFloor = new Dictionary<Node, List<int>>();
+        private Dictionary<Node, Point/*List<int>*/> nodeListOnFloor = new Dictionary<Node, /*List<int>*/ Point>();
         private Dictionary<Node, List<Node>> edges = new Dictionary<Node, List<Node>>();
         public Level(int FloorIndex)
         {
@@ -57,19 +58,20 @@ namespace NavTest
         public void NodesOptimizer()
         {
             int maxX = -1, maxY = -1, minX = Int32.MaxValue, minY = Int32.MaxValue;
-            foreach (List<int> i in nodeListOnFloor.Values)
+            foreach (/*List<int>*/Point i in nodeListOnFloor.Values)
             {
-                if (i[0] > maxX) maxX = i[0];
-                if (i[1] > maxY) maxY = i[1];
-                if (i[0] < minX) minX = i[0];
-                if (i[1] < minY) minY = i[1];
+                if (i.X > maxX) maxX = i.X;//[0];//[0] > maxX) maxX = i[0];
+                if (i.Y > maxY) maxY = i.Y;//[1];//[1] > maxY) maxY = i[1];
+                if (i.X < minX) minX = i.X;//[0];//[0] < minX) minX = i[0];
+                if (i.Y < minY) minY = i.Y;//[1];//[1] < minY) minY = i[1];
             }
             if (minX != 10 || minY != 10)
-                foreach (List<int> i in nodeListOnFloor.Values)
-                {
-                    i[0] -= minX - 15;
-                    i[1] -= minY - 15;
-                }
+            {
+                List<Node> nodeListOnFloorCopy = new List<Node>(nodeListOnFloor.Keys);
+                foreach (/*List<int>*//*Point*/Node i in nodeListOnFloorCopy)//Values)
+                    nodeListOnFloor[i] = new Point(nodeListOnFloor[i].X - minX + 15, nodeListOnFloor[i].Y - minY + 15);//i/*[0]*/.X -= minX - 15;
+                                                                                                                       //i[1] -= minY - 15;
+            }
             if ((maxX + 10 != screenResX) || (maxY + 10 != screenResY))
             {
                 screenResX = maxX - minX + 100;
@@ -80,11 +82,11 @@ namespace NavTest
         }
 
         #region // NodeList
-        public Dictionary<Node, List<int>> GetNodeListOnFloor()
+        public Dictionary<Node, Point/*List<int>*/> GetNodeListOnFloor()
         {
             return nodeListOnFloor;
         }
-        public List<int> GetNodeOnFloor(Node nd)
+        public /*List<int>*/Point GetNodeOnFloor(Node nd)
         {
             return nodeListOnFloor[nd];
         }
@@ -106,7 +108,7 @@ namespace NavTest
         {
             List<Node> result = new List<Node>();
             foreach (Node tempNode in nodeListOnFloor.Keys)
-                if (nodeListOnFloor[tempNode][0] == x && nodeListOnFloor[tempNode][1] == y)
+                if (nodeListOnFloor[tempNode].X/*[0]*/ == x && nodeListOnFloor[tempNode].Y/*[1]*/ == y)
                 {
                     result.Add(tempNode);
                     break;
@@ -117,7 +119,7 @@ namespace NavTest
         {
             List<Node> result = new List<Node>();
             foreach (Node tempNode in nodeListOnFloor.Keys)
-                if ((nodeListOnFloor[tempNode][0] == x1 && nodeListOnFloor[tempNode][1] == y1) || (nodeListOnFloor[tempNode][0] == x2 && nodeListOnFloor[tempNode][1] == y2))
+                if ((nodeListOnFloor[tempNode].X/*[0]*/  == x1 && nodeListOnFloor[tempNode].Y/*[1]*/ == y1) || (nodeListOnFloor[tempNode].X/*[0]*/  == x2 && nodeListOnFloor[tempNode].Y/*[1]*/ == y2))
                 {
                     result.Add(tempNode);
                     if (result.Count == 2)
@@ -129,12 +131,12 @@ namespace NavTest
         #region // Nodes
         public void AddNode(Node obj, int x, int y)
         {
-            nodeListOnFloor.Add(obj, new List<int> { x, y });
+            nodeListOnFloor.Add(obj, new Point(x, y));//List<int> { x, y });
             edges.Add(obj, new List<Node>());
         }
         public void NodeCoordChange(Node obj, int newX, int newY)
         {
-            nodeListOnFloor[obj] = new List<int> { newX, newY };
+            nodeListOnFloor[obj] = new Point(newX, newY);//List<int> { newX, newY };
         }
         public void RemoveNode(Node obj)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using NavTest;
 
@@ -149,9 +150,19 @@ namespace NavTest
                 NodeList.Remove(node.name);
             }
         }
-        public List<int> GetCoordOfNode(int floorIndex, Node obj)
+        public /*List<int>*/Point GetCoordOfNode(int floorIndex, Node obj)
         {
             return Floors[floorIndex].GetNodeOnFloor(obj);
+        }
+        public void ClearAllNodes()
+        {
+            NodeList.Clear();
+            HyperGraphByConnectivity.Clear();
+            foreach(Level i in Floors.Values)
+            {
+                i.ClearNodeListOnFloor();
+                i.ClearEdges();
+            }
         }
         #endregion
         #region // Edges
@@ -177,7 +188,6 @@ namespace NavTest
         {
             return HyperGraphByConnectivity[node];
         }
-
         public Dictionary<Node, List<ConnectivityComp>> GetHyperGraphByConnectivity()
         {
             return HyperGraphByConnectivity;

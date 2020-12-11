@@ -57,6 +57,8 @@ namespace NavTest
 
             if (ChooseLevelComboBox.Items.Count > 1)
                 ChooseLevelComboBox.SelectedIndex = 0;
+
+            MainActivityButton.Text = "";
         }
 
         private void updateLevelList()
@@ -102,7 +104,6 @@ namespace NavTest
                 LoadLevel();
             }
         }
-
         private void LoadLevel()
         {
             pictureBox1.Image = new Bitmap(draw.LoadLevel(currentLevel, ref map, out panelX, out panelY));
@@ -112,7 +113,6 @@ namespace NavTest
             ObservereMode();
             if (panelX < pictureBox1.Width || panelY < pictureBox1.Height) Form1_ResizeEnd(null, null);
         }
-
         #region //DB
         private void updateFromDB()
         {
@@ -140,7 +140,7 @@ namespace NavTest
             pictureBox1.Image = new Bitmap(draw.HighlighterNode(pictureBox1.Image, X, Y));
             pictureBox1.Invalidate();
         }
-        private void HighlighterNode(List<int> coord) => HighlighterNode(coord[0], coord[1]);
+        private void HighlighterNode(/*List<int>*/Point coord) => HighlighterNode(coord.X, coord.Y);
         private void DrawNode(int X, int Y, int transparent = 255, string nodeName = "")
         {
             pictureBox1.Image = new Bitmap(draw.DrawNode(pictureBox1.Image, X, Y, transparent, nodeName));
@@ -364,12 +364,12 @@ namespace NavTest
                             if (isGreyMode)
                             {
                                 pictureBox1.Image = new Bitmap(SecondLayer);
-                                HighlighterNode(nodeCoord);
+                                HighlighterNode(nodeCoord[0],nodeCoord[1]);
                             }
                             else
                             {
                                 GreyMode(true);
-                                HighlighterNode(nodeCoord);
+                                HighlighterNode(nodeCoord[0],nodeCoord[1]);
                             }
                             SearchNodeInBase(nodeCoord);
                         }
@@ -392,7 +392,7 @@ namespace NavTest
 
                             SearchNodeInBase(FindNode);
 
-                            HighlighterNode(NodeCoordList);
+                            HighlighterNode(NodeCoordList[0],NodeCoordList[1]);
 
                             return;
                         }
@@ -409,8 +409,8 @@ namespace NavTest
                                 pictureBox1.Image = new Bitmap(SecondLayer);
                                 SearchNodeInBase(FindNode);
 
-                                HighlighterNode(NodeCoordList);
-                                HighlighterNode(FindNode);
+                                HighlighterNode(NodeCoordList[0],NodeCoordList[1]);
+                                HighlighterNode(FindNode[0],FindNode[1]);
                             }
                         }
                         break;
@@ -510,8 +510,8 @@ namespace NavTest
                         List<Node> NodeList = new List<Node>(map.GetFloor(currentLevel).GetNodeListOnFloor().Keys);
                         foreach (Node i in NodeList)
                         {
-                            List<int> coords = map.GetFloor(currentLevel).GetNodeOnFloor(i);
-                            map.EditNode(currentLevel, i.name, i, coords[0] + (panelX - pictureBox1.Width), coords[1] + (panelY - pictureBox1.Height));
+                            /*List<int>*/Point coords = map.GetFloor(currentLevel).GetNodeOnFloor(i);
+                            map.EditNode(currentLevel, i.name, i, coords.X + (panelX - pictureBox1.Width), coords.Y + (panelY - pictureBox1.Height));
                         }
                         G.DrawImage(pictureBox1.Image, panelX - pictureBox1.Image.Width, panelY - pictureBox1.Image.Height, pictureBox1.Width, pictureBox1.Height);
                         resizeToLeft = false;
@@ -683,8 +683,8 @@ namespace NavTest
 
                         if (isGreyMode)
                         {
-                            List<int> tempCoord = map.GetCoordOfNode(currentLevel, NewNode);
-                            if (tempCoord[0] != Convert.ToInt32(textBoxXInOutput.Text) || tempCoord[1] != Convert.ToInt32(textBoxYInOutput.Text))
+                            /*List<int>*/Point tempCoord = map.GetCoordOfNode(currentLevel, NewNode);
+                            if (tempCoord.X != Convert.ToInt32(textBoxXInOutput.Text) || tempCoord.Y != Convert.ToInt32(textBoxYInOutput.Text))
                                 map.GetFloor(currentLevel).NodeCoordChange(NewNode, Convert.ToInt32(textBoxXInOutput.Text), Convert.ToInt32(textBoxYInOutput.Text));
                             changeFlag = true;
                         }
@@ -717,15 +717,15 @@ namespace NavTest
                     {
                         if (NodeCoordList.Count != 0)
                         {
-                            List<int> foundNodeCoord = map.GetFloor(currentLevel).GetNodeOnFloor(FoundNode); // second Node
-                            if (foundNodeCoord[0] != NodeCoordList[0] || foundNodeCoord[1] != NodeCoordList[1])
+                            /*List<int> */Point foundNodeCoord = map.GetFloor(currentLevel).GetNodeOnFloor(FoundNode); // second Node
+                            if (foundNodeCoord.X != NodeCoordList[0] || foundNodeCoord.Y != NodeCoordList[1])
                             {
                                 Node FirstNode = map.SearchNode(currentLevel, NodeCoordList[0], NodeCoordList[1])[0];
                                 if (Mode == 3 && !map.isEdgeExists(currentLevel, FirstNode, FoundNode))
                                 {
                                     GreyMode(false);
                                     map.AddEdge(currentLevel, new List<Node> { FirstNode, FoundNode });
-                                    DrawLine(NodeCoordList[0], NodeCoordList[1], FirstNode, foundNodeCoord[0], foundNodeCoord[1], FoundNode);
+                                    DrawLine(NodeCoordList[0], NodeCoordList[1], FirstNode, foundNodeCoord.X, foundNodeCoord.Y, FoundNode);
                                     NodeCoordList.Clear();
                                     Changes(true);
                                 }
@@ -751,11 +751,7 @@ namespace NavTest
             DialogResult result = MessageBox.Show("Вы уверены?", "Warning", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                foreach (Node i in map.GetFloor(currentLevel).GetNodeListOnFloor().Keys)
-                    if (i.type == 2) map.RemoveNode(currentLevel, i);
-
-                map.GetFloor(currentLevel).ClearNodeListOnFloor();
-                map.GetFloor(currentLevel).ClearEdges();
+                map.ClearAllNodes();
                 Changes(true);
                 LoadLevel();
             }

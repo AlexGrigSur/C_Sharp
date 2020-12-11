@@ -223,21 +223,21 @@
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // nodeGeneratorToolStripMenuItem
             // 
             this.nodeGeneratorToolStripMenuItem.Name = "nodeGeneratorToolStripMenuItem";
-            this.nodeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.nodeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.nodeGeneratorToolStripMenuItem.Text = "NodeGenerator";
             this.nodeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.nodeGeneratorToolStripMenuItem_Click_1);
             // 
@@ -289,7 +289,7 @@
             this.flowLayoutPanel2.Location = new System.Drawing.Point(777, 29);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(109, 273);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(109, 293);
             this.flowLayoutPanel2.TabIndex = 3;
             // 
             // labelTypeInOutput
@@ -397,7 +397,7 @@
             this.MainActivityButton.Location = new System.Drawing.Point(2, 240);
             this.MainActivityButton.Margin = new System.Windows.Forms.Padding(2);
             this.MainActivityButton.Name = "MainActivityButton";
-            this.MainActivityButton.Size = new System.Drawing.Size(97, 31);
+            this.MainActivityButton.Size = new System.Drawing.Size(97, 41);
             this.MainActivityButton.TabIndex = 12;
             this.MainActivityButton.Text = "Continue";
             this.MainActivityButton.UseVisualStyleBackColor = true;

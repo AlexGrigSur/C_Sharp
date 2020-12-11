@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime;
 using System.Drawing;
 
 namespace NavTest//NavTestNoteBookNeConsolb
@@ -20,14 +21,14 @@ namespace NavTest//NavTestNoteBookNeConsolb
         {
             Level floor = map.GetFloor(currentLevel);
 
-            panelX = (floor.ScreenResX-100 == int.MaxValue) ? 900 : floor.ScreenResX;
-            panelY = (floor.ScreenResY-100 == int.MaxValue) ? 700 : floor.ScreenResY;
+            panelX = (floor.ScreenResX - 100 == int.MaxValue) ? 900 : floor.ScreenResX;
+            panelY = (floor.ScreenResY - 100 == int.MaxValue) ? 700 : floor.ScreenResY;
 
             Image picture = new Bitmap(panelX, panelY);
 
 
             foreach (Node nodeIter in floor.GetNodeListOnFloor().Keys) // draw all Nodes
-                picture = DrawNode(picture, floor.GetNodeOnFloor(nodeIter)[0], floor.GetNodeOnFloor(nodeIter)[1], 255, ((nodeIter.type == 0) ? "" : nodeIter.name)); // ternary operator to not draw text on corridor nodes
+                picture = DrawNode(picture, floor.GetNodeOnFloor(nodeIter).X, floor.GetNodeOnFloor(nodeIter).Y, 255, ((nodeIter.type == 0) ? "" : nodeIter.name)); // ternary operator to not draw text on corridor nodes
 
             Dictionary<Node, List<Node>> edgesCopy = new Dictionary<Node, List<Node>>(map.GetFloor(currentLevel).GetEdgesList());
 
@@ -36,7 +37,7 @@ namespace NavTest//NavTestNoteBookNeConsolb
             foreach (Node FirstNodeLine in edgesCopy.Keys) // draw All 
                 foreach (Node SecondNodeLine in edgesCopy[FirstNodeLine])
                 {
-                    picture = DrawLine(picture, floor.GetNodeOnFloor(FirstNodeLine)[0], floor.GetNodeOnFloor(FirstNodeLine)[1], (FirstNodeLine.type == 0) ? "" : FirstNodeLine.name, floor.GetNodeOnFloor(SecondNodeLine)[0], floor.GetNodeOnFloor(SecondNodeLine)[1], (SecondNodeLine.type == 0) ? "" : SecondNodeLine.name);
+                    picture = DrawLine(picture, floor.GetNodeOnFloor(FirstNodeLine).X, floor.GetNodeOnFloor(FirstNodeLine).Y, (FirstNodeLine.type == 0) ? "" : FirstNodeLine.name, floor.GetNodeOnFloor(SecondNodeLine).X, floor.GetNodeOnFloor(SecondNodeLine).Y, (SecondNodeLine.type == 0) ? "" : SecondNodeLine.name);
                     if (!removed.ContainsKey(SecondNodeLine)) removed.Add(SecondNodeLine, new List<Node>());
                     removed[SecondNodeLine].Add(FirstNodeLine);
                 }
@@ -73,7 +74,7 @@ namespace NavTest//NavTestNoteBookNeConsolb
             {
                 Color lineColor;
                 lineColor = Color.Purple;
-                G.DrawLine(new Pen(lineColor), X1, Y1, X2, Y2);
+                G.DrawLine(new Pen(lineColor,4), X1, Y1, X2, Y2);
             }
             picture = DrawNode(picture, X1, Y1, 255, nodeName1);
             picture = DrawNode(picture, X2, Y2, 255, nodeName2);
@@ -108,19 +109,39 @@ namespace NavTest//NavTestNoteBookNeConsolb
             return coord;
         }
 
-        public Image RouteBuilder(Image picture, List<List<int>> nodes)
+        public Image RouteBuilder(Image picture, List</*List<int>*/Point> nodes)
         {
             using (Graphics G = Graphics.FromImage(picture))
             {
                 Pen pen = new Pen(Color.FromArgb(155, Color.Red));
                 Brush brush = new SolidBrush(Color.FromArgb(155, Color.Red));
-                foreach (var i in nodes) // i[0] = i.x, i[1] = i.y
+                foreach (var i in nodes)
                 {
-                    G.DrawEllipse(pen, i[0] - radius, i[1] - radius, 2 * radius, 2 * radius);
-                    G.FillEllipse(brush, i[0] - radius, i[1] - radius, 2 * radius, 2 * radius);
+                    G.DrawEllipse(pen, i.X - radius, i.Y - radius, 2 * radius, 2 * radius);
+                    G.FillEllipse(brush, i.X - radius, i.Y - radius, 2 * radius, 2 * radius);
                 }
-                for (int i = 0; i < nodes.Count - 1; ++i) // same logic
-                    G.DrawLine(pen, nodes[i][0], nodes[i][1], nodes[i + 1][0], nodes[i + 1][1]);
+
+                pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+                pen.Width = 6.0F;
+                
+                for (int i = 0; i < nodes.Count - 1; ++i)
+                {
+                    float xDiff = nodes[i + 1].X - nodes[i].X;//p2.X - p1.X;
+                    float yDiff = nodes[i + 1].Y - nodes[i].Y;//p2.Y - p1.Y;
+                    double angle = Math.Atan2(yDiff, xDiff);
+
+                    //double Cos = yDiff / (1 * Math.Sqrt(xDiff * xDiff + yDiff * yDiff));
+                    //double Sin = Cos - 1;
+
+                    double distance = Math.Sqrt( (nodes[i + 1].X - nodes[i].X) * (nodes[i + 1].X - nodes[i].X) + (nodes[i + 1].Y - nodes[i].Y) * (nodes[i + 1].Y - nodes[i].Y)) - radius + 2;
+                    
+                    int newCoordX = nodes[i].X + Convert.ToInt32(Math.Cos(angle) * distance);
+                    int NewCoordY = nodes[i].Y + Convert.ToInt32(Math.Sin(angle) * distance);
+
+                    Point newPoint = new Point(newCoordX, NewCoordY);
+                    G.DrawLine(pen, nodes[i].X, nodes[i].Y, newPoint.X, newPoint.Y);//nodes[i + 1].X, nodes[i + 1].Y);
+                    //G.DrawLine(pen, nodes[i].X, nodes[i].Y, nodes[i + 1].X, nodes[i + 1].Y);
+                }
             }
             return picture;
         }

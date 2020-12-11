@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using MySqlConnector;
@@ -166,7 +167,7 @@ namespace NavTest
                 foreach (Node tempNode in map.GetNodeList().Values)
                     DataBase.ExecuteCommand($"insert into `Nodes` values(null,'{building_ID}','{tempNode.name}','{tempNode.type}','{tempNode.description}')"); // bug here
                 #endregion
-                List<int> coords;
+                /*List<int>*/Point coords;
                 Dictionary<Node, List<Node>> tempDictionary;
                 Dictionary<Node, List<Node>> removed;
                 foreach (Level i in map.GetFloorsList().Values) // Floors
@@ -189,7 +190,7 @@ namespace NavTest
                             if (reader.Read()) node_ID = reader.GetInt32(0);
                         }
                         coords = map.GetCoordOfNode(i.FloorIndex, tempNode);
-                        DataBase.ExecuteCommand($"insert into `LevelNodes` values (null,'{level_ID}','{node_ID}','{coords[0]}','{coords[1]}')");
+                        DataBase.ExecuteCommand($"insert into `LevelNodes` values (null,'{level_ID}','{node_ID}','{coords.X}','{coords.Y}')");
                         int iterator = 0;
                         foreach (ConnectivityComp tempConnComp in i.GetConnectivityComponentsList())
                         {
