@@ -62,11 +62,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StartWindow\ChoosePlanAndDBCreate.cs">
+    <Compile Include="StartWindow\ChoosePlan.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StartWindow\ChoosePlanAndDBCreate.Designer.cs">
-      <DependentUpon>ChoosePlanAndDBCreate.cs</DependentUpon>
+    <Compile Include="StartWindow\ChoosePlan.Designer.cs">
+      <DependentUpon>ChoosePlan.cs</DependentUpon>
     </Compile>
     <Compile Include="DB\WorkWithDB.cs" />
     <Compile Include="DB\DB.cs" />
@@ -108,8 +108,8 @@
     <Compile Include="CalcFunctions\NavConnCheck.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="StartWindow\ChoosePlanAndDBCreate.resx">
-      <DependentUpon>ChoosePlanAndDBCreate.cs</DependentUpon>
+    <EmbeddedResource Include="StartWindow\ChoosePlan.resx">
+      <DependentUpon>ChoosePlan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DrawingForms\LadderChoose.resx">
       <DependentUpon>LadderChoose.cs</DependentUpon>

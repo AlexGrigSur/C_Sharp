@@ -8,6 +8,103 @@ using MySqlConnector;
 
 namespace NavTest
 {
+    public class DBInitialize
+    {
+        public void InitDB()
+        {
+            using (DB DataBase = new DB())
+            {
+                DataBase.ExecuteCommand("create database if not exists `Plans`");
+                DataBase.NewConnection("Plans");
+                DataBase.ExecuteCommand( "create table if not exists `Buildings`(" +
+                    "`id` int(11) not null primary key auto_increment, " +
+                    "`buildingName` varchar(150) not null unique, " +
+                    "`buildingIsNavAble` boolean not null)");
+
+                DataBase.ExecuteCommand("create table if not exists `Levels`(" +
+                    "`id` int(11) primary key not null auto_increment, " +
+                    "`building_ID` int(11) not null," +
+                    "`levelFloor` int(11) not null, " +
+                    "`levelScreenResX` int(11) not null, " +
+                    "`levelScreenResY` int(11) not null, " +
+                    "constraint `NoSameLevels` UNIQUE(`building_ID`,`levelFloor`), " +
+                    "constraint `building_id_FK` foreign key(`building_ID`) references `Buildings`(`id`) on delete cascade)");
+
+                DataBase.ExecuteCommand("create table if not exists `Nodes` (" +
+                    "`id` int(11) primary key not null auto_increment, " +
+                    "`building_ID` int(11) not null," +
+                    "`NodeName` varchar(150) not null," +
+                    "`NodeType` int(11) not null, " +
+                    "`NodeDescription` varchar(150), " +
+                    "constraint `building_id_FK_1` foreign key(`building_ID`) references `Buildings`(`id`) on delete cascade)");
+
+                DataBase.ExecuteCommand("create table if not exists `ConnectivityComponents` (" +
+                    "`level_ID` int(11) not null," +
+                    "`connectivityComponentIndex` int(11) not null, " +
+                    "`node_ID` int(11) not null, " +
+                    "constraint `UniqueInConnComp` primary key(`level_ID`,`connectivityComponentIndex`,`node_ID`), " +
+                    "constraint `level_ID_FK` foreign key(`level_ID`) references `Levels`(`id`) on delete cascade, " +
+                    "constraint `node_ID_FK` foreign key(`node_ID`) references `Nodes`(`id`) on delete cascade)");
+
+                DataBase.ExecuteCommand("create table if not exists `LevelNodes` (" +
+                    "`id` int(11) primary key not null auto_increment, " +
+                    "`level_ID` int(11) not null, `node_ID` int(11) not null, " +
+                    "`levelNodeCoordX` int(11) not null, " +
+                    "`levelNodeCoordY` int(11) not null, " +
+                    "constraint `level_ID_FK_1` foreign key(`level_ID`) references `Levels`(`id`) on delete cascade, " +
+                    "constraint `node_ID_FK_1` foreign key(`node_ID`) references `Nodes`(`id`) on delete cascade)");
+
+                DataBase.ExecuteCommand("create table if not exists `Edges` (" +
+                    "`level_ID` int(11) not null, " +
+                    "`startNode_ID` int(11) not null, " +
+                    "`endNode_ID` int(11) not null, " +
+                    "constraint `NoMultiGraphs` primary key(`level_ID`,`startNode_ID`,`endNode_ID`), " +
+                    "constraint `level_ID_FK_2` foreign key(`level_ID`) references `Levels`(`id`) on delete cascade," +
+                    "constraint `startNode_ID_FK` foreign key(`startNode_ID`) references `LevelNodes`(`id`) on delete cascade, " +
+                    "constraint `endNode_ID_FK` foreign key(`endNode_ID`) references `LevelNodes`(`id`) on delete cascade)");
+            }
+        }
+
+        public void DropDB()
+        {
+            using (DB DataBase = new DB("Plans"))
+            {
+                DataBase.ExecuteCommand("drop database `Plans`");
+            }
+            InitDB();
+        }
+
+        public void InsertBuilding(string buildingName)
+        {
+            using (DB DataBase = new DB("Plans"))
+            {
+                DataBase.ExecuteCommand($"INSERT INTO `Buildings` VALUES (NULL, '{buildingName}','0')");
+            }
+        }
+
+        public void DeleteBuilding(string buildingName)
+        {
+            using (DB DataBase = new DB("Plans"))
+            {
+                DataBase.ExecuteCommand($"delete from `Buildings` where `buildingName`='{buildingName}'");
+            }
+        }
+
+        public void SelectBuilding(ref List<string> buildings, ref List<bool> isNavAble)
+        {
+            using (DB DataBase = new DB("Plans"))
+            {
+                using (MySqlDataReader reader = DataBase.ExecuteReader("select `buildingName`,`buildingIsNavAble` from `Buildings`"))
+                {
+                    while (reader.Read())
+                    {
+                        buildings.Add(reader.GetString(0));
+                        isNavAble.Add(reader.GetBoolean(1));
+                    }
+                }
+            }
+        }
+    }
     class DataFromDB
     {
         private string buildingName;
@@ -116,11 +213,11 @@ namespace NavTest
                             {
                                 if (connectivityCompIndex != reader.GetInt32(0))
                                 {
-                                    if (connectivityCompIndex!=-1)//ladders != null)
+                                    if (connectivityCompIndex != -1)//ladders != null)
                                     {
                                         foreach (Node nd in i.GetConnectivityComponentsList().Last().GetLadderList())
                                             map.AddInExistingHyperGraphByConnectivity(nd, i.GetConnectivityComponentsList().Last());
-                                    }                                    
+                                    }
                                     i.AddConnectivityComponents(reader.GetInt32(2));
                                     connectivityCompIndex = reader.GetInt32(0);
                                 }
@@ -138,7 +235,6 @@ namespace NavTest
             return map;
         }
     }
-
     class DataToDB
     {
         private Map map;
@@ -167,7 +263,8 @@ namespace NavTest
                 foreach (Node tempNode in map.GetNodeList().Values)
                     DataBase.ExecuteCommand($"insert into `Nodes` values(null,'{building_ID}','{tempNode.name}','{tempNode.type}','{tempNode.description}')"); // bug here
                 #endregion
-                /*List<int>*/Point coords;
+                /*List<int>*/
+                Point coords;
                 Dictionary<Node, List<Node>> tempDictionary;
                 Dictionary<Node, List<Node>> removed;
                 foreach (Level i in map.GetFloorsList().Values) // Floors
@@ -231,7 +328,7 @@ namespace NavTest
                     tempDictionary.Clear();
                     foreach (Node z in removed.Keys)
                         foreach (Node j in removed[z])
-                                i.AddSingleEdge(z, j);
+                            i.AddSingleEdge(z, j);
                     removed.Clear();
 
                     #endregion
