@@ -263,7 +263,6 @@ namespace NavTest
                 foreach (Node tempNode in map.GetNodeList().Values)
                     DataBase.ExecuteCommand($"insert into `Nodes` values(null,'{building_ID}','{tempNode.name}','{tempNode.type}','{tempNode.description}')"); // bug here
                 #endregion
-                /*List<int>*/
                 Point coords;
                 Dictionary<Node, List<Node>> tempDictionary;
                 Dictionary<Node, List<Node>> removed;
@@ -330,7 +329,6 @@ namespace NavTest
                         foreach (Node j in removed[z])
                             i.AddSingleEdge(z, j);
                     removed.Clear();
-
                     #endregion
                 }
             }

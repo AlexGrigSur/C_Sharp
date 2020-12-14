@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime;
 using System.Drawing;
 
-namespace NavTest//NavTestNoteBookNeConsolb
+namespace NavTest
 {
     public struct PointCoord
     {
@@ -109,7 +109,7 @@ namespace NavTest//NavTestNoteBookNeConsolb
             return coord;
         }
 
-        public Image RouteBuilder(Image picture, List</*List<int>*/Point> nodes)
+        public Image RouteBuilder(Image picture, List<Point> nodes)
         {
             using (Graphics G = Graphics.FromImage(picture))
             {
@@ -126,12 +126,10 @@ namespace NavTest//NavTestNoteBookNeConsolb
                 
                 for (int i = 0; i < nodes.Count - 1; ++i)
                 {
-                    float xDiff = nodes[i + 1].X - nodes[i].X;//p2.X - p1.X;
-                    float yDiff = nodes[i + 1].Y - nodes[i].Y;//p2.Y - p1.Y;
+                    float xDiff = nodes[i + 1].X - nodes[i].X;
+                    float yDiff = nodes[i + 1].Y - nodes[i].Y;
                     double angle = Math.Atan2(yDiff, xDiff);
 
-                    //double Cos = yDiff / (1 * Math.Sqrt(xDiff * xDiff + yDiff * yDiff));
-                    //double Sin = Cos - 1;
 
                     double distance = Math.Sqrt( (nodes[i + 1].X - nodes[i].X) * (nodes[i + 1].X - nodes[i].X) + (nodes[i + 1].Y - nodes[i].Y) * (nodes[i + 1].Y - nodes[i].Y)) - radius + 2;
                     
@@ -139,8 +137,7 @@ namespace NavTest//NavTestNoteBookNeConsolb
                     int NewCoordY = nodes[i].Y + Convert.ToInt32(Math.Sin(angle) * distance);
 
                     Point newPoint = new Point(newCoordX, NewCoordY);
-                    G.DrawLine(pen, nodes[i].X, nodes[i].Y, newPoint.X, newPoint.Y);//nodes[i + 1].X, nodes[i + 1].Y);
-                    //G.DrawLine(pen, nodes[i].X, nodes[i].Y, nodes[i + 1].X, nodes[i + 1].Y);
+                    G.DrawLine(pen, nodes[i].X, nodes[i].Y, newPoint.X, newPoint.Y);
                 }
             }
             return picture;

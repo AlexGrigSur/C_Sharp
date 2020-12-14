@@ -765,7 +765,7 @@ namespace NavTest
                 MessageBox.Show("Добавьте уровень для продолжения");
                 return;
             }
-            int count = 256;
+            int count = 1600;
             int sqrt = Convert.ToInt32(Math.Sqrt(count));
 
             panelX = sqrt * 50 + 200;

@@ -78,12 +78,12 @@ namespace NavTest
         public void AddNode(int floorIndex, Node obj, int x, int y)
         {
             if (!NodeList.ContainsKey(obj.name)) NodeList.Add(obj.name, obj);
-            if (obj.type == 2 /*&& !HyperGraphByConnectivity.ContainsKey(obj)*/) AddHyperGraphByConn(obj);
+            if (obj.type == 2) AddHyperGraphByConn(obj);
             Floors[floorIndex].AddNode(obj, x, y);
         }
         public void EditNode(int floorIndex, string oldName, Node newNode, int x = -1, int y = -1)
         {
-            if (!NodeList[oldName].Equals(newNode))//.GetHashCode() != obj.GetHashCode())
+            if (!NodeList[oldName].Equals(newNode))
             {
                 if (newNode.type == 2) // если вершина - лестница
                 {
@@ -150,7 +150,7 @@ namespace NavTest
                 NodeList.Remove(node.name);
             }
         }
-        public /*List<int>*/Point GetCoordOfNode(int floorIndex, Node obj)
+        public Point GetCoordOfNode(int floorIndex, Node obj)
         {
             return Floors[floorIndex].GetNodeOnFloor(obj);
         }

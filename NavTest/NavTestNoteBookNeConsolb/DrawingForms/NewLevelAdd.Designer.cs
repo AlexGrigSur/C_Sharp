@@ -38,9 +38,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 13);
+            this.label2.Size = new System.Drawing.Size(118, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Уровень";
+            this.label2.Text = "Введите номер этажа";
             // 
             // FloorTextBox
             // 
@@ -48,7 +48,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FloorTextBox.Location = new System.Drawing.Point(15, 28);
             this.FloorTextBox.Name = "FloorTextBox";
-            this.FloorTextBox.Size = new System.Drawing.Size(184, 20);
+            this.FloorTextBox.Size = new System.Drawing.Size(244, 20);
             this.FloorTextBox.TabIndex = 3;
             this.FloorTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FloorTextBox_KeyPress);
             // 
@@ -58,7 +58,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Location = new System.Drawing.Point(15, 82);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(184, 55);
+            this.button1.Size = new System.Drawing.Size(244, 55);
             this.button1.TabIndex = 4;
             this.button1.Text = "Добавить уровень";
             this.button1.UseVisualStyleBackColor = true;
@@ -68,7 +68,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(211, 149);
+            this.ClientSize = new System.Drawing.Size(271, 149);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.FloorTextBox);
             this.Controls.Add(this.label2);

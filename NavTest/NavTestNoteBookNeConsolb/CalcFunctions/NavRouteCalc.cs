@@ -72,8 +72,8 @@ namespace NavTest
             {
                 int min = int.MaxValue;
                 Node ladrIndex = new Node();
-                /*List<int>*/Point baseCoord = map.GetCoordOfNode(calc[i].CurrConnComp.GetFloor(), calc[i].startNode);
-                /*List<int>*/Point ladderCoord;
+                Point baseCoord = map.GetCoordOfNode(calc[i].CurrConnComp.GetFloor(), calc[i].startNode);
+                Point ladderCoord;
 
                 foreach (Node ladr in calc[i].CurrConnComp.GetLadderList())
                 {
@@ -307,8 +307,8 @@ namespace NavTest
         }
         private int GetDistanceBetweenTwoPoints(Node startPoint, Node EndPoint) // also using to calc heuristic (distance between node -> goal)
         {
-            /*List<int>*/Point start = map.GetCoordOfNode(curConComp.GetFloor(), startPoint);
-            /*List<int>*/Point end = map.GetCoordOfNode(curConComp.GetFloor(), EndPoint);
+            Point start = map.GetCoordOfNode(curConComp.GetFloor(), startPoint);
+            Point end = map.GetCoordOfNode(curConComp.GetFloor(), EndPoint);
             return Convert.ToInt32(Math.Sqrt((start.X - end.X)* (start.X - end.X) + (start.Y - end.Y)* (start.Y - end.Y)));
         }
     }
