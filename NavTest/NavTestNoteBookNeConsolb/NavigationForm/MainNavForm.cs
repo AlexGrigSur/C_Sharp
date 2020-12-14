@@ -209,7 +209,7 @@ namespace NavTest
                 if (StartPointButton.Text != EndPointButton.Text)
                 {
                     if (currentRouteElem != -1) ResetRoute();
-                    NavCalc alg = new NavCalc(map, map.GetNode(StartPointButton.Text), map.GetNode(EndPointButton.Text));
+                    NavCalc alg = new NavCalc(map, map.GetNode(StartPointButton.Text), map.GetNode(EndPointButton.Text),isDijkstra.Checked);
                     Route = alg.startCalc();
                     RouteNavigation = Route.Keys.ToList();
                     currentRouteElem = 0;

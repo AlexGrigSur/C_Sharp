@@ -12,13 +12,14 @@ namespace NavTest
         private Map map;
         private Node startNode;
         private Node endNode;
-
+        private bool isDijkstra;
         public string timeToCalc { get; set; }
-        public NavCalc(Map _map, Node _startNode, Node _endNode)
+        public NavCalc(Map _map, Node _startNode, Node _endNode, bool _isDijkstra=false)
         {
             map = _map;
             startNode = _startNode;
             endNode = _endNode;
+            isDijkstra = _isDijkstra;
         }
 
         public Dictionary<ConnectivityComp, List<Node>> startCalc()
@@ -33,7 +34,7 @@ namespace NavTest
             timeToCalc = "";
             if (startConComp.Equals(endConComp))
             {
-                timeToCalc += "Алгоритм Дейкстры выполнен за 0 миллисекунд(не требовался)\n";
+                timeToCalc += "Алгоритм Дейкстры на компонентах связности выполнен за 0 миллисекунд(не требовался)\n";
                 calc.Add(new TaskToCalc(startConComp, startNode, endNode));
             }
             else
@@ -46,7 +47,7 @@ namespace NavTest
                 time.Start();
                 calc = new Dijkstra(ref map, ref startConComp, ref endConComp).DijkstraAlgo();
                 time.Stop();
-                timeToCalc += $"Алгоритм Дейкстры выполнен за {time.ElapsedMilliseconds} миллисекунд\n";
+                timeToCalc += $"Алгоритм Дейкстры на компонентах связности  выполнен за {time.ElapsedMilliseconds} миллисекунд\n";
 
                 calc.Reverse();
                 calc[0] = new TaskToCalc(calc[0].CurrConnComp, startNode, new Node());
@@ -58,11 +59,20 @@ namespace NavTest
             Dictionary<ConnectivityComp, List<Node>> finalPath = new Dictionary<ConnectivityComp, List<Node>>();
             time = new Stopwatch();
             time.Start();
-            foreach (TaskToCalc i in calc)
-                finalPath.Add(i.CurrConnComp, new A_Star(ref map, i.CurrConnComp, i.startNode, i.endNode).Calc());
-            time.Stop();
-            timeToCalc += $"Алгоритм A* выполнен за {time.ElapsedMilliseconds} миллисекунд";
-
+            if (!isDijkstra)
+            {
+                foreach (TaskToCalc i in calc)
+                    finalPath.Add(i.CurrConnComp, new A_Star(ref map, i.CurrConnComp, i.startNode, i.endNode).Calc());
+                time.Stop();
+                timeToCalc += $"Алгоритм A* выполнен за {time.ElapsedMilliseconds} миллисекунд";
+            }
+            else
+            {
+                foreach (TaskToCalc i in calc)
+                    finalPath.Add(i.CurrConnComp, new DijkstraForConn(ref map, i.CurrConnComp, i.startNode, i.endNode).DijkstraAlgo());
+                time.Stop();
+                timeToCalc += $"Алгоритм Dijkstra выполнен за {time.ElapsedMilliseconds} миллисекунд";
+            }
             return finalPath;
         }
 
@@ -80,7 +90,7 @@ namespace NavTest
                     if (!map.GetConnectivities(ladr).Contains(calc[i + 1].CurrConnComp))
                         continue;
                     ladderCoord = map.GetCoordOfNode(calc[i].CurrConnComp.GetFloor(), ladr);
-                    int distance = Convert.ToInt32(Math.Sqrt((ladderCoord.X - baseCoord.X)* (ladderCoord.X - baseCoord.X) + (ladderCoord.Y - baseCoord.Y)* (ladderCoord.Y - baseCoord.Y)));
+                    int distance = Convert.ToInt32(Math.Sqrt((ladderCoord.X - baseCoord.X) * (ladderCoord.X - baseCoord.X) + (ladderCoord.Y - baseCoord.Y) * (ladderCoord.Y - baseCoord.Y)));
                     if (distance < min)
                     {
                         min = distance;
@@ -266,7 +276,7 @@ namespace NavTest
                     else
                     {
                         int distance = closedSet[currentPoint].currentDistance + GetDistanceBetweenTwoPoints(currentPoint, neighbourNode);
-                        if (openSet[neighbourNode].currentDistance > distance) 
+                        if (openSet[neighbourNode].currentDistance > distance)
                             openSet[neighbourNode] = new A_Star_Point(currentPoint, distance, heuristic[neighbourNode]);
                     }
                 }
@@ -279,7 +289,7 @@ namespace NavTest
             var result = new List<Node>();
 
             Node currentPoint = EndNode;
-            
+
             while (!currentPoint.Equals(closedSet[currentPoint].previousNode))
             {
                 result.Add(currentPoint);
@@ -309,8 +319,101 @@ namespace NavTest
         {
             Point start = map.GetCoordOfNode(curConComp.GetFloor(), startPoint);
             Point end = map.GetCoordOfNode(curConComp.GetFloor(), EndPoint);
-            return Convert.ToInt32(Math.Sqrt((start.X - end.X)* (start.X - end.X) + (start.Y - end.Y)* (start.Y - end.Y)));
+            return Convert.ToInt32(Math.Sqrt((start.X - end.X) * (start.X - end.X) + (start.Y - end.Y) * (start.Y - end.Y)));
         }
     }
     #endregion
+    public class DijkstraForConn
+    {
+        private Map map;
+        private ConnectivityComp curConComp;
+
+        private Node startNode;
+        private Node endNode;
+
+        public DijkstraForConn(ref Map _map, ConnectivityComp _currentConComp, Node _startNode, Node _endNode)
+        {
+            map = _map;
+            curConComp = _currentConComp;
+            startNode = _startNode;
+            endNode = _endNode;
+        }
+
+        private Node MinimumDistance(ref Dictionary<Node, int> distance, ref Dictionary<Node, bool> isFixedConComp)
+        {
+            int min = int.MaxValue;
+            Node nullNode = new Node();
+            Node minIndex = nullNode;
+            foreach (Node conn in distance.Keys)
+            {
+                if (!isFixedConComp[conn] && distance[conn] <= min)
+                {
+                    if (!minIndex.Equals(nullNode) && distance[minIndex] == distance[conn] && minIndex.Equals(endNode))
+                        continue;
+
+                    min = distance[conn];
+                    minIndex = conn;
+                }
+            }
+            return minIndex;
+        }
+
+        private int GetDistanceBetweenTwoPoints(Node startPoint, Node EndPoint) // also using to calc heuristic (distance between node -> goal)
+        {
+            Point start = map.GetCoordOfNode(curConComp.GetFloor(), startPoint);
+            Point end = map.GetCoordOfNode(curConComp.GetFloor(), EndPoint);
+            return Convert.ToInt32(Math.Sqrt((start.X - end.X) * (start.X - end.X) + (start.Y - end.Y) * (start.Y - end.Y)));
+        }
+        public List<Node> DijkstraAlgo()
+        {
+            Dictionary<Node, int> distance = new Dictionary<Node, int>();
+            Dictionary<Node, bool> isFixedConComp = new Dictionary<Node, bool>();
+            Dictionary<Node, Node> previousConComp = new Dictionary<Node, Node>();
+
+            foreach (Node i in curConComp.GetAllNodesList())
+            {
+                distance.Add(i, int.MaxValue);
+                isFixedConComp.Add(i, false);
+            }
+
+            distance[startNode] = 0;
+            isFixedConComp[startNode] = true;
+            previousConComp.Add(startNode, startNode);
+            Node u = startNode;
+            while (!u.Equals(endNode))
+            {
+                foreach (Node nd in map.GetLevel(curConComp.GetFloor()).GetEdge(u))
+                    if (!isFixedConComp[nd] && distance[u] != int.MaxValue && distance[u] + GetDistanceBetweenTwoPoints(u, nd) < distance[nd])
+                    {
+                        distance[nd] = distance[u] + GetDistanceBetweenTwoPoints(u, nd);
+                        if (previousConComp.ContainsKey(nd))
+                            previousConComp[nd] = u;
+                        else
+                            previousConComp.Add(nd, u);
+                    }
+
+                u = MinimumDistance(ref distance, ref isFixedConComp);
+                isFixedConComp[u] = true;
+            }
+
+            return PrintPath(ref previousConComp);
+        }
+
+        private List<Node> PrintPath(ref Dictionary<Node, Node> previousConComp)
+        {
+            var result = new List<Node>();
+
+            Node currentNode = endNode;
+            while (!currentNode.Equals(startNode))
+            {
+                result.Add(currentNode);//new TaskToCalc(currentNode, new Node(), new Node()));
+                currentNode = previousConComp[currentNode];
+            }
+            result.Add(startNode);
+            result.Reverse();
+            return result;
+        }
+
+    }
+
 }
