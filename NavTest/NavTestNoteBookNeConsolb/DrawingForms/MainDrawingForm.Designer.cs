@@ -223,21 +223,21 @@
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // nodeGeneratorToolStripMenuItem
             // 
             this.nodeGeneratorToolStripMenuItem.Name = "nodeGeneratorToolStripMenuItem";
-            this.nodeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nodeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.nodeGeneratorToolStripMenuItem.Text = "NodeGenerator";
             this.nodeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.nodeGeneratorToolStripMenuItem_Click_1);
             // 

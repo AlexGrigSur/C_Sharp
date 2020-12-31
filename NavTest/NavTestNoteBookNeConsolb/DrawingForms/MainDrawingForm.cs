@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -39,7 +41,7 @@ namespace NavTest
             buildingName = BuildingName;
             ObservereMode();
 
-            updateFromDB();
+            DownloadFromDB();
             updateLevelList();
 
             panelX = panel1.Width;
@@ -114,19 +116,14 @@ namespace NavTest
             if (panelX < pictureBox1.Width || panelY < pictureBox1.Height) Form1_ResizeEnd(null, null);
         }
         #region //DB
-        private void updateFromDB()
-        {
-            DataFromDB dB = new DataFromDB(buildingName);
-            map = dB.DownloadFromDB(ref corridorCounter, false);
-        }
-        private void updateDB()
+        private void DownloadFromDB() => map = new DBInteraction().DownloadFromDB(buildingName, ref corridorCounter, false);
+        private void UploadToDB()
         {
             if (isChanges)
             {
                 map.NodesOptimizer();
-                NavSavePrepear prepear = new NavSavePrepear(ref map);
-                DataToDB db = new DataToDB(ref map);
-                db.updateDB(prepear.isNavAble);
+                NavSavePrepear prepear = new NavSavePrepear(map);
+                new DBInteraction().UploadToDB(ref map,prepear.isNavAble);
                 LoadLevel();
                 if (!prepear.isNavAble) MessageBox.Show("Введенный план не является связным. Навигация пока невозможна");
             }
@@ -529,7 +526,7 @@ namespace NavTest
             e.Graphics.DrawImage(pictureBox1.Image, Point.Empty);
         }
         private void DrawToLeftToolStripButton_Click(object sender, EventArgs e) => resizeToLeft = !resizeToLeft;
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e) => updateDB();
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e) => UploadToDB();
         #endregion
 
         private bool isNewLadder = true;
@@ -717,7 +714,7 @@ namespace NavTest
                     {
                         if (NodeCoordList.Count != 0)
                         {
-                            /*List<int> */Point foundNodeCoord = map.GetFloor(currentLevel).GetNodeOnFloor(FoundNode); // second Node
+                            Point foundNodeCoord = map.GetFloor(currentLevel).GetNodeOnFloor(FoundNode); // second Node
                             if (foundNodeCoord.X != NodeCoordList[0] || foundNodeCoord.Y != NodeCoordList[1])
                             {
                                 Node FirstNode = map.SearchNode(currentLevel, NodeCoordList[0], NodeCoordList[1])[0];
@@ -746,6 +743,81 @@ namespace NavTest
                     }
             }
         }
+
+        private bool isNodeGenerator = false;
+        private async void nodeGeneratorToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            void blockControl(bool flag)
+            {
+                ObservereMode();
+                DeleteLevelToolStripButton.Enabled = !flag;
+                clearToolStripMenuItem.Enabled = !flag;
+                saveToolStripMenuItem.Enabled = !flag;
+                CreateEdge.Enabled = !flag;
+                CreateNode.Enabled = !flag;
+                EditNode.Enabled = !flag;
+                DeleteNode.Enabled = !flag;
+                DeleteEdge.Enabled = !flag;
+                MainActivityButton.Enabled = !flag;
+                ChooseLevelComboBox.Enabled = !flag;
+                if (flag) ModeStatusLable.Text = "Происходит процесс генерации плана. Подождите, пожалуйста";
+            }
+
+            if (ChooseLevelComboBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Добавьте уровень для продолжения");
+                return;
+            }
+            int count = 4900;
+            if (count > 0) Changes(true);
+            int sqrt = Convert.ToInt32(Math.Sqrt(count));
+
+            panelX = sqrt * 50 + 200;
+            panelY = panelX;
+
+            isNodeGenerator = true;
+            Form1_ResizeEnd(null, null);
+            isNodeGenerator = false;
+
+            blockControl(true);
+            await Task.Run(() =>
+            {
+
+
+                for (int i = 0; i < sqrt; ++i)
+                {
+                    for (int j = 0; j < sqrt; ++j)
+                    {
+                        Node newNode = new Node($"CorridorStandartName#_{corridorCounter}", 0, "");
+                        map.AddNode(currentLevel, newNode, 50 + i * 50, 50 + j * 50);
+                        ++corridorCounter;
+                    }
+                }
+
+                for (int i = 0; i < sqrt; ++i)
+                {
+                    for (int j = 0; j < sqrt; ++j)
+                    {
+                        NodeCoordList = new List<int>() { 50 + i * 50, 50 + j * 50 };
+                        Node FirstNode = map.SearchNode(currentLevel, NodeCoordList[0], NodeCoordList[1])[0];
+                        if (i != sqrt - 1)
+                        {
+                            FoundNode = map.SearchNode(currentLevel, 50 + (i + 1) * 50, 50 + j * 50)[0];
+                            map.AddEdge(currentLevel, new List<Node> { FirstNode, FoundNode });
+                        }
+                        if (j != sqrt - 1)
+                        {
+                            NodeCoordList = new List<int>() { 50 + i * 50, 50 + j * 50 };
+                            FoundNode = map.SearchNode(currentLevel, 50 + i * 50, 50 + (j + 1) * 50)[0];
+                            map.AddEdge(currentLevel, new List<Node> { FirstNode, FoundNode });
+                        }
+                    }
+                }
+            });
+            LoadLevel();
+            blockControl(false);
+        }
+
         private void clearToolStripMenuItem_Click(object sender, EventArgs e) // Clear
         {
             DialogResult result = MessageBox.Show("Вы уверены?", "Warning", MessageBoxButtons.YesNo);
@@ -757,61 +829,7 @@ namespace NavTest
             }
         }
 
-        private bool isNodeGenerator = false;
-        private void nodeGeneratorToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            if (ChooseLevelComboBox.SelectedIndex == -1)
-            {
-                MessageBox.Show("Добавьте уровень для продолжения");
-                return;
-            }
-            int count = 1600;
-            int sqrt = Convert.ToInt32(Math.Sqrt(count));
-
-            panelX = sqrt * 50 + 200;
-            panelY = panelX;
-
-            isNodeGenerator = true;
-            Form1_ResizeEnd(null, null);
-            isNodeGenerator = false;
-
-            CreateNode_Click(null, null);
-            for (int i = 0; i < sqrt; ++i)
-            {
-                for (int j = 0; j < sqrt; ++j)
-                {
-                    SecondLayer = new Bitmap(pictureBox1.Image);
-                    comboBoxTypeInOutput.SelectedIndex = 0;
-                    textBoxXInOutput.Text = Convert.ToString(50 + i * 50);
-                    textBoxYInOutput.Text = Convert.ToString(50 + j * 50);
-                    button1_Click(null, null);
-                }
-            }
-            LoadLevel();
-
-            CreateEdge_Click(null, null);
-            for (int i = 0; i < sqrt; ++i)
-            {
-                for (int j = 0; j < sqrt; ++j)
-                {
-
-                    NodeCoordList = new List<int>() { 50 + i * 50, 50 + j * 50 };
-                    if (i != sqrt - 1)
-                    {
-                        FoundNode = map.SearchNode(currentLevel, 50 + (i + 1) * 50, 50 + j * 50)[0];
-                        button1_Click(null, null);
-                    }
-                    if (j != sqrt - 1)
-                    {
-                        NodeCoordList = new List<int>() { 50 + i * 50, 50 + j * 50 };
-                        FoundNode = map.SearchNode(currentLevel, 50 + i * 50, 50 + (j + 1) * 50)[0];
-                        button1_Click(null, null);
-                    }
-
-                }
-            }
-            LoadLevel();
-        }
+        
         private void DrawingForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control && e.KeyCode == Keys.S)

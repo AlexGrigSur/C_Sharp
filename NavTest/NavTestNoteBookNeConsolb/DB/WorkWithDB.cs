@@ -16,7 +16,7 @@ namespace NavTest
             {
                 DataBase.ExecuteCommand("create database if not exists `Plans`");
                 DataBase.NewConnection("Plans");
-                DataBase.ExecuteCommand( "create table if not exists `Buildings`(" +
+                DataBase.ExecuteCommand("create table if not exists `Buildings`(" +
                     "`id` int(11) not null primary key auto_increment, " +
                     "`buildingName` varchar(150) not null unique, " +
                     "`buildingIsNavAble` boolean not null)");
@@ -105,14 +105,9 @@ namespace NavTest
             }
         }
     }
-    class DataFromDB
+    class DBInteraction
     {
-        private string buildingName;
-        public DataFromDB(string BuildingName)
-        {
-            buildingName = BuildingName;
-        }
-        public Map DownloadFromDB(ref int corridorCounter, bool isNav)
+        public Map DownloadFromDB(string buildingName, ref int corridorCounter, bool isNav)
         {
             Map map = new Map();
             corridorCounter = -1;
@@ -120,8 +115,6 @@ namespace NavTest
             {
                 string maxCorrName = "";
                 map.Name = buildingName;
-
-
                 #region // Levels
 
                 int building_ID = -1;
@@ -147,7 +140,6 @@ namespace NavTest
                 }
 
                 #endregion
-
                 #region // Nodes
 
                 using (MySqlDataReader reader = DataBase.ExecuteReader($"select `NodeName`,`NodeType`,`NodeDescription` from `Nodes` " +
@@ -162,7 +154,6 @@ namespace NavTest
                 }
 
                 #endregion
-
                 #region // LevelNodes/Edges
                 int iterator = 0;
                 foreach (Level i in map.GetFloorsList().Values)
@@ -234,15 +225,7 @@ namespace NavTest
             }
             return map;
         }
-    }
-    class DataToDB
-    {
-        private Map map;
-        public DataToDB(ref Map mapToDownload)
-        {
-            map = mapToDownload;
-        }
-        public void updateDB(bool isNavAble)
+        public void UploadToDB(ref Map map, bool isNavAble)
         {
             string buildingName = map.Name;
             using (DB DataBase = new DB("Plans"))
@@ -260,8 +243,20 @@ namespace NavTest
                 }
                 #endregion
                 #region // вставить Nodes
-                foreach (Node tempNode in map.GetNodeList().Values)
-                    DataBase.ExecuteCommand($"insert into `Nodes` values(null,'{building_ID}','{tempNode.name}','{tempNode.type}','{tempNode.description}')"); // bug here
+                string command = "insert into `Nodes` values "; 
+                int count = 0;
+                foreach (Node tempNode in map.GetNodeList().Values) 
+                {
+                    ++count;
+                    command += $"(null,'{building_ID}','{tempNode.name}','{tempNode.type}','{tempNode.description}'),";
+                    if(count==1000)
+                    {
+                        DataBase.ExecuteCommand(command.Substring(0, command.Length - 1));
+                        command = "insert into `Nodes` values ";
+                        count = 0;
+                    }
+                }
+                if(count!=0) DataBase.ExecuteCommand(command.Substring(0, command.Length - 1));
                 #endregion
                 Point coords;
                 Dictionary<Node, List<Node>> tempDictionary;
@@ -278,52 +273,95 @@ namespace NavTest
                     }
                     #endregion
                     #region // вставить вершины из этажей
+
+                    command = "insert into `LevelNodes` values ";
+                    string commandCC = "insert into `ConnectivityComponents` values ";
+                    //List<int> nodeIDList = new List<int>();
+                    count = 0;
+                    int node_ID;
+                    int iterator;
+
                     foreach (Node tempNode in i.GetNodeListOnFloor().Keys)
                     {
-                        int node_ID = -1;
+                        node_ID = -1;
                         using (MySqlDataReader reader = DataBase.ExecuteReader($"select `id` from `Nodes` where `building_ID`='{building_ID}' and `NodeName`='{tempNode.name}'"))
                         {
-                            if (reader.Read()) node_ID = reader.GetInt32(0);
+                            if (reader.Read()) node_ID = reader.GetInt32(0);//nodeIDList.Add(reader.GetInt32(0));//
                         }
                         coords = map.GetCoordOfNode(i.FloorIndex, tempNode);
-                        DataBase.ExecuteCommand($"insert into `LevelNodes` values (null,'{level_ID}','{node_ID}','{coords.X}','{coords.Y}')");
-                        int iterator = 0;
+
+                        ++count;
+                        command += $"(null,'{level_ID}','{node_ID}','{coords.X}','{coords.Y}'),";
+
+                        iterator = 0;
                         foreach (ConnectivityComp tempConnComp in i.GetConnectivityComponentsList())
                         {
                             if (tempConnComp.isContains(tempNode))
                                 break;
                             ++iterator;
                         }
-                        DataBase.ExecuteCommand($"insert into `ConnectivityComponents` values ('{level_ID}','{iterator}','{node_ID}')");
+                        
+                        commandCC += $"('{level_ID}','{iterator}','{node_ID}'),";
+
+                        if(count==1000)
+                        {
+                            DataBase.ExecuteCommand(command.Substring(0,command.Length-1));
+                            DataBase.ExecuteCommand(commandCC.Substring(0, commandCC.Length - 1));
+                            command = "insert into `LevelNodes` values ";
+                            commandCC = "insert into `ConnectivityComponents` values ";
+                            count = 0;
+                        }
+                        //DataBase.ExecuteCommand($"insert into `ConnectivityComponents` values ('{level_ID}','{iterator}','{node_ID}')");
+                    }
+                    if(count!=0)
+                    {
+                        DataBase.ExecuteCommand(command.Substring(0, command.Length - 1));
+                        DataBase.ExecuteCommand(commandCC.Substring(0, commandCC.Length - 1));
                     }
                     #endregion
                     #region // вставить рёбра
                     tempDictionary = new Dictionary<Node, List<Node>>(i.GetEdgesList());
                     removed = new Dictionary<Node, List<Node>>();
+
+                    command = "insert into `Edges` values ";
+                    count = 0;
                     foreach (Node nodeKey in tempDictionary.Keys)
                     {
                         int startNode_ID = -1;
-                        int endNode_ID = -1;
+                        //int endNode_ID = -1;
                         using (MySqlDataReader reader = DataBase.ExecuteReader($"select `LevelNodes`.`id` from `LevelNodes` " +
                             $"inner join `Nodes` on `LevelNodes`.`node_ID`=`Nodes`.`id` " +
                             $"where `level_ID`='{level_ID}' and `Nodes`.`NodeName`='{nodeKey.name}'"))
                         {
                             if (reader.Read()) startNode_ID = reader.GetInt32(0);
                         }
+                        List<int> connectedWithEdgeNodesList = new List<int>();
                         foreach (Node connectedNode in tempDictionary[nodeKey])
                         {
                             using (MySqlDataReader reader = DataBase.ExecuteReader($"select `LevelNodes`.`id` from `LevelNodes` " +
                                 $"inner join `Nodes` on `LevelNodes`.`node_ID`=`Nodes`.`id` " +
                                 $"where `level_ID`='{level_ID}' and `Nodes`.`NodeName`='{connectedNode.name}'"))
                             {
-                                if (reader.Read()) endNode_ID = reader.GetInt32(0);
+                                if (reader.Read()) /*endNode_ID = reader.GetInt32(0);*/ connectedWithEdgeNodesList.Add(reader.GetInt32(0));
                             }
-                            DataBase.ExecuteCommand($"insert into `Edges` values ('{level_ID}','{startNode_ID}','{endNode_ID}')");
                             tempDictionary[connectedNode].Remove(nodeKey);
                             if (!removed.ContainsKey(connectedNode)) removed.Add(connectedNode, new List<Node>());
                             removed[connectedNode].Add(nodeKey);
                         }
+
+                        foreach (int endNode in connectedWithEdgeNodesList)
+                        {
+                            ++count;
+                            command += $"('{level_ID}','{startNode_ID}','{endNode}'),";
+                            if(count==1000)
+                            {
+                                DataBase.ExecuteCommand(command.Substring(0, command.Length - 1));
+                                command = "insert into `Edges` values ";
+                                count = 0;
+                            }
+                        }
                     }
+                    if (count != 0) DataBase.ExecuteCommand(command.Substring(0, command.Length - 1));
                     tempDictionary.Clear();
                     foreach (Node z in removed.Keys)
                         foreach (Node j in removed[z])

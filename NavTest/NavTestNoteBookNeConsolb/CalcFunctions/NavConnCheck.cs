@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -11,15 +12,20 @@ namespace NavTest
     class NavSavePrepear
     {
         public bool isNavAble { get; set; }
-        public NavSavePrepear(ref Map map)
+        public NavSavePrepear(Map map) => Manager(map);
+        public async void Manager(Map map)
         {
-            isNavAble = true;
-            SplitByConnectivity(ref map);
-            IsMapConnectivity(ref map);
+            await Task.Run(() =>
+            {
+                isNavAble = true;
+                SplitByConnectivity(map);
+                IsMapConnectivity(map);
+            });
         }
-        public void SplitByConnectivity(ref Map map)
+        public void SplitByConnectivity(Map map)
         {
             map.ClearHyperGraphByConnectivity();
+            List<Thread> threadList = new List<Thread>();
             foreach (int floorIndex in map.GetFloorsList().Keys)
             {
                 map.ClearConnectivityComponentsOnLevel(floorIndex);
@@ -28,29 +34,34 @@ namespace NavTest
 
                 foreach (Node j in currentLevel.GetNodeListOnFloor().Keys)
                     nodesToBeVisited.Add(j, 0);
-
-                while (nodesToBeVisited.Count > 0)
+                threadList.Add(new Thread(() =>
                 {
-                    bool exit = false;
-                    int visitedNodesValue = 0;
-                    int reachableNodesValue = 1;
-                    ReccurConnectivityComponents(ref currentLevel, ref nodesToBeVisited, nodesToBeVisited.First().Key, ref reachableNodesValue, ref visitedNodesValue, ref exit);
-                    currentLevel.AddConnectivityComponents(floorIndex);
-
-                    foreach (Node j in nodesToBeVisited.Keys)
-                        if (nodesToBeVisited[j] > 0) currentLevel.GetConnectivityComponentsList().Last().add(j);
-
-                    foreach (Node j in currentLevel.GetConnectivityComponentsList().Last().GetAllNodesList())
+                    while (nodesToBeVisited.Count > 0)
                     {
-                        if (j.type == 2)
+                        bool exit = false;
+                        int visitedNodesValue = 0;
+                        int reachableNodesValue = 1;
+                        ReccurConnectivityComponents(ref currentLevel, ref nodesToBeVisited, nodesToBeVisited.First().Key, ref reachableNodesValue, ref visitedNodesValue, ref exit);
+                        currentLevel.AddConnectivityComponents(floorIndex);
+
+                        foreach (Node j in nodesToBeVisited.Keys)
+                            if (nodesToBeVisited[j] > 0) currentLevel.GetConnectivityComponentsList().Last().add(j);
+
+                        foreach (Node j in currentLevel.GetConnectivityComponentsList().Last().GetAllNodesList())
                         {
-                            map.AddHyperGraphByConn(j);
-                            map.AddInExistingHyperGraphByConnectivity(j, currentLevel.GetConnectivityComponentsList().Last());
+                            if (j.type == 2)
+                            {
+                                map.AddHyperGraphByConn(j);
+                                map.AddInExistingHyperGraphByConnectivity(j, currentLevel.GetConnectivityComponentsList().Last());
+                            }
+                            nodesToBeVisited.Remove(j);
                         }
-                        nodesToBeVisited.Remove(j);
                     }
-                }
+                }));
+                threadList.Last().Start();
             }
+            foreach (var i in threadList)
+                i.Join();
         }
         private void ReccurConnectivityComponents(ref Level level, ref Dictionary<NavTest.Node, int> nodesToBeVisited, NavTest.Node currentNode, ref int reachableNodesValue, ref int visitedNodesValue, ref bool exit) // simple version
         {
@@ -84,7 +95,7 @@ namespace NavTest
             }
         }
 
-        private void IsMapConnectivity(ref Map map)
+        private void IsMapConnectivity(Map map)
         {
             Dictionary<ConnectivityComp, int> ConnectivityComponentsList = new Dictionary<ConnectivityComp, int>();
             foreach (Level i in map.GetFloorsList().Values)

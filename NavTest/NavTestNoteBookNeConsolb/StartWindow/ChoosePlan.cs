@@ -36,10 +36,6 @@ namespace NavTest
             comboBox1.Items.Add("New Building");
         }
 
-        //private async void DBCreateAsynk()
-        //{
-        //    await Task.Run(() => DBCreate());
-        //}
         private void DBCreate()
         {
             DBInit.InitDB();
@@ -137,9 +133,9 @@ namespace NavTest
         }
 
         #region // DropDB
-        private void DropDB()
+        private async void DropDB()
         {
-            DBInit.DropDB();
+            await Task.Run(() => { DBInit.DropDB(); });
             SelectBuildings();
         }
         private /*async*/ void DropDBButton_Click(object sender, EventArgs e)

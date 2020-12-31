@@ -2,7 +2,8 @@
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Linq;
 
 namespace NavTest
@@ -14,7 +15,7 @@ namespace NavTest
         private Node endNode;
         private bool isDijkstra;
         public string timeToCalc { get; set; }
-        public NavCalc(Map _map, Node _startNode, Node _endNode, bool _isDijkstra=false)
+        public NavCalc(Map _map, Node _startNode, Node _endNode, bool _isDijkstra = false)
         {
             map = _map;
             startNode = _startNode;
@@ -22,6 +23,7 @@ namespace NavTest
             isDijkstra = _isDijkstra;
         }
 
+        delegate void operation();
         public Dictionary<ConnectivityComp, List<Node>> startCalc()
         {
             Stopwatch time = new Stopwatch();
@@ -45,7 +47,7 @@ namespace NavTest
                         connectivityCompsList.Add(comp);
 
                 time.Start();
-                calc = new Dijkstra(ref map, ref startConComp, ref endConComp).DijkstraAlgo();
+                calc = new Dijkstra(ref map, ref startConComp, ref endConComp).Calc();
                 time.Stop();
                 timeToCalc += $"Алгоритм Дейкстры на компонентах связности  выполнен за {time.ElapsedMilliseconds} миллисекунд\n";
 
@@ -55,24 +57,23 @@ namespace NavTest
 
                 getPriorityForAStar(ref calc);
             }
-
             Dictionary<ConnectivityComp, List<Node>> finalPath = new Dictionary<ConnectivityComp, List<Node>>();
+            List<Thread> threadsList = new List<Thread>();
+
             time = new Stopwatch();
             time.Start();
-            if (!isDijkstra)
+            foreach (TaskToCalc i in calc)
             {
-                foreach (TaskToCalc i in calc)
-                    finalPath.Add(i.CurrConnComp, new A_Star(ref map, i.CurrConnComp, i.startNode, i.endNode).Calc());
-                time.Stop();
-                timeToCalc += $"Алгоритм A* выполнен за {time.ElapsedMilliseconds} миллисекунд";
+                finalPath.Add(i.CurrConnComp, null);
+                threadsList.Add(new Thread(() => { finalPath[i.CurrConnComp] = (!isDijkstra) ? new A_Star(ref map, i.CurrConnComp, i.startNode, i.endNode).Calc() : new DijkstraForConn(ref map, i.CurrConnComp, i.startNode, i.endNode).Calc(); }));
+                threadsList.Last().Start();
             }
-            else
-            {
-                foreach (TaskToCalc i in calc)
-                    finalPath.Add(i.CurrConnComp, new DijkstraForConn(ref map, i.CurrConnComp, i.startNode, i.endNode).DijkstraAlgo());
-                time.Stop();
-                timeToCalc += $"Алгоритм Dijkstra выполнен за {time.ElapsedMilliseconds} миллисекунд";
-            }
+            foreach (var i in threadsList)
+                i.Join();
+
+            time.Stop();
+            timeToCalc += $"Алгоритм {((isDijkstra) ? "Dijkstra" : "A*")} выполнен за {time.ElapsedMilliseconds} миллисекунд";
+
             return finalPath;
         }
 
@@ -164,7 +165,7 @@ namespace NavTest
             }
             return minIndex;
         }
-        public List<TaskToCalc> DijkstraAlgo()
+        public List<TaskToCalc> Calc()
         {
             Dictionary<ConnectivityComp, int> distance = new Dictionary<ConnectivityComp, int>();
             Dictionary<ConnectivityComp, bool> isFixedConComp = new Dictionary<ConnectivityComp, bool>();
@@ -364,7 +365,7 @@ namespace NavTest
             Point end = map.GetCoordOfNode(curConComp.GetFloor(), EndPoint);
             return Convert.ToInt32(Math.Sqrt((start.X - end.X) * (start.X - end.X) + (start.Y - end.Y) * (start.Y - end.Y)));
         }
-        public List<Node> DijkstraAlgo()
+        public List<Node> Calc()
         {
             Dictionary<Node, int> distance = new Dictionary<Node, int>();
             Dictionary<Node, bool> isFixedConComp = new Dictionary<Node, bool>();

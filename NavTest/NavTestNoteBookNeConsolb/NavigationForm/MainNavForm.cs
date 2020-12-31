@@ -64,9 +64,8 @@ namespace NavTest
         }
         private void DownloadFromDB(string buildingName)
         {
-            DataFromDB db = new DataFromDB(buildingName);
-            int uselessCounter = -1;
-            map = db.DownloadFromDB(ref uselessCounter, true);
+            int uselessCounter = 0;
+            map = new DBInteraction().DownloadFromDB(buildingName, ref uselessCounter, true);
             updateAvaliableNodes();
         }
         private void updateAvaliableNodes()
@@ -202,15 +201,17 @@ namespace NavTest
             PreviousButton.Visible = false;
         }
 
-        private void CalcButton_Click(object sender, EventArgs e)
+        private async void CalcButton_Click(object sender, EventArgs e)
         {
+
             if (StartPointButton.Text != "Выберите точку" && EndPointButton.Text != "Выберите точку")
             {
                 if (StartPointButton.Text != EndPointButton.Text)
                 {
+
                     if (currentRouteElem != -1) ResetRoute();
-                    NavCalc alg = new NavCalc(map, map.GetNode(StartPointButton.Text), map.GetNode(EndPointButton.Text),isDijkstra.Checked);
-                    Route = alg.startCalc();
+                    NavCalc alg = new NavCalc(map, map.GetNode(StartPointButton.Text), map.GetNode(EndPointButton.Text), isDijkstra.Checked);
+                    await Task.Run(() => { Route = alg.startCalc(); });
                     RouteNavigation = Route.Keys.ToList();
                     currentRouteElem = 0;
 
@@ -221,7 +222,6 @@ namespace NavTest
                         PreviousButton.Visible = true;
                         PreviousButton.Enabled = false;
                     }
-
                     drawPath();
                     RouteDescription();
                     MessageBox.Show(alg.timeToCalc);
@@ -235,6 +235,5 @@ namespace NavTest
             else
                 MessageBox.Show("Выберите начальную и конечную точки");
         }
-
     }
 }
