@@ -5,3 +5,10 @@ C:\Users\Alex\source\repos\NavProject-Server\Client\obj\Debug\NavProject-Client.
 C:\Users\Alex\source\repos\NavProject-Server\Client\obj\Debug\NavProject-Client.csproj.CoreCompileInputs.cache
 C:\Users\Alex\source\repos\NavProject-Server\Client\obj\Debug\Client.exe
 C:\Users\Alex\source\repos\NavProject-Server\Client\obj\Debug\Client.pdb
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavProject\NavProject-Client\bin\Debug\Client.exe.config
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavProject\NavProject-Client\bin\Debug\Client.exe
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavProject\NavProject-Client\bin\Debug\Client.pdb
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavProject\NavProject-Client\obj\Debug\NavProject-Client.csprojAssemblyReference.cache
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavProject\NavProject-Client\obj\Debug\NavProject-Client.csproj.CoreCompileInputs.cache
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavProject\NavProject-Client\obj\Debug\Client.exe
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavProject\NavProject-Client\obj\Debug\Client.pdb
