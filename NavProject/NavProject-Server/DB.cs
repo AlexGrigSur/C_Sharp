@@ -145,8 +145,8 @@ namespace NavProject_Server
             {
                 using (MySqlDataReader reader = DataBase.ExecuteReader($"Select * from `USERS` where `login`='{login}' and `password`='{password}'"))
                 {
-                    if (reader.Read())
-                        user = new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetBoolean(5));
+                    //if (reader.Read())
+                    //    user = new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetBoolean(5));
                 }
             }
             return user;

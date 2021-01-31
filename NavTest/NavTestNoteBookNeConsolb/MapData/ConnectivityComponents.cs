@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NavTest;
 
 namespace NavTest
-{
+{ 
     public class ConnectivityComp // will always reCalculated in case of changings
     {
         private int floor;

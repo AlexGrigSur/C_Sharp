@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Alex\source\repos\NavProject-Server\NavProject-Drawing\obj\Debug\
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavProject\NavProject-Drawing\obj\Debug\
 NavProject_Drawing
 none
 false
 DEBUG;TRACE
-C:\Users\Alex\source\repos\NavProject-Server\NavProject-Drawing\App.xaml
-4655904033
+C:\Users\Alex\Desktop\GitHub\C_Sharp\NavProject\NavProject-Drawing\App.xaml
+5-1457850494
 
-9122253340
+10-255524382
 13-1505183044
-StartWindow.xaml;MainDrawingWindow.xaml;LadderChoose.xaml;NewLevelAdd.xaml;
+Login.xaml;StartWindow.xaml;DrawingWindow.xaml;LadderChoose.xaml;NewLevelAdd.xaml;
 
-False
+True
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
@@ -768,7 +767,7 @@ namespace NavTest
                 MessageBox.Show("Добавьте уровень для продолжения");
                 return;
             }
-            int count = 4900;
+            int count = 3600;
             if (count > 0) Changes(true);
             int sqrt = Convert.ToInt32(Math.Sqrt(count));
 

@@ -6,6 +6,7 @@ using NavTest;
 
 namespace NavTest
 {
+    [Serializable]
     public class Map
     {
         private string name;

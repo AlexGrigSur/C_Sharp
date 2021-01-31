@@ -21,7 +21,7 @@ namespace Client
 
         static void GetResponse()
         {
-            Byte[] readingData = new byte[1024];
+            Byte[] readingData = new byte[client.ReceiveBufferSize];//new byte[1024];
             StringBuilder completeMessage = new StringBuilder();
             int numberOfBytesRead = 0;
             do

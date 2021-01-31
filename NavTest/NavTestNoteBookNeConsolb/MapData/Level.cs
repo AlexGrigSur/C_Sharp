@@ -6,6 +6,7 @@ using NavTest;
 
 namespace NavTest
 {
+    [Serializable]
     public struct Node
     {
         public string name;
@@ -19,7 +20,7 @@ namespace NavTest
         }
     }
 
-    
+    [Serializable]
     public class Level
     {
         private int floorIndex;

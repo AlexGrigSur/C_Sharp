@@ -43,7 +43,7 @@ namespace NavProject_Server
             if (command.Count() == 3)
             {
                 user = DBInteraction.GetUser(command[1], command[2]);
-                return ((user == null) ? "No matches found" : $"Welcome back,{user.Value.name}");
+                return ((user == null) ? "No matches found" : $"Welcome back,");//{user.Value.name}");
             }
             else
             {
@@ -58,8 +58,8 @@ namespace NavProject_Server
 
             if (user == null)
                 return "Authorization required";
-            if (user.Value.isConfirmed)
-                return "Email is already confirmed";
+            //if (user.Value.isConfirmed)
+            //    return "Email is already confirmed";
 
             currentMode = "ConfirmEmail";
             lastBufferRequestTime = DateTime.UtcNow;
@@ -81,7 +81,7 @@ namespace NavProject_Server
                 Body = "<p></p>\n" +
                 "<h2> NavProject</h2>\n" +
                 "<p></p>\n" +
-                $"<p> Здравствуйте, {user.Value.name}.</p>\n" +
+                //$"<p> Здравствуйте, {user.Value.name}.</p>\n" +
                 "<p> Этот адрес электронной почты был указан для регистрации нового пользователя в самом странном проекте по созданию планов зданий.</p>\n" +
                 "<p> Ваш код регистрации:</p>\n" +
                 $"<h3><strong>{buffer}</strong><strong></strong></h3>\n" +
@@ -91,8 +91,8 @@ namespace NavProject_Server
                 "<p> команда NavProject </p>",
                 IsBodyHtml = true
             };
-            mailMessage.To.Add(user.Value.email);
-            smtpClient.Send(mailMessage);
+            //mailMessage.To.Add(user.Value.email);
+            //smtpClient.Send(mailMessage);
             return "Message was sent";
         }
         static public string ConfirmEmail(ref User? user, ref string[] command, ref string currentMode, ref string buffer, ref DateTime lastBufferRequestTime)
@@ -105,8 +105,8 @@ namespace NavProject_Server
                 return "Нет текущего кода для подтверждения аккаунта";
             if (command[1] == buffer && DateTime.Now <= lastBufferRequestTime.AddHours(1))
             {
-                user = new User(user.Value.id, user.Value.name, user.Value.login, user.Value.password, user.Value.email, true);
-                DBInteraction.ConfirmUser(user.Value.id);
+                //user = new User(user.Value.id, user.Value.name, user.Value.login, user.Value.password, user.Value.email, true);
+                //DBInteraction.ConfirmUser(user.Value.id);
                 return "Аккаунт успешно подтверждён.";
             }
             else
@@ -118,7 +118,6 @@ namespace NavProject_Server
         }
         static public void GetPlansList_Public()
         {
-
         }
         static public void Disconnect(int id, ref NetworkStream stream, ref TcpClient client)
         {
