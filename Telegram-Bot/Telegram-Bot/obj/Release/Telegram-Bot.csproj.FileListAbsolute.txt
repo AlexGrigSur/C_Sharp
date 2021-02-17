@@ -1,0 +1,15 @@
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\bin\Release\Telegram-Bot.exe.config
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\bin\Release\Telegram-Bot.exe
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\bin\Release\Telegram-Bot.pdb
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\bin\Release\HtmlAgilityPack.dll
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\bin\Release\Newtonsoft.Json.dll
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\bin\Release\Telegram.Bot.dll
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\bin\Release\HtmlAgilityPack.pdb
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\bin\Release\HtmlAgilityPack.xml
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\bin\Release\Newtonsoft.Json.xml
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\bin\Release\Telegram.Bot.xml
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\obj\Release\Telegram-Bot.csprojAssemblyReference.cache
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\obj\Release\Telegram-Bot.csproj.CoreCompileInputs.cache
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\obj\Release\Telegram-Bot.csproj.CopyComplete
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\obj\Release\Telegram-Bot.exe
+C:\Users\Alex\Desktop\GitHub\C_Sharp\Telegram-Bot\Telegram-Bot\obj\Release\Telegram-Bot.pdb
