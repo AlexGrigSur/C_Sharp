@@ -11,7 +11,7 @@
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="497" VerticalAlignment="Top" Width="661" Margin="124,80,0,0">
             <Image Name="imagePlace" Height="500" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0"/>
         </Border>
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="790,79,0,0">
+        <StackPanel Name="NodeInfoSP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="790,79,0,0">
             <Label Content="Тип"/>
             <ComboBox Name="NodeTypeSelect"/>
             <Label Content="Название вершины" HorizontalAlignment="Left" VerticalAlignment="Top"/>

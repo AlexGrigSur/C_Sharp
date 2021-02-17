@@ -202,14 +202,17 @@ namespace NavProject_Server
             {
                 while (commandsToHandle.Count > 0)
                 {
-                    
                 }
                 Thread.CurrentThread.Suspend();
             }
         }
     }
-
-
+    class Listener
+    {
+        List<User> UserList;
+        public Listener(ref List<User> _UserList) =>
+            UserList = _UserList;
+    }
     class Server
     {
         private Dictionary<TcpClient, User> ClientList;
