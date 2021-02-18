@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 
-namespace Telegram_Bot
+namespace Telegram_Bot.Parsers
 {
     public struct Currency
     {
@@ -22,8 +22,8 @@ namespace Telegram_Bot
     }
     static public class CurrencyParser
     {
-        static private HtmlDocument html;//HtmlDocument();
-        static public List<Currency> ParseInfo(int limit)
+        static private HtmlDocument html;
+        static public List<Currency> Parse(int limit)
         {   
             html = new HtmlWeb().Load("https://ru.investing.com/crypto/");
             HtmlNodeCollection collection = html.DocumentNode.SelectNodes("//table[contains(@class, 'genTbl js-top-crypto-table mostActiveStockTbl crossRatesTbl allCryptoTlb wideTbl elpTbl elp15 ')]//tbody//tr"); // respTbl

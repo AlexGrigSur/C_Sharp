@@ -52,7 +52,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurrencyParser.cs" />
+    <Compile Include="Parsers\CurrencyParser.cs" />
+    <Compile Include="Parsers\ExchangeCurrencyParser.cs" />
     <Compile Include="TelegramBot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

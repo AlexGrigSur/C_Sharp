@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using System.ComponentModel;
+using Telegram_Bot.Parsers;
 
 namespace Telegram_Bot
 {
@@ -50,12 +51,12 @@ namespace Telegram_Bot
 
         private string ParseTop3Crypto() // TODO: Add async
         {
-            List<Currency> result = CurrencyParser.ParseInfo(3);
+            List<Currency> result = CurrencyParser.Parse(3);
             string resultString = $"Вот топ-3 криптовалют по стоимости за {DateTime.Now}";
-            resultString += "\n____________________________________________________________"; // TODO: change separate line length (adapt to mobile telegram)
+            resultString += "\n_____________________________________"; // TODO: change separate line length (adapt to mobile telegram)
             for (int i=0;i<result.Count;++i)
                 resultString += $"\n#{i+1}: {result[i].Name} {result[i].Value}$ ({result[i].DailyChange} за день)\n";
-            resultString += "____________________________________________________________";
+            resultString += "_____________________________________";
             resultString += "\nУдачи на полях электронных баталий :)";
             return resultString;
         }
