@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot;
 using HtmlAgilityPack;
 
-namespace Telegram_Bot.Parsers
+namespace Telegram_Bot.Commands
 {
-    public struct ExchangeCurrency
+    class ExchangeCurrency : ICommand
+    {
+        public void RunCommand(ref TelegramBotClient bot, Telegram.Bot.Types.Message message)
+        {
+        }
+    }
+
+    public struct ExchangeCurrencyStruct
     {
         public string Name { get; }
         public string URL { get; }
@@ -15,8 +23,7 @@ namespace Telegram_Bot.Parsers
         public string MinimumExchange { get; }
         public string MaximumExchange { get; }
 
-
-        public ExchangeCurrency(string _name, string _url, string _value, string _minExchange, string _maxExchange)
+        public ExchangeCurrencyStruct(string _name, string _url, string _value, string _minExchange, string _maxExchange)
         {
             Name = _name;
             URL = _url;
@@ -32,9 +39,6 @@ namespace Telegram_Bot.Parsers
         {
             html = new HtmlWeb().Load(link);
             HtmlNodeCollection collection = html.DocumentNode.SelectNodes("//table[contains(@id, 'content_table')]//tbody//tr[contains(@onclick, 'ccl(')]");
-            //Console.WriteLine(collection[0].InnerHtml);
-            //Console.WriteLine("_______________________________________________");
-            //Console.WriteLine(collection[1].InnerHtml);
             List<ExchangeCurrency> result = new List<ExchangeCurrency>((collection.Count < limit) ? collection.Count : limit);
 
             string currencyName;
@@ -44,19 +48,15 @@ namespace Telegram_Bot.Parsers
             string inputCurrency = CurrencyInfoCollection[0].SelectSingleNode("div[contains(@class, 'fs')]//small").GetDirectInnerText();
 
             string outputCurrency = CurrencyInfoCollection[1].SelectSingleNode("small").GetDirectInnerText();
-            //Console.WriteLine(inputCurrency);
-            //Console.WriteLine(outputCurrency);
-            //Console.WriteLine(minExchange);
-            //Console.WriteLine(maxExchange);
             Console.WriteLine("\n_______________________________________________");
             Console.WriteLine($"Обмен: {inputCurrency} - {outputCurrency}");
             Console.WriteLine("_______________________________________________");
             for (int i = 0; i < result.Capacity; ++i)
             {
-                CurrencyInfoCollection = collection[i].SelectNodes("td[contains(@class, 'bi')]"); // tr//
+                CurrencyInfoCollection = collection[i].SelectNodes("td[contains(@class, 'bi')]");
 
-                string ExchangeName = collection[i].SelectSingleNode("td[contains(@class, 'bj')]//div//div//div").GetDirectInnerText(); // tr//
-                string Link = collection[i].SelectSingleNode("td[contains(@class, 'bj')]//div//a").GetAttributeValue("href", "Error"); // tr//
+                string ExchangeName = collection[i].SelectSingleNode("td[contains(@class, 'bj')]//div//div//div").GetDirectInnerText();
+                string Link = collection[i].SelectSingleNode("td[contains(@class, 'bj')]//div//a").GetAttributeValue("href", "Error");
                 string minExchange = CurrencyInfoCollection[0].SelectSingleNode("div[contains(@class, 'fm')]//div[contains(@class, 'fm1')]").GetDirectInnerText();
                 string maxExchange = CurrencyInfoCollection[0].SelectSingleNode("div[contains(@class, 'fm')]//div[contains(@class, 'fm2')]").GetDirectInnerText();
                 string ExchangeValue = CurrencyInfoCollection[1].GetDirectInnerText();
@@ -73,5 +73,5 @@ namespace Telegram_Bot.Parsers
         }
 
     }
-}
 
+}
