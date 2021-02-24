@@ -1,46 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using MySqlConnector;
 
-namespace Czech_Fitness
+namespace Database
 {
-    static public class DB
+    public class DB
     {
-        static public MySqlConnection connection { get; } = new MySqlConnection($"server=localhost;port=3306;username=root;password=root");
+        private MySqlConnection connection;
+        private MySqlCommand command = new MySqlCommand();
+        static protected DB instance = null;
+        static private string connectString= "server=localhost;port=3306;username=root;password=root";
+        private DB() =>
+            connection = new MySqlConnection(connectString);
 
-        static private void OpenConnection()
+        private void OpenConnection()
         {
             if (connection.State == System.Data.ConnectionState.Closed)
                 connection.Open();
         }
-        static private void CloseConnection()
+        private void CloseConnection()
         {
             if (connection.State == System.Data.ConnectionState.Open)
                 connection.Close();
         }
-
-        static public void ExecuteCommand(string SQLcommand)
+        private string GetJson(ref MySqlDataReader reader)
         {
-            OpenConnection();
-            using (MySqlCommand command = new MySqlCommand(SQLcommand, connection))
+            return "";
+        }
+
+
+        public static DB GetInstance()
+        {
+            if (instance == null)
             {
-                command.ExecuteNonQuery();
+                instance = new DB();
+                return instance;
             }
+            else
+                return instance;
+        }
+        public void ExecuteCommand(string SQLcommand, List<MySqlParameter> paramsColl=null)
+        {
+            command.CommandText = SQLcommand;
+            command.Parameters.Clear();
+
+            if(paramsColl!=null)
+                foreach (MySqlParameter i in paramsColl)
+                    command.Parameters.Add(i);
+
+            OpenConnection();
+            command.ExecuteNonQuery();
             CloseConnection();
         }
-        static public MySqlDataReader ExecuteReader(string SQLcommand)
+        public List<string> ExecuteReader(string SQLcommand, List<MySqlParameter> paramsColl=null)
         {
+            command.CommandText = SQLcommand;
+            command.Parameters.Clear();
+
+            if (paramsColl != null)
+                foreach (MySqlParameter i in paramsColl)
+                    command.Parameters.Add(i);
+
             OpenConnection();
-            MySqlDataReader reader;
-            using (MySqlCommand command = new MySqlCommand(SQLcommand, connection))
-            {
-                reader = command.ExecuteReader();
-            }
+            
+            MySqlDataReader reader = command.ExecuteReader();
+            List<string> jsonStrings = new List<string>(reader.RecordsAffected);
+
+            while (reader.Read())
+                jsonStrings.Add(GetJson(ref reader));
+
+            reader.Close();
+
             CloseConnection();
-            return reader;
+            
+            return jsonStrings;
         }
     }
 }
