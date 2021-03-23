@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Alex\Desktop\GitHub\C_Sharp\NavProject\NavProject-Drawing\App.xaml
-4655904033
+6-1972063197
 
-9122253340
+21-26405721
 13-1505183044
-StartWindow.xaml;MainDrawingWindow.xaml;LadderChoose.xaml;NewLevelAdd.xaml;
+Windows\Login.xaml;Windows\NewPlan.xaml;Windows\StartWindow.xaml;Windows\MainForm\DrawingWindow.xaml;Windows\LadderChoose.xaml;Windows\NewLevelAdd.xaml;
 
-True
+False
 

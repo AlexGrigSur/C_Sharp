@@ -3,11 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavProject-Server", "NavProject-Server\NavProject-Server.csproj", "{F8550F60-5833-4D04-BA64-299638CBA600}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavProject-MainServer", "NavProject-Server\NavProject-MainServer.csproj", "{F8550F60-5833-4D04-BA64-299638CBA600}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavProject-Drawing", "NavProject-Drawing\NavProject-Drawing.csproj", "{2ECE5149-911E-49AF-BE87-C247E908C204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavProject-Client", "NavProject-Client\NavProject-Client.csproj", "{1591FF49-1429-45B5-8761-C49D2ABFE3F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavProject-Navigator", "NavProject-Navigator\NavProject-Navigator.csproj", "{9A600863-DCD0-4697-92A5-46DD05621078}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavProject-AuthServer", "NavProject-AuthServer\NavProject-AuthServer.csproj", "{0813736A-6534-4225-A504-0C2FCDFEDA0C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servers", "Servers", "{4DE760DE-D0F4-4F79-84A0-D5F4A5707A22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NavGUI", "NavGUI", "{B47970C5-AF80-4A3A-A523-6073A26386C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,13 +29,23 @@ Global
 		{2ECE5149-911E-49AF-BE87-C247E908C204}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2ECE5149-911E-49AF-BE87-C247E908C204}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2ECE5149-911E-49AF-BE87-C247E908C204}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1591FF49-1429-45B5-8761-C49D2ABFE3F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1591FF49-1429-45B5-8761-C49D2ABFE3F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1591FF49-1429-45B5-8761-C49D2ABFE3F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1591FF49-1429-45B5-8761-C49D2ABFE3F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A600863-DCD0-4697-92A5-46DD05621078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A600863-DCD0-4697-92A5-46DD05621078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A600863-DCD0-4697-92A5-46DD05621078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A600863-DCD0-4697-92A5-46DD05621078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0813736A-6534-4225-A504-0C2FCDFEDA0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0813736A-6534-4225-A504-0C2FCDFEDA0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0813736A-6534-4225-A504-0C2FCDFEDA0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0813736A-6534-4225-A504-0C2FCDFEDA0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F8550F60-5833-4D04-BA64-299638CBA600} = {4DE760DE-D0F4-4F79-84A0-D5F4A5707A22}
+		{2ECE5149-911E-49AF-BE87-C247E908C204} = {B47970C5-AF80-4A3A-A523-6073A26386C0}
+		{9A600863-DCD0-4697-92A5-46DD05621078} = {B47970C5-AF80-4A3A-A523-6073A26386C0}
+		{0813736A-6534-4225-A504-0C2FCDFEDA0C} = {4DE760DE-D0F4-4F79-84A0-D5F4A5707A22}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ABBB3303-A941-46EB-BB87-A952BF08DDB6}

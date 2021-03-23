@@ -13,8 +13,7 @@ namespace NavProject_Server
     {
         static void Main(string[] args)
         {
-            Server server = new Server();
-            server.ServerManager(8);
+            new Server().Start();
         }
     }
 }

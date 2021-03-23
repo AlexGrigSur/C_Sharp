@@ -57,23 +57,38 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Login.xaml.cs">
+    <Compile Include="CalcFunctions\ConnectionCheck.cs" />
+    <Compile Include="CalcFunctions\DijkstraForConnectivity.cs" />
+    <Compile Include="ServerConnect.cs" />
+    <Compile Include="Windows\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DrawingWindow.xaml.cs">
+    <Compile Include="Windows\MainForm\DrawClass.cs" />
+    <Compile Include="Windows\MainForm\DrawingWindow.xaml.cs">
       <DependentUpon>DrawingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LadderChoose.xaml.cs">
+    <Compile Include="Windows\LadderChoose.xaml.cs">
       <DependentUpon>LadderChoose.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NewLevelAdd.xaml.cs">
+    <Compile Include="Windows\MainForm\MainFormHandler.cs" />
+    <Compile Include="Windows\NewLevelAdd.xaml.cs">
       <DependentUpon>NewLevelAdd.xaml</DependentUpon>
     </Compile>
-    <Page Include="Login.xaml">
+    <Compile Include="Structures\ConnectivityComponents.cs" />
+    <Compile Include="Structures\HyperGraphByConnectivity.cs" />
+    <Compile Include="Structures\Level.cs" />
+    <Compile Include="Structures\Map.cs" />
+    <Compile Include="Structures\Node.cs" />
+    <Compile Include="Structures\Point.cs" />
+    <Page Include="Windows\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StartWindow.xaml">
+    <Page Include="Windows\NewPlan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\StartWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -81,19 +96,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="StartWindow.xaml.cs">
+    <Compile Include="Windows\NewPlan.xaml.cs">
+      <DependentUpon>NewPlan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="DrawingWindow.xaml">
+    <Page Include="Windows\MainForm\DrawingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LadderChoose.xaml">
+    <Page Include="Windows\LadderChoose.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NewLevelAdd.xaml">
+    <Page Include="Windows\NewLevelAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,7 +1,0 @@
-C:\Users\Alex\source\repos\NavProject-Server\Client\bin\Debug\Client.exe.config
-C:\Users\Alex\source\repos\NavProject-Server\Client\bin\Debug\Client.exe
-C:\Users\Alex\source\repos\NavProject-Server\Client\bin\Debug\Client.pdb
-C:\Users\Alex\source\repos\NavProject-Server\Client\obj\Debug\Client.csprojAssemblyReference.cache
-C:\Users\Alex\source\repos\NavProject-Server\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
-C:\Users\Alex\source\repos\NavProject-Server\Client\obj\Debug\Client.exe
-C:\Users\Alex\source\repos\NavProject-Server\Client\obj\Debug\Client.pdb
