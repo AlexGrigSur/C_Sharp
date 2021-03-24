@@ -10,11 +10,11 @@ namespace NavProject_AuthServer.Commands
 {
     interface ICommand
     {
-        public void RunCommand();
+        public void RunCommand(params string[] values);
     }
     class SendConfirmEmailLink:ICommand
     {
-        public void RunCommand()
+        public void RunCommand(params string[] values)
         {
 
             var smtpClient = new SmtpClient("smtp.gmail.com")
@@ -24,7 +24,6 @@ namespace NavProject_AuthServer.Commands
                 Credentials = new NetworkCredential("navproject.kubsu@gmail.com", "146923785Alex"),
                 EnableSsl = true
             };
-
             var mailMessage = new MailMessage
             {
                 From = new MailAddress("navproject.kubsu@gmail.com"),
@@ -49,7 +48,7 @@ namespace NavProject_AuthServer.Commands
     }
     class ConfirmEmail : ICommand
     {
-        public void RunCommand()
+        public void RunCommand(params string[] values)
         {
             // Decrypt User Data
             // if time valid - insert User in DB
@@ -57,7 +56,7 @@ namespace NavProject_AuthServer.Commands
     }
     class Authorize : ICommand
     {
-        public void RunCommand()
+        public void RunCommand(params string[] values)
         {
             // CheckUserInDB
             // Create Token
@@ -67,7 +66,7 @@ namespace NavProject_AuthServer.Commands
     }
     class ForgotPassword : ICommand
     {
-        public void RunCommand()
+        public void RunCommand(params string[] values)
         {
             // CheckUserEmailInDB
             // Create RefreshLink

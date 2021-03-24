@@ -60,6 +60,8 @@
     <Compile Include="CalcFunctions\A_Star.cs" />
     <Compile Include="CalcFunctions\ComponentsToCalc.cs" />
     <Compile Include="CalcFunctions\Dijkstra.cs" />
+    <Compile Include="Cryptography\AES_Decrypt.cs" />
+    <Compile Include="Cryptography\SHA-3.cs" />
     <Compile Include="Structures\HyperGraphByConnectivity.cs" />
     <Compile Include="Structures\ConnectivityComponents.cs" />
     <Compile Include="Structures\Level.cs" />

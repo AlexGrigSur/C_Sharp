@@ -9,26 +9,41 @@
     <Grid>
         <TabControl>
             <TabItem Header="Sign In">
-                <StackPanel>
-                    <Label Content="Введите свой адрес электронной почты" Margin="5" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-                    <TextBox Name="SignInEmailTextBox" HorizontalAlignment="Left" Margin="5" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="120"/>
-                    <Label Content="Введите свой пароль" Margin="5" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-                    <PasswordBox Name="SignInPassTextBox"  PasswordChar="*" MinWidth="120" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Button Content="Войти" Name="SignInButton" HorizontalAlignment="Left" Margin="5" MinHeight="50" MinWidth="150" Click="SignInButton_Click"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="1">
+                        <Label Content="Введите адрес электронной почты" Margin="5" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                        <TextBox Name="SignInEmailTextBox" HorizontalAlignment="Left" Margin="5" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="300"/>
+                        <Label Content="Введите пароль" Margin="5" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                        <PasswordBox Name="SignInPassTextBox"  PasswordChar="*" MinWidth="300" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Button Content="Войти" Name="SignInButton" HorizontalAlignment="Left" Margin="5" MinHeight="50" MinWidth="150" Click="SignInButton_Click"/>
+
+                    </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="Sign Up">
-                <StackPanel>
-                    <Label Content="Введите ваше имя/Название организации" HorizontalAlignment="Left" Margin="5"  VerticalAlignment="Top"/>
-                    <TextBox Name="SignUpFirstNameTextBox" HorizontalAlignment="Left" Height="23" Margin="5" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="120"/>
-                    <Label Content="Введите свой адрес электронной почты" Margin="5" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-                    <TextBox Name="SignUpEmailTextBox" HorizontalAlignment="Left" Margin="5" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="120"/>
-                    <Label Content="Введите свой пароль" Margin="5" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-                    <PasswordBox PasswordChar="*" Name="SignUpPassTextBox" Margin="5" MinWidth="120" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Label Content="Повторите пароль" Margin="5" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-                    <PasswordBox PasswordChar="*" Name="SignUpPassValidateTextBox" MinWidth="120" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top" PasswordChanged="SignUpPassValidateTextBox_PasswordChanged"/>
-                    <Button Content="Зарегистрироваться" Name="SignUpButton" HorizontalAlignment="Left" Margin="5" MinHeight="50" MinWidth="150" Click="SignUpButton_Click"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="1">
+                        <Label Content="Введите ваше имя/Название организации" HorizontalAlignment="Left" Margin="5"  VerticalAlignment="Top"/>
+                        <TextBox Name="SignUpFirstNameTextBox" HorizontalAlignment="Left" MinHeight="23" Margin="5" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="300"/>
+                        <Label Content="Введите свой адрес электронной почты" Margin="5" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                        <TextBox Name="SignUpEmailTextBox" HorizontalAlignment="Left" Margin="5" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="300"/>
+                        <Label Content="Введите свой пароль" Margin="5" HorizontalAlignment="Left"  VerticalAlignment="Top"  MinWidth="300"/>
+                        <PasswordBox PasswordChar="*" Name="SignUpPassTextBox" Margin="5" MinWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Label Content="Повторите пароль" Margin="5" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                        <PasswordBox PasswordChar="*" Name="SignUpPassValidateTextBox" MinWidth="300" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top" PasswordChanged="SignUpPassValidateTextBox_PasswordChanged"/>
+                        <Button Content="Зарегистрироваться" Name="SignUpButton" HorizontalAlignment="Left" Margin="5" MinHeight="50" MinWidth="150" Click="SignUpButton_Click"/>
+                    </StackPanel>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

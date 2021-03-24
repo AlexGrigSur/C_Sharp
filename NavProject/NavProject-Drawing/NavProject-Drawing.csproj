@@ -59,7 +59,10 @@
     </ApplicationDefinition>
     <Compile Include="CalcFunctions\ConnectionCheck.cs" />
     <Compile Include="CalcFunctions\DijkstraForConnectivity.cs" />
+    <Compile Include="Cryptography\AES.cs" />
+    <Compile Include="Cryptography\SHA-3.cs" />
     <Compile Include="ServerConnect.cs" />
+    <Compile Include="Structures\CountriesCitiesEnumTable.cs" />
     <Compile Include="Windows\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>

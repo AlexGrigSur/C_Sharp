@@ -15,7 +15,7 @@ namespace NavProject_AuthServer.DataBaseCommands
     class InitDB : IDataBaseCommand
     {
         /// <summary>
-        /// 
+        /// Command that initialize dataBase
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
@@ -23,11 +23,20 @@ namespace NavProject_AuthServer.DataBaseCommands
         {
             DBConnect db = DBConnect.GetInstance();
             db.ExecuteCommand("create database if not exists `Auth`");
-            db.ExecuteCommand("create table if not exists `Auth`.`Users` ()");
+            db.ExecuteCommand("create table if not exists `Auth`.`Users` " +
+                "( `id` int(11) not null primary key auto_increment," +
+                "`FirstName` varchar(150) not null," +
+                "`Email` varchar(150) not null unique," +
+                "`Password` varchar(150) not null");
+
+            db.ExecuteCommand("create table if not exists `Auth`.`RefreshTokens` " +
+            "( `user_id` int(11) not null primary key," +
+            " `RefreshToken` varchar(150) not null," +
+            " constraint `UsersFK` foreign key(`user_id`) references `Users`.`id` on delete cascade)");
             return null;
         }
     }
-    class InsertUser: IDataBaseCommand
+    class InsertUser : IDataBaseCommand
     {
         /// <summary>
         /// Command that insert new user in DB
@@ -45,17 +54,17 @@ namespace NavProject_AuthServer.DataBaseCommands
             return null;
         }
     }
-    class GetUser: IDataBaseCommand
+    class GetUser : IDataBaseCommand
     {
         /// <summary>
-        /// 
+        /// Get User info from DataBase
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
+        /// <exception cref="ArgumentException">params should contains two elements</exception>
         public List<string> RunCommand(params string[] values)//(string login, string password)
         {
-            if (values.Count() != 2)
-                throw new ArgumentException("In this function `values` param should contain two elements: email and password");
+            if (values.Count() != 2) throw new ArgumentException("In this function `values` param should contain two elements: email and password");
 
             DBConnect db = DBConnect.GetInstance();
             List<MySqlParameter> paramList = new List<MySqlParameter>(2) { new MySqlParameter("@email", values[0]), new MySqlParameter("@password", values[1]) };

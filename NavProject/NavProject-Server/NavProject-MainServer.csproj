@@ -81,6 +81,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Commands.cs" />
+    <Compile Include="Cryptography\AES.cs" />
+    <Compile Include="Cryptography\SHA-3.cs" />
     <Compile Include="DataBase\DBCommands.cs" />
     <Compile Include="DataBase\DBConnect.cs" />
     <Compile Include="Program.cs" />
@@ -106,8 +108,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cryptography\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,8 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NavProject_Drawing.Windows"
         mc:Ignorable="d"
-        Title="NewPlan" Height="450" Width="800">
+        Title="NewPlan" Height="464.667" Width="384.357" MinWidth="304" MinHeight="400">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1">
+            <Label Margin="5" Content="Введите имя плана"/>
+            <TextBox Margin="5,5,5,0"/>
+            <Label Margin="5,5,5,0" Content="Выберите регион,&#10;в котором расположено здание"/>
+            <ComboBox Name="CountryComboBox" Margin="5,5,5,0" SelectionChanged="CountryComboBox_SelectionChanged"/>
+            <Label Margin="5,5,5,0" Content="Выберите город,&#10;в котором расположено здание"/>
+            <ComboBox Name="CitiesComboBox"  Margin="5,5,5,0" SelectionChanged="CitiesComboBox_SelectionChanged"/>
+            <Label Margin="5,5,5,0" Content="Введите адрес здания"/>
+            <TextBox Name="AdressTextBox" Margin="5,5,5,0" IsEnabled="False"/>
+            <CheckBox Name="EncryptionComboBox" Margin="5,5,5,0" Content="шифрование плана" Checked="EncryptionComboBox_Checked" Unchecked="EncryptionComboBox_Unchecked"/>
+            <Label Name="EncryptionLabel"  Content="Введите пароль вашего плана" IsEnabled="False" Visibility="Hidden"/>
+            <TextBox Name="EncryptionTextBox" Margin="5,5,5,0" IsEnabled="False" Visibility="Hidden"/>
+            <Label Name="EncryptionLabelInfo" Content="Учтите, что NavProject не хванит информацию о ваших паролях. &#10;При его потере восстановление доступа к плану будет невозможно" FontSize="10" IsEnabled="False" Visibility="Hidden"/>
+        </StackPanel>
     </Grid>
 </Window>

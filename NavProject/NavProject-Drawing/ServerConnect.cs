@@ -7,17 +7,38 @@ using System.Net.Http;
 
 namespace NavProject_Drawing
 {
+    interface IGetCommand
+    {
+        public HttpResponseMessage Send();
+    }
+    interface IPostCommand
+    {
+        public HttpResponseMessage Send();
+    }
+    interface IPutCommand
+    {
+        public HttpResponseMessage Send();
+    }
+    interface IDeleteCommand
+    {
+        public HttpResponseMessage Send();
+    }
+
     class ServerConnect
     {
         HttpClient client = new HttpClient();
-        public void Send()
+        public void Get(IGetCommand command) => command.Send();
+        public void Post(IPostCommand command)
         {
-
+           HttpResponseMessage responseMessage = command.Send();
         }
-
-        public void Auth(string login, string password)
+        public void Put(IPutCommand command)
         {
-            client.GetAsync("");
+            HttpResponseMessage responseMessage = command.Send();
+        }
+        public void Delete(IDeleteCommand command)
+        {
+            command.Send();
         }
     }
 }
