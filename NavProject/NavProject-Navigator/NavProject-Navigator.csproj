@@ -57,17 +57,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CalcFunctions\A_Star.cs" />
-    <Compile Include="CalcFunctions\ComponentsToCalc.cs" />
-    <Compile Include="CalcFunctions\Dijkstra.cs" />
+    <Compile Include="CalcFunctions\Algoritms\A_Star.cs" />
+    <Compile Include="CalcFunctions\Algoritms\Dijkstra.cs" />
+    <Compile Include="CalcFunctions\IRouteAlg.cs" />
+    <Compile Include="CalcFunctions\LevelPath.cs" />
+    <Compile Include="CalcFunctions\MainRouteHandler.cs" />
     <Compile Include="Cryptography\AES_Decrypt.cs" />
     <Compile Include="Cryptography\SHA-3.cs" />
-    <Compile Include="Structures\HyperGraphByConnectivity.cs" />
-    <Compile Include="Structures\ConnectivityComponents.cs" />
-    <Compile Include="Structures\Level.cs" />
-    <Compile Include="Structures\Map.cs" />
-    <Compile Include="Structures\Node.cs" />
-    <Compile Include="Structures\Point.cs" />
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,7 +72,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CalcFunctions\RouteCalc.cs" />
+    <Compile Include="Structures\ConnectivityComponents.cs" />
+    <Compile Include="Structures\CountriesCitiesEnumTable.cs" />
+    <Compile Include="Structures\HyperGraphByConnectivity.cs" />
+    <Compile Include="Structures\Level.cs" />
+    <Compile Include="Structures\Map.cs" />
+    <Compile Include="Structures\Node.cs" />
+    <Compile Include="Structures\Point.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -108,5 +110,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -59,7 +59,8 @@ namespace NavProject_Drawing.Structures
         }
 
         #region // NodeList
-        public Dictionary<Node, Point> GetNodeListOnFloor() => nodeListOnFloor;
+        public List<Node> GetNodeListOnFloorKeys() => nodeListOnFloor.Keys.ToList();
+        //public Dictionary<Node, Point> GetNodeListOnFloor() => nodeListOnFloor;
         public Point GetNodeOnFloor(Node nd) => nodeListOnFloor[nd];
         public void ClearNodeListOnFloor() => nodeListOnFloor.Clear();
         #endregion

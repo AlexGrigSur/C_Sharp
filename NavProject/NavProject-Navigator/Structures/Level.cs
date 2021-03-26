@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NavProject_Navigator.Structures;
 
 namespace NavProject_Navigator.Structures
 {
@@ -19,13 +18,13 @@ namespace NavProject_Navigator.Structures
         public Level(int FloorIndex) => floorIndex = FloorIndex;
         public int ScreenResX
         {
-            set { screenResX = value; }
             get { return screenResX; }
+            set { screenResX = value; }
         }
         public int ScreenResY
         {
-            set { screenResY = value; }
             get { return screenResY; }
+            set { screenResY = value; }
         }
         public int FloorIndex => floorIndex;
 
@@ -60,7 +59,8 @@ namespace NavProject_Navigator.Structures
         }
 
         #region // NodeList
-        public Dictionary<Node, Point> GetNodeListOnFloor() => nodeListOnFloor;
+        public List<Node> GetNodeListOnFloorKeys() => nodeListOnFloor.Keys.ToList();
+        //public Dictionary<Node, Point> GetNodeListOnFloor() => nodeListOnFloor;
         public Point GetNodeOnFloor(Node nd) => nodeListOnFloor[nd];
         public void ClearNodeListOnFloor() => nodeListOnFloor.Clear();
         #endregion
@@ -70,7 +70,7 @@ namespace NavProject_Navigator.Structures
         public void ClearEdges() => edges.Clear();
 
         #endregion
-        #region // поиск вершин
+        #region // Node Search
         public List<Node> SearchNode(int x, int y)
         {
             List<Node> result = new List<Node>();
@@ -93,9 +93,10 @@ namespace NavProject_Navigator.Structures
                         break;
                 }
             return result;
-        }
+        } ///
         #endregion
         #region // Nodes
+        public bool IsNodeContains(Node obj) => nodeListOnFloor.ContainsKey(obj);
         public void AddNode(Node obj, int x, int y)
         {
             nodeListOnFloor.Add(obj, new Point(x, y));
@@ -114,9 +115,7 @@ namespace NavProject_Navigator.Structures
             nodeListOnFloor.Remove(obj);
         }
         #endregion
-
         #region // Edges
-        public bool EdgeExists(List<Node> obj) => edges[obj[0]].Contains(obj[1]);
         public bool EdgeExists(Node n1, Node n2) => edges[n1].Contains(n2);
         public void AddExistingEdge(List<Node> obj)
         {

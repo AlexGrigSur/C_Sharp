@@ -27,16 +27,20 @@ namespace NavProject_Drawing
     class ServerConnect
     {
         HttpClient client = new HttpClient();
-        public void Get(IGetCommand command) => command.Send();
-        public void Post(IPostCommand command)
+        public HttpResponseMessage Get(IGetCommand command)
+        {
+            client.Timeout = TimeSpan.FromSeconds(100);
+            command.Send();
+        }
+        public HttpResponseMessage Post(IPostCommand command)
         {
            HttpResponseMessage responseMessage = command.Send();
         }
-        public void Put(IPutCommand command)
+        public HttpResponseMessage Put(IPutCommand command)
         {
             HttpResponseMessage responseMessage = command.Send();
         }
-        public void Delete(IDeleteCommand command)
+        public HttpResponseMessage Delete(IDeleteCommand command)
         {
             command.Send();
         }

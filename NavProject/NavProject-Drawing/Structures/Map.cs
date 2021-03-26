@@ -24,8 +24,10 @@ namespace NavProject_Drawing.Structures
 
         #region Floors
         public Dictionary<int, Level> GetFloorsList() => Floors;
+        public List<int> GetFloorsKeys() => Floors.Keys.ToList();
+        public List<Level> GetFloorsValues() => Floors.Values.ToList();
         public Level GetFloor(int floorIndex) => Floors[floorIndex];
-        public Level GetLevel(int floorIndex) => Floors[floorIndex];
+        //public Level GetLevel(int floorIndex) => Floors[floorIndex];
         public void RemoveFromFloors(int floorIndex) => Floors.Remove(floorIndex);
         public void AddFloor(int floor) => Floors.Add(floor, new Level(floor));
         public Node GetNode(string nodeName) => NodeList[nodeName];

@@ -22,11 +22,18 @@ namespace NavProject_Navigator.Structures
         public int corridorCouner => corridorCounter;
         public HyperGraphByConnectivity HyperGraphInstance => hyperGraph;
 
+        #region Floors
         public Dictionary<int, Level> GetFloorsList() => Floors;
+        public List<int> GetFloorsKeys() => Floors.Keys.ToList();
+        public List<Level> GetFloorsValues() => Floors.Values.ToList();
         public Level GetFloor(int floorIndex) => Floors[floorIndex];
         public Level GetLevel(int floorIndex) => Floors[floorIndex];
         public void RemoveFromFloors(int floorIndex) => Floors.Remove(floorIndex);
-        #region // поиск вершин
+        public void AddFloor(int floor) => Floors.Add(floor, new Level(floor));
+        public Node GetNode(string nodeName) => NodeList[nodeName];
+        public void ClearConnectivityComponentsOnLevel(int levelIndex) => Floors[levelIndex].ClearConnectivityComponents();
+        #endregion
+        #region Node Search
         public List<Node> SearchNode(int floor, int x, int y, string Name = "")
         {
             List<Node> result = new List<Node>();
@@ -39,11 +46,6 @@ namespace NavProject_Navigator.Structures
                 return Floors[floor].SearchNode(x, y);
         }
         #endregion 
-        #region // add/edit/delete floor
-        public void AddFloor(int floor) => Floors.Add(floor, new Level(floor));
-
-        public Node GetNode(string nodeName) => NodeList[nodeName];
-        #endregion
         #region //Nodes
         public Dictionary<string, Node> GetNodeList() => NodeList;
         public void AddNode(int floorIndex, Node obj, int x, int y)
@@ -112,13 +114,30 @@ namespace NavProject_Navigator.Structures
         #endregion
         #region // HyperGraph
         public void ClearHyperGraphByConnectivity() => hyperGraph.Clear();
-        public void ClearConnectivityComponentsOnLevel(int levelIndex) => Floors[levelIndex].ClearConnectivityComponents();
         public List<ConnectivityComponents> GetConnectivities(Node node) => hyperGraph.GetConnectivities(node);
-        public void AddInExistingHyperGraphByConnectivity(Node nd, ConnectivityComponents comp) => hyperGraph.AddInExistingHyperGraphByConnectivity(nd, comp);
-        public void AddHyperGraphByConn(Node obj)
-        {
-            if (!hyperGraph.ContainsKey(obj)) hyperGraph.Add(obj, new List<ConnectivityComponents>());
-        }
+
+        /// <summary>
+        /// Create new Ladder Node Record with empty connectivity components list
+        /// </summary>
+        /// <param name="obj">Node</param>
+        public void AddHyperGraphByConn(Node obj) => hyperGraph.Add(obj, new List<ConnectivityComponents>());
+        /// <summary>
+        /// Create new Ladder Node Record with given connectivity components list
+        /// </summary>
+        /// <param name="obj">Node</param>
+        /// <param name="value">List of connectivity components</param>
+        public void AddHyperGraphByConn(Node obj, List<ConnectivityComponents> value) => hyperGraph.Add(obj, value);
+        /// <summary>
+        /// Add single Connectivity Component into existing Ladder Node 
+        /// </summary>
+        /// <param name="obj">Node</param>
+        /// <param name="value">Connectivity Component</param>
+        public void AddHyperGraphByConn(Node obj, ConnectivityComponents value) => hyperGraph.Add(obj, value);
+
+        /// <summary>
+        /// Remove Ladder Node in case that it doesn't contains in any other level
+        /// </summary>
+        /// <param name="obj"></param>
         public void RemoveHyperGraphByConn(Node obj)
         {
             foreach (Level i in Floors.Values)

@@ -4,41 +4,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NavProject_Navigator.Structures;
+using NavProject_Navigator.CalcFunctions.Algoritms;
 using System.Threading;
 
 namespace NavProject_Navigator.CalcFunctions
 {
-    class Dijkstra //: IRouteCalc
+    /// <summary>
+    /// Class that provide shortest pathfinding between different connectivity components of building
+    /// </summary>
+    public class LevelPath
     {
         private Map map;
-        private List<ConnectivityComponents> ConnectivityComponentssList;
+        private List<ConnectivityComponents> connectivityCompsList;
         private ConnectivityComponents conCompStart;
         private ConnectivityComponents conCompEnd;
-        public Dijkstra(ref Map _map, ref ConnectivityComponents _ConnectivityComponentsStart, ref ConnectivityComponents _ConnectivityComponentsEnd)
+        public LevelPath(Map _map, ConnectivityComponents _connectivityCompStart, ConnectivityComponents _connectivityCompEnd)
         {
             map = _map;
-            ConnectivityComponentssList = new List<ConnectivityComponents>();
+            connectivityCompsList = new List<ConnectivityComponents>();
 
             foreach (Level i in map.GetFloorsList().Values)
                 foreach (ConnectivityComponents conn in i.GetConnectivityComponentsList())
-                    ConnectivityComponentssList.Add(conn);
+                    connectivityCompsList.Add(conn);
 
-            conCompStart = _ConnectivityComponentsStart;
-            conCompEnd = _ConnectivityComponentsEnd;
+            conCompStart = _connectivityCompStart;
+            conCompEnd = _connectivityCompEnd;
         }
-        private List<ComponentsToCalc> FormResult(ref Dictionary<ConnectivityComponents, ConnectivityComponents> previousConComp)
+        private List<ConnectivityComponents> FormResult(Dictionary<ConnectivityComponents, ConnectivityComponents> previousConComp)
         {
             ConnectivityComponents currentNode = conCompEnd;
-            List<ComponentsToCalc> result = new List<ComponentsToCalc>();
+            List<ConnectivityComponents> result = new List<ConnectivityComponents>();
             while (!currentNode.Equals(conCompStart))
             {
-                result.Add(new ComponentsToCalc(currentNode, new Node(), new Node()));
+                result.Add(currentNode);
                 currentNode = previousConComp[currentNode];
             }
-            result.Add(new ComponentsToCalc(conCompStart, new Node(), new Node()));
+            result.Add(conCompStart);
+            result.Reverse();
             return result;
         }
-        private ConnectivityComponents MinimumDistance(ref Dictionary<ConnectivityComponents, int> distance, ref Dictionary<ConnectivityComponents, bool> isFixedConComp)
+        private ConnectivityComponents MinimumDistance(Dictionary<ConnectivityComponents, int> distance, Dictionary<ConnectivityComponents, bool> isFixedConComp)
         {
             int min = int.MaxValue;
             ConnectivityComponents minIndex = null;
@@ -56,13 +61,13 @@ namespace NavProject_Navigator.CalcFunctions
             }
             return minIndex;
         }
-        public List<ComponentsToCalc> Calc()
+        public List<ConnectivityComponents> Calc()
         {
             Dictionary<ConnectivityComponents, int> distance = new Dictionary<ConnectivityComponents, int>();
             Dictionary<ConnectivityComponents, bool> isFixedConComp = new Dictionary<ConnectivityComponents, bool>();
             Dictionary<ConnectivityComponents, ConnectivityComponents> previousConComp = new Dictionary<ConnectivityComponents, ConnectivityComponents>();
 
-            foreach (ConnectivityComponents i in ConnectivityComponentssList)
+            foreach (var i in connectivityCompsList)
             {
                 distance.Add(i, int.MaxValue);
                 isFixedConComp.Add(i, false);
@@ -72,6 +77,7 @@ namespace NavProject_Navigator.CalcFunctions
             distance[conCompStart] = 0;
             isFixedConComp[conCompStart] = true;
             ConnectivityComponents u = conCompStart;
+
             while (!u.Equals(conCompEnd))
             {
                 foreach (Node nd in u.GetLadders())
@@ -82,11 +88,11 @@ namespace NavProject_Navigator.CalcFunctions
                             previousConComp[j] = u;
                         }
 
-                u = MinimumDistance(ref distance, ref isFixedConComp);
+                u = MinimumDistance(distance, isFixedConComp);
                 isFixedConComp[u] = true;
             }
 
-            return FormResult(ref previousConComp);
+            return FormResult(previousConComp);
         }
     }
 }
