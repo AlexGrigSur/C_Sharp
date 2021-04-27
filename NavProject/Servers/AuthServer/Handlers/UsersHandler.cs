@@ -22,40 +22,46 @@ namespace AuthServer.Handlers
 
         public bool SendConfirmLink(string email, string firstName, string link)
         {
-            var smtpClient = new SmtpClient("smtp.gmail.com")
-            {
-                Port = 587,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("navproject.kubsu@gmail.com", "146923785Alex"),
-                EnableSsl = true
-            };
-            var mailMessage = new MailMessage
-            {
-                From = new MailAddress("navproject.kubsu@gmail.com"),
-                Subject = "NavProject - регистрация нового пользователя",
-                Body = "<p></p>\n" +
-                "<h2> NavProject</h2>\n" +
-                "<p></p>\n" +
-                $"<p> Здравствуйте, {firstName}.</p>\n" +
-                "<p> Этот адрес электронной почты был указан для регистрации нового пользователя в самом странном проекте по созданию планов зданий.</p>\n" +
-                "<p> Для завершения регистрации перейдите по ссылке, расположенной ниже:</p>\n" +
-                $"<h3><strong>{link}</strong><strong></strong></h3>\n" +
-                "<p> Учтите, что код действителен в течение 60 минут.</p>\n" +
-                "<p></p>\n" +
-                "<p> С уважением,</p>\n" +
-                "<p> команда NavProject </p>",
-                IsBodyHtml = true
-            };
-            mailMessage.To.Add(email);
-            smtpClient.Send(mailMessage);
-            return true;
+            string subject = "NavProject - регистрация нового пользователя";
+
+            string body = "<p></p>\n" +
+            "<h2> NavProject</h2>\n" +
+            "<p></p>\n" +
+            $"<p> Здравствуйте, {firstName}.</p>\n" +
+            "<p> Этот адрес электронной почты был указан для регистрации нового пользователя в самом странном проекте по созданию планов зданий.</p>\n" +
+            "<p> Для завершения регистрации перейдите по ссылке, расположенной ниже:</p>\n" +
+            $"<h3><strong>{link}</strong><strong></strong></h3>\n" +
+            "<p> Учтите, что код действителен в течение 60 минут.</p>\n" +
+            "<p></p>\n" +
+            "<p> С уважением,</p>\n" +
+            "<p> команда NavProject </p>";
+
+            return EmailMessageHandler.SendEmail(subject,body, email);
+        }
+
+        public bool SendChangePasswordLink(string email, string firstName, string link)
+        {
+            string subject = "NavProject - сброс пароля";
+
+            string body = "<p></p>\n" +
+            "<h2> NavProject</h2>\n" +
+            "<p></p>\n" +
+            $"<p> Здравствуйте, {firstName}.</p>\n" +
+            "<p> С вашего аккаунта был отправлен запрос на смену пароля</p>\n" +
+            "<p> Для смены пароля вам требуется скопировать данную ссылку в в окно смены пароля:</p>\n" +
+            $"<h3><strong>{link}</strong><strong></strong></h3>\n" +
+            "<p> Учтите, что код действителен в течение 60 минут.</p>\n" +
+            "<p></p>\n" +
+            "<p> С уважением,</p>\n" +
+            "<p> команда NavProject </p>";
+
+            return EmailMessageHandler.SendEmail(subject,body, email);
         }
 
         public bool ChangePassword(string email)
         {
-            if (DBCommands.IsUserExist(email))
+            if (DBUsersCommands.IsUserExist(email))
             {
-                // send link
                 return true;
             }
             return false;
